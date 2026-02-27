@@ -1,0 +1,38 @@
+name: Deploy Nuxt to SiteGround (FTP)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Nuxt
+        run: npm run generate
+
+      - name: Sync Files to SiteGround
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Because your FTP home is /public_html/, we use ./
+          server-dir: /public_html/ 
+          local-dir: .output/public/
+          # This removes old files from the server that aren't in your new build
+          delete-destination-extras: true

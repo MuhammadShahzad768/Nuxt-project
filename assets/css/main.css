@@ -1,0 +1,252 @@
+/* assets/css/main.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* assets/css/main.css */
+@import "tailwindcss";
+.logo {
+    max-width: 240px;
+    /* height: 60px; */
+}
+footer .logo{
+  max-width: 80px;
+}
+/* *{
+  transition: all 0.5s ease-in;
+} */
+.clients_box:hover{
+  background-color: white;
+}
+.custom_family{
+    font-family: "Inter", sans-serif;
+  }  
+  .clients_box {
+  /* background-image: url("./assets/Images/Rectangle-56.png"); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.clients_box:hover {
+  background-color: #00296B !important;
+  color: white !important;
+}
+.clients_box:hover .clients_box svg{
+  background-color: #00296B !important;
+ fill: white !important;
+}
+  .digital_boxes:nth-child(odd)::before {
+    content: "";
+    background-image: url("http://admin.dspcrm.com/wp-content/uploads/2026/02/Line-1.png");
+    width: 44%;
+    height: 1.3px;
+    position: absolute;
+    top: 0;
+    z-index: 9999;
+}
+.digital_boxes img{
+  top: -50px;
+}
+.digital_boxes:nth-child(odd)::after {
+    content: "";
+    background-image: url("http://admin.dspcrm.com/wp-content/uploads/2026/02/Line-1.png");
+    width: 52%;
+    height: 1.3px;
+    position: absolute;
+    bottom: 0px;
+    z-index: 9999;
+  }
+.digital_boxes:nth-child(even)::before {
+    content: "";
+    background-image: url("http://admin.dspcrm.com/wp-content/uploads/2026/02/Line-1.png");
+    width: 44%;
+    height: 1px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.digital_boxes:nth-child(even)::after {
+    content: "";
+    background-image: url("http://admin.dspcrm.com/wp-content/uploads/2026/02/Line-1.png");
+    width: 52%;
+    height: 1px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.digital_boxes::after:hover .inner_box{
+  background-color: transparent;
+}
+.pages .max-w-\[32\%\] {
+  transition: all 0.4s ease;
+}
+span.block.group-hover\:font-bold {
+  transition: all 0.4s ease;
+}
+.aos-animate{
+  transition: all 1s ease;
+}
+.digital_boxes:nth-child(odd) .inner_box::after{
+  content: "";
+  background-image: url("http://admin.dspcrm.com/wp-content/uploads/2026/02/Line-1.png");
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: rotate(180deg);
+  width: 1px;
+}
+.digital_boxes:nth-child(even) .inner_box::before{
+  content: "";
+  background-image: url("http://admin.dspcrm.com/wp-content/uploads/2026/02/Line-1.png");
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
+  width: 1px;
+}
+.swiper-wrapper{
+    padding: 50px 0 0;
+}
+.wow.skewIn.animated {
+  animation-name: pxlSkewIn;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  list-style: dots;
+  animation-timing-function: cubic-bezier(.4, 0, .2, 1);
+}
+.wow {
+  opacity: 0;
+  transform: translateY(20px) skewX(-10deg);
+}
+
+/* animated state */
+.animated {
+  opacity: 1 !important;
+  transform: translateY(0) skewX(0);
+  transition: all 0.5s ease-out;
+}
+@keyframes pxlSkewIn {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(30px);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
+  }
+}
+/* globals.css or main.css */
+@layer base {
+    :root {
+      --text-custom: #494949;
+      --bg-custom-color: #00296B;
+      --border-custom-color: #00296B;
+      --body-bg : #E9E9F3;
+      --text-color: #00296B;
+      --font-family-poppins: Poppins, 'sans-serif';
+      --section-bg: #F4F4F4;
+    }
+    
+  }
+  li:before {
+    content: "";
+    background-color: #5E6282;
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    border-radius: 50%;
+    left: 3px;
+    z-index: 999999;
+    top: 50%;
+    bottom: 50%;
+    transform: translateY(-50%);
+}
+
+ul {
+  list-style: none !important;
+    position: relative;
+}
+
+li {
+    padding-left: 20px;
+    position: relative;
+}
+
+ul {
+    padding: 0 !important;
+}
+
+
+.clients_box:hover svg {
+  fill: white !important;
+}
+.clients_box svg {
+  fill: #00296B !important;
+}
+.price li:before{
+  display: none;
+}
+.price li{
+  padding: 0;
+}
+.pages::-webkit-scrollbar{
+  display: none;
+}
+.loading-wrapper{
+  min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.clients_box,.inner_box{
+  transition: all .3s ease-in-out !important;
+}
+.fil svg path{
+  color:#00296B;
+}
+
+@media screen  and (min-width:300px) and (max-width:768px) {
+  section:not(:first-child){
+    overflow: hidden;
+  }
+  body{
+    overflow-x: hidden;
+  }
+  .mobile{
+    height: 100vh;
+    width: 100%;
+    margin: auto;
+  }
+  .digital_boxes img {
+    position: absolute;
+    top: 30%;
+    max-width: 400px;
+    left: 50%;
+    max-height: 400px;
+    right: 50%;
+    width: 90%;
+    transform: translateX(-50%) !important;
+}
+.digital_boxes::before{
+  display: none;
+}
+.digital_boxes::after {
+  display: none;
+}
+.digital_boxes .inner_box::before,.digital_boxes .inner_box::after{
+  display: none;
+}
+.digital_boxes {
+  border-left: 1.4px solid black;
+  border-right: 1.4px solid black;
+  padding-bottom: 80px;
+}
+.inner_box{
+  border-top: 1.4px solid black;
+  margin: auto;
+  width: 100%;
+  padding: 30px 3%;
+}
+} 
