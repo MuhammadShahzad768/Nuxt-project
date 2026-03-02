@@ -38,7 +38,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 
 const router = useRouter()
-const pageId = '656'
+const pageId = 'privacy'
 const showLoader = ref(true)
 
 /* =========================
