@@ -51,7 +51,7 @@
 						<div class="sub-menu-items-wrapper grid grid-cols-3 gap-x-6 gap-y-6">
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="SEO" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="SEO" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Client Portal</h4>
@@ -61,7 +61,7 @@
 
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Links" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Links" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Billing</h4>
@@ -71,7 +71,7 @@
 
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Local" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Local" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">CRM</h4>
@@ -85,7 +85,7 @@
 						<div class="sub-menu-items-wrapper grid grid-cols-3 gap-x-6 gap-y-6">
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="SEO" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="SEO" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Form &amp; Builder</h4>
@@ -95,7 +95,7 @@
 
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Links" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Links" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Helpdesk</h4>
@@ -105,7 +105,7 @@
 
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Local" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Local" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Local SEO</h4>
@@ -121,7 +121,7 @@
 						<div class="sub-menu-items-wrapper grid grid-cols-3 gap-x-6 gap-y-6">
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="SEO" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="SEO" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Referrals</h4>
@@ -131,7 +131,7 @@
 
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Links" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Links" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Analytics</h4>
@@ -142,7 +142,7 @@
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Local" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Local" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">White-Label</h4>
@@ -155,7 +155,7 @@
 				</div>
 
 				<!-- Right Image -->
-				<div class="bg-[url('http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-img.png')] bg-no-repeat bg-cover bg-center rounded-2xl p-6 text-white relative flex flex-col justify-between items-start shadow-lg flex-1 h-full">
+				<div class="bg-[url('http://admin.dspcrm.com/wp-content/uploads/2026/03/Group-253.png')] bg-no-repeat bg-cover bg-center rounded-2xl p-6 text-white relative flex flex-col justify-between items-start shadow-lg flex-1 h-full">
 					
 					<div class="z-50">
 						<h3 class="text-[15px] font-semibold leading-tight">All-in-one platform</h3>
@@ -190,7 +190,7 @@
 
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Links" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Links" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Billing</h4>
@@ -200,7 +200,7 @@
 
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Local" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Local" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">CRM</h4>
@@ -214,7 +214,7 @@
 						<div class="sub-menu-items-wrapper grid grid-cols-3 gap-x-6 gap-y-6">
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="SEO" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="SEO" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Form &amp; Builder</h4>
@@ -224,7 +224,7 @@
 
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Links" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Links" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Helpdesk</h4>
@@ -234,7 +234,7 @@
 
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Local" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Local" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Local SEO</h4>
@@ -250,7 +250,7 @@
 						<div class="sub-menu-items-wrapper grid grid-cols-3 gap-x-6 gap-y-6">
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="SEO" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="SEO" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Referrals</h4>
@@ -260,7 +260,7 @@
 
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Links" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Links" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">Analytics</h4>
@@ -271,7 +271,7 @@
 							<a href="#" class="bg-[#D9D9D969] px-4 py-2 rounded-lg flex items-start gap-3 transition-all group cursor-pointer">
 
 								<div class="mt-1 flex-shrink-0">
-									<img src="http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-icon.svg" alt="Local" class="w-5 h-5 object-contain">
+									<img src="http://admin.dspcrm.com/wp-content/uploads/2026/03/mingcute_message-4-ai-fill.png" alt="Local" class="w-5 h-5 object-contain">
 								</div>
 								<div>
 									<h4 class="font-bold text-[#233267] text-[15px]">White-Label</h4>
@@ -284,7 +284,7 @@
 				</div>
 
 				<!-- Right Image -->
-				<div class="bg-[url('http://localhost/dsplocal/wp-content/uploads/2026/02/usecase-img.png')] bg-no-repeat bg-cover bg-center rounded-2xl p-6 text-white relative flex flex-col justify-between items-start shadow-lg flex-1 h-full">
+				<div class="bg-[url('http://admin.dspcrm.com/wp-content/uploads/2026/03/Group-253.png')] bg-no-repeat bg-cover bg-center rounded-2xl p-6 text-white relative flex flex-col justify-between items-start shadow-lg flex-1 h-full">
 					
 					<div class="z-50">
 						<h3 class="text-[15px] font-semibold leading-tight">All-in-one platform</h3>
