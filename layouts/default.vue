@@ -1,8 +1,13 @@
+<script setup lang="ts">
+import Testing from '~/pages/testing.vue';
+
+</script>
+
 
 
 <template>
   <div class="layout-wrapper">
-    <Header />
+    <Testing/>
 
     <main class="content">
       <slot /> 
