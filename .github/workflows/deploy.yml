@@ -1,6 +1,8 @@
 name: Deploy Nuxt to SiteGround (FTP)
 
 on:
+  repository_dispatch:
+    types: [wp_build_trigger]
   push:
     branches:
       - main
