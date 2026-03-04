@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <header class="header-wrapper">
     <Loader v-if="showLoader" />
+    
     <div
       class="wp-content"
       :class="{ 'content-hidden': showLoader }"
@@ -13,34 +14,37 @@
           v-html="sectionContent"
         ></div>
       </div>
-      <div v-if="error" class="error">
-        Error loading page content.
+      
+      <div v-if="error" class="error-msg">
+        Failed to load navigation.
       </div>
     </div>
-  </div>
+  </header>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, computed } from 'vue'
-import { useHead, useAsyncData, useRouter } from '#imports'
+import { ref, onMounted, nextTick, computed, watch } from 'vue'
+import { useHead, useAsyncData, useRouter, useRoute } from '#imports'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 import Loader from "@/components/Sections/Loader.vue"
 
+// Swiper imports
 import Swiper from 'swiper'
 import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
 const router = useRouter()
+const route = useRoute()
 const pageId = 'Header'
 const showLoader = ref(true)
 
 /* =========================
    1. Fetch Page Data
 ========================= */
-const { data: pageData, error } = await useAsyncData(
+const { data: pageData, error, refresh } = await useAsyncData(
   `wp-page-${pageId}`,
   () => $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/Header`),
   {
@@ -54,7 +58,6 @@ const { data: pageData, error } = await useAsyncData(
 ========================= */
 const apiSections = computed(() => {
   if (!pageData.value) return {}
-
   const excludeKeys = ['seo_data', 'Author_page_custom_css', 'id', 'title', 'link']
 
   return Object.keys(pageData.value).reduce((acc, key) => {
@@ -67,55 +70,26 @@ const apiSections = computed(() => {
 })
 
 /* =========================
-   3. SEO & CSS Handling
+   3. SEO & Head (Injecting WordPress Assets)
 ========================= */
-const seo = computed(() => (pageData.value as any)?.seo_data || {})
-
 useHead({
-  title: () => seo.value.meta_title || 'DSP CRM',
-  meta: [
-    { name: 'description', content: seo.value.meta_description || '' },
-    { name: 'keywords', content: seo.value.meta_keywords || '' },
-    { name: 'robots', content: seo.value.robots || '' },
-    { property: 'og:title', content: seo.value.og_title || '' },
-    { property: 'og:description', content: seo.value.og_description || '' },
-    { property: 'og:image', content: seo.value.og_image || '' },
-    { property: 'og:type', content: 'website' },
-    { name: 'twitter:card', content: seo.value.twitter_card || '' },
-  ],
   link: [
-    { rel: 'canonical', href: seo.value.canonical_url || '' },
-    {
-      rel: 'stylesheet',
-      href: 'https://admin.dspcrm.com/wp-content/plugins/mega-main-menu/css/mega-main-menu.css'
-    },
-    {
-      rel: 'stylesheet',
-      href: 'https://admin.dspcrm.com/wp-includes/css/dashicons.min.css'
-    }
+    { rel: 'stylesheet', href: 'https://admin.dspcrm.com/wp-content/plugins/mega-main-menu/css/mega-main-menu.css' },
+    { rel: 'stylesheet', href: 'https://admin.dspcrm.com/wp-includes/css/dashicons.min.css' }
   ],
   script: [
-    {
-      src: 'https://admin.dspcrm.com/wp-includes/js/jquery/jquery.min.js',
-      defer: false
-    },
-    {
-      src: 'https://admin.dspcrm.com/wp-content/plugins/mega-main-menu/js/mega-main-menu.js',
-      defer: true
-    }
+    { src: 'https://admin.dspcrm.com/wp-includes/js/jquery/jquery.min.js', defer: false },
+    { src: 'https://admin.dspcrm.com/wp-content/plugins/mega-main-menu/js/mega-main-menu.js', defer: true }
   ],
   style: [
     {
-      id: 'dynamic-page-css',
+      id: 'dynamic-header-css',
       innerHTML: computed(() => {
-        let css = (pageData.value as any)?.Author_page_custom_css || ''
+        const css = (pageData.value as any)?.Author_page_custom_css || ''
         return css
           .replace(/<\/?style[^>]*>/gi, '')
           .replace(/&gt;/g, '>')
           .replace(/&lt;/g, '<')
-          .replace(/\.([\w\d\-\[\]%]+)/g, (match: string) => {
-            return match.replace(/\[/g, '\\[').replace(/\]/g, '\\]')
-          })
           .trim()
       })
     }
@@ -123,119 +97,72 @@ useHead({
 })
 
 /* =========================
-   4. Fix localhost URLs
+   4. DOM Fixes & Scripts
 ========================= */
 function fixLocalhostUrls() {
-  // Fix all img src pointing to localhost
-  document.querySelectorAll('.wp-content img').forEach((img: any) => {
-    if (img.src && img.src.includes('localhost')) {
-      img.src = img.src.replace(
-        'http://localhost/dsplocal',
-        'https://admin.dspcrm.com'
-      )
-    }
-  })
+  const container = document.querySelector('.wp-content')
+  if (!container) return
 
-  // Fix background-image inline styles
-  document.querySelectorAll('.wp-content [style]').forEach((el: any) => {
-    if (el.style.backgroundImage && el.style.backgroundImage.includes('localhost')) {
-      el.style.backgroundImage = el.style.backgroundImage.replace(
-        'http://localhost/dsplocal',
-        'https://admin.dspcrm.com'
-      )
-    }
-  })
+  const replaceMap = (str: string) => str.replace(/http:\/\/localhost\/dsplocal/g, 'https://admin.dspcrm.com')
 
-  // Fix anchor href pointing to localhost
-  document.querySelectorAll('.wp-content a').forEach((anchor: any) => {
-    if (anchor.href && anchor.href.includes('localhost')) {
-      anchor.href = anchor.href.replace(
-        'http://localhost/dsplocal',
-        'https://admin.dspcrm.com'
-      )
-    }
-  })
+  container.querySelectorAll('img').forEach((img: any) => { if (img.src.includes('localhost')) img.src = replaceMap(img.src) })
+  container.querySelectorAll('[style*="localhost"]').forEach((el: any) => { el.style.backgroundImage = replaceMap(el.style.backgroundImage) })
+  container.querySelectorAll('a').forEach((anchor: any) => { if (anchor.href.includes('localhost')) anchor.href = replaceMap(anchor.href) })
 }
 
-/* =========================
-   5. Execute Injected Scripts
-========================= */
-function executeInjectedScripts() {
-  document.querySelectorAll('.wp-content script').forEach((oldScript) => {
-    const newScript = document.createElement('script')
-
-    // Copy attributes
-    Array.from(oldScript.attributes).forEach((attr) => {
-      newScript.setAttribute(attr.name, attr.value)
-    })
-
-    // Copy inline content
-    newScript.textContent = oldScript.textContent
-    document.body.appendChild(newScript)
-    oldScript.remove()
-  })
-}
-
-/* =========================
-   6. Initialize All Scripts
-========================= */
 function initializeScripts() {
-  // 1. Re-execute blocked scripts from v-html
-  executeInjectedScripts()
-
-  // 2. Fix all localhost URLs
   fixLocalhostUrls()
 
-  // 3. Init Swiper sliders
-  const sliders = document.querySelectorAll('.testimonialSwiper')
-  sliders.forEach((slider: any) => {
+  // Init Swiper
+  document.querySelectorAll('.testimonialSwiper').forEach((slider: any) => {
     if (slider.swiper) return
     new Swiper(slider, {
       modules: [Autoplay, Pagination],
       loop: slider.dataset.loop === 'true',
-      speed: Number(slider.dataset.speed) || 800,
-      autoplay: slider.dataset.delay
-        ? { delay: Number(slider.dataset.delay) }
-        : false,
-      pagination: {
-        el: slider.querySelector('.swiper-pagination'),
-        clickable: true
-      }
+      autoplay: slider.dataset.delay ? { delay: Number(slider.dataset.delay) } : false,
+      pagination: { el: slider.querySelector('.swiper-pagination'), clickable: true }
     })
   })
 
-  // 4. Init AOS animations
-  AOS.init({
-    duration: 1000,
-    once: true,
-    offset: 120,
-  })
+  AOS.init({ duration: 1000, once: true })
 }
 
 /* =========================
-   7. Blog Navigation
+   5. SPA Navigation Handler
 ========================= */
 const handleWpClick = (event: MouseEvent) => {
-  const target = (event.target as HTMLElement).closest('.blog_box')
-  if (target) {
-    const slug = target.getAttribute('data-slug')
-    if (slug) {
-      router.push(`/blog/${slug}`)
-    }
+  const anchor = (event.target as HTMLElement).closest('a')
+  if (!anchor || anchor.target === '_blank' || event.ctrlKey || event.metaKey) return
+
+  const href = anchor.getAttribute('href')
+  if (!href || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('#')) return
+
+  const url = new URL(href, window.location.origin)
+  if (url.origin === window.location.origin) {
+    event.preventDefault()
+    router.push(url.pathname + url.search + url.hash)
   }
 }
 
 /* =========================
-   8. Mounted
+   6. Lifecycle & Route Watcher
 ========================= */
-onMounted(async () => {
+const runSetup = async () => {
   await nextTick()
+  // Tiny delay ensures v-html is painted before JS runs
   setTimeout(() => {
     showLoader.value = false
-    nextTick(() => {
-      initializeScripts()
-    })
-  }, 200)
+    nextTick(() => initializeScripts())
+  }, 300)
+}
+
+onMounted(() => runSetup())
+
+// Crucial: Re-run if the route changes (fixes "display: none" issues)
+watch(() => route.fullPath, () => {
+  // If data is already there, just re-init scripts. If not, refresh.
+  if (!pageData.value) refresh()
+  runSetup()
 })
 </script>
 
@@ -338,7 +265,7 @@ header {
 @media (min-width: 1024px) {
   #mega-menu-menu-1 .mega-sub-menu {
     opacity: 0;
-    pointer-events: none;
+  
     position: fixed;
     left: 0;
     right: 0;
@@ -421,10 +348,10 @@ header {
 li{
   position:static;
 }
-li:before{
+header li:before{
   content:none;
 }
-li::marker{
+header li::marker{
   content:none;
 }
 /* Ensure the parent li can trigger the hover */
