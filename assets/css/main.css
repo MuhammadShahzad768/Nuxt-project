@@ -11,6 +11,9 @@
 footer .logo{
   max-width: 80px;
 }
+:deep(.none){
+  display:none;
+}
 /* *{
   transition: all 0.5s ease-in;
 } */

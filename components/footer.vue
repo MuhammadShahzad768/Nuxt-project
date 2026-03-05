@@ -23,7 +23,7 @@
 <div class="lg:max-w-[90%] md:max-w-[33%] w-full mb-10 lg:mb-0 md:mb-5 ">
         <h3 class="text-[#080809] mb-2 font-poppins font-bold text-xl">Company</h3>
        <p class="text-[18px] text-[#5E6282] font-poppins font-medium pt-3">DSP CRM LLC</p>
-       <div class="flex list-none gap-2 mt-3 mb-3">
+       <div class="flex list-none gap-2 mt-3 mb-3 relative">
          <div
             ref="listItems"
             class="hover:text-blue-600  flex items-center gap-1 "
@@ -97,19 +97,19 @@
       <div class="lg:max-w-[18%] md:max-w-[33%] w-full mb-10 lg:mb-0 md:mb-5">
         <h3 class="text-[#080809] mb-2 font-poppins font-bold text-xl">{{ featuresTitle }}</h3>
         <ul class="space-y-2 text-[#5E6282] font-poppins font-medium text-[14px] list-disc pl-5 cursor-pointer">
-          <li
-            v-for="(item, index) in features"
-            :key="`feature-${index}`"
-            ref="listItems"
-            class="hover:text-blue-600 wow skewIn flex items-center gap-1"
-            :class="{ animated: visibleItems[index] }"
-            :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
-          >
-            <a v-if="item.links" href="https://calendly.com/dspcrm-info/30min">{{ item.name }}</a>
-            <span v-else>{{ item.name }}</span>
-            <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
-          </li>
-        </ul>
+            <li
+              v-for="(item, index) in features"
+              :key="`feature2-${index}`"
+              ref="listItems"
+              class="hover:text-blue-600 wow skewIn flex items-center gap-1"
+              :class="{ animated: visibleItems[index] }"
+              :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
+            >
+             <router-link v-if="item.links" :to="item.links">{{ item.name }}</router-link>
+              <span v-else>{{ item.name }}</span>
+              <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
+            </li>
+          </ul>
       </div>
 
       <div class="lg:max-w-[25%] md:max-w-[33%] w-full mb-10 lg:mb-0 md:mb-5">
