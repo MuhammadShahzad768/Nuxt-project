@@ -78,7 +78,7 @@ const seo = computed(() => (pageData.value as any)?.seo_data || {})
 useHead({
   title: () => seo.value.meta_title || 'DSP CRM',
   meta: [
-    { name: 'description', content: seo.value.meta_description || '' },
+      { name: 'description', content: seo.value.meta_description || '' },
       { name: 'keywords', content: seo.value.meta_keywords || '' },
       { name: 'robots', content: seo.value.robots || '' },
       { property: 'og:title', content: seo.value.og_title || '' },
