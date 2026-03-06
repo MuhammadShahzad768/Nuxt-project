@@ -34,7 +34,7 @@
       </div>
         <li
             ref="listItems"
-            class="hover:text-blue-600  flex items-center gap-0"
+            class="hover:text-blue-600  flex items-center gap-0 relative"
           >
        <router-link class="text-[#5E6282] font-medium" to="/privacy-policy">
         Privacy
