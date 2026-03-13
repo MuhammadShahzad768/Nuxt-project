@@ -5,11 +5,28 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+     'nuxt-gtag',
   ],
-
+gtag: {
+    id: 'G-XWL8VTL6T8'
+  },
   app: {
     head: {
+      script: [
+        {
+          src: 'https://www.googletagmanager.com/gtag/js?id=G-XWL8VTL6T8',
+          async: true
+        },
+        {
+          children: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XWL8VTL6T8');
+          `
+        }
+      ],
       title: 'DSP CRM | All-in-One Client Portal for Digital Agencies',
       htmlAttrs: {
         lang: 'en'
@@ -21,7 +38,11 @@ export default defineNuxtConfig({
           name: 'description',
           content:
             'DSP CRM is a complete client portal software for European digital agencies. Manage billing, projects, onboarding, and reporting efficiently with ease.'
-        }
+        },
+          {
+    name: 'google-site-verification',
+    content: 'Lht-JrIoicrdOErbiNMtiA5Vj4_ItOcWgktZnUA2QwE'
+  }
       ],
       link: [
         {
