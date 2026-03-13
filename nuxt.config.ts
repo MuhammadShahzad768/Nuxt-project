@@ -6,11 +6,30 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/tailwindcss',
-     'nuxt-gtag',
+    'nuxt-gtag',
   ],
-gtag: {
+
+  gtag: {
     id: 'G-XWL8VTL6T8'
   },
+
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      failOnError: false,
+    }
+  },
+
+  hooks: {
+    async 'nitro:config'(nitroConfig) {
+      const pages: any = await fetch('https://admin.dspcrm.com/wp-json/wp/v2/pages?per_page=100')
+        .then(r => r.json())
+
+      const slugs = pages.map((p: any) => `/${p.slug}`)
+      nitroConfig.prerender!.routes = ['/', ...slugs]
+    }
+  },
+
   app: {
     head: {
       script: [
@@ -39,10 +58,10 @@ gtag: {
           content:
             'DSP CRM is a complete client portal software for European digital agencies. Manage billing, projects, onboarding, and reporting efficiently with ease.'
         },
-          {
-    name: 'google-site-verification',
-    content: 'Lht-JrIoicrdOErbiNMtiA5Vj4_ItOcWgktZnUA2QwE'
-  }
+        {
+          name: 'google-site-verification',
+          content: 'Lht-JrIoicrdOErbiNMtiA5Vj4_ItOcWgktZnUA2QwE'
+        }
       ],
       link: [
         {
