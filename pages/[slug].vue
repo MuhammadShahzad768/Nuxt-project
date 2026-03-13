@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick, computed } from 'vue'
-import { useHead, useAsyncData, useRouter, useRoute } from '#imports'
+import { useHead, useAsyncData, useRouter, useRoute, createError } from '#imports'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
@@ -16,43 +16,39 @@ const route = useRoute()
 const showLoader = ref(true)
 
 /* =========================
-   1. Fetch Page ID from Slug
+   1. Unified Data Fetching
+   Combined into one call to prevent SSR hydration errors
 ========================= */
-// Pehle WordPress ki default API se ID fetch karte hain
-const { data: wpPage } = await useAsyncData(
-  `wp-id-${route.params.slug}`,
-  () => $fetch(`https://admin.dspcrm.com/wp-json/wp/v2/pages?slug=${route.params.slug}`),
-  { server: true }
-)
-
-// ID ko extract karein
-const pageId = computed(() => {
-  return wpPage.value && wpPage.value.length > 0 ? wpPage.value[0].id : null
-})
-
-/* =========================
-   2. Fetch Custom Page Data
-========================= */
-// Jab ID mil jaye to aapka custom endpoint call hoga
 const { data: pageData, error } = await useAsyncData(
-  `custom-data-${route.params.slug}`,
+  `page-content-${route.params.slug}`,
   async () => {
-    if (!pageId.value) return null
-    return $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/page-${pageId.value}`)
+    try {
+      // Step A: Fetch ID from Slug
+      const wpPage: any = await $fetch(`https://admin.dspcrm.com/wp-json/wp/v2/pages?slug=${route.params.slug}`)
+      
+      if (!wpPage || wpPage.length === 0) {
+        throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+      }
+
+      const id = wpPage[0].id
+
+      // Step B: Fetch Custom Data using that ID
+      const customData: any = await $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`)
+      return { ...customData, wp_id: id }
+    } catch (err) {
+      console.error("Fetch Error:", err)
+      return null
+    }
   },
-  {
-    watch: [pageId], // ID change hote hi dobara fetch karega
-    server: true
-  }
+  { server: true, watch: [() => route.params.slug] }
 )
 
 /* =========================
-   3. Extract HTML Sections
+   2. Extract HTML Sections
 ========================= */
 const apiSections = computed(() => {
   if (!pageData.value) return {}
-
-  const excludeKeys = ['seo_data', 'Author_page_custom_css', 'id', 'title', 'link']
+  const excludeKeys = ['seo_data', 'Author_page_custom_css', 'id', 'title', 'link', 'wp_id']
 
   return Object.keys(pageData.value).reduce((acc, key) => {
     const value = (pageData.value as Record<string, any>)[key]
@@ -64,23 +60,18 @@ const apiSections = computed(() => {
 })
 
 /* =========================
-   4. SEO Handling
+   3. SEO & Dynamic CSS
 ========================= */
 const seo = computed(() => (pageData.value as any)?.seo_data || {})
 
 useHead({
   title: () => seo.value.meta_title || 'DSP CRM',
   meta: [
-    { name: 'description', content: seo.value.meta_description || '' },
-    { name: 'keywords', content: seo.value.meta_keywords || '' },
-    { name: 'robots', content: seo.value.robots || '' },
-    { property: 'og:title', content: seo.value.og_title || '' },
-    { property: 'og:description', content: seo.value.og_description || '' },
-    { property: 'og:image', content: seo.value.og_image || '' },
-    { property: 'og:type', content: 'website' },
-    { name: 'twitter:card', content: seo.value.twitter_card || '' },
+    { name: 'description', content: () => seo.value.meta_description || '' },
+    { name: 'keywords', content: () => seo.value.meta_keywords || '' },
+    { property: 'og:image', content: () => seo.value.og_image || '' },
+    // Add other meta tags here as needed
   ],
-  link: [{ rel: 'canonical', href: seo.value.canonical_url || '' }],
   style: [
     {
       id: 'dynamic-page-css',
@@ -98,7 +89,7 @@ useHead({
 })
 
 /* =========================
-   5. Scripts Initialization
+   4. Scripts Initialization
 ========================= */
 function initializeScripts() {
   const selectors = ['.testimonialSwiper', '.mySwiper']
@@ -110,7 +101,7 @@ function initializeScripts() {
         modules: [Autoplay, Pagination],
         loop: slider.dataset.loop === 'true',
         speed: Number(slider.dataset.speed) || 800,
-        autoplay: slider.dataset.delay ? { delay: Number(slider.dataset.delay) } : false,
+        autoplay: slider.dataset.delay ? { delay: Number(slider.dataset.delay) } : { delay: 3000 },
         pagination: { el: slider.querySelector('.swiper-pagination'), clickable: true }
       })
     })
@@ -127,12 +118,14 @@ const handleWpClick = (event: MouseEvent) => {
   }
 }
 
-onMounted(async () => {
-  await nextTick()
+onMounted(() => {
+  // Give the DOM a tiny moment to render the v-html content
   setTimeout(() => {
     showLoader.value = false
-    nextTick(() => { initializeScripts() })
-  }, 200)
+    nextTick(() => { 
+      initializeScripts() 
+    })
+  }, 300)
 })
 </script>
 
@@ -140,18 +133,23 @@ onMounted(async () => {
   <div>
     <Loader v-if="showLoader" />
 
-    <div class="wp-content" :class="{ 'content-hidden': showLoader }" @click="handleWpClick">
+    <div 
+      class="wp-content" 
+      :class="{ 'content-hidden': showLoader }" 
+      @click="handleWpClick"
+    >
       <div v-if="pageData">
-        <div v-for="(sectionContent, sectionKey) in apiSections" :key="sectionKey" v-html="sectionContent"></div>
+        <div 
+          v-for="(sectionContent, sectionKey) in apiSections" 
+          :key="sectionKey" 
+          v-html="sectionContent"
+        ></div>
       </div>
 
-      <div v-else-if="!showLoader && !pageId" class="error">
-        <h1 class="text-3xl font-bold">404 - Page Not Found</h1>
-        <p>The page you are looking for does not exist.</p>
-      </div>
-
-      <div v-else-if="error" class="error">
-        Error loading page content. Please try again later.
+      <div v-else-if="!showLoader" class="error">
+        <h1 class="text-3xl font-bold">Page Not Found</h1>
+        <p>We couldn't find the content for /{{ $route.params.slug }}</p>
+        <button @click="router.push('/')" class="mt-4 underline">Go Home</button>
       </div>
     </div>
   </div>
@@ -161,6 +159,8 @@ onMounted(async () => {
 .wp-content { width: 100%; min-height: 80vh; }
 .content-hidden { visibility: hidden; height: 0; overflow: hidden; }
 .error { color: #333; text-align: center; padding: 5rem 2rem; }
+
+/* Critical for dynamic content styling */
 :deep(.wp-content) section { display: block; }
 :deep(.mySwiper .swiper-wrapper) { padding-top: 0; }
 </style>
