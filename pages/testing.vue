@@ -54,23 +54,28 @@ const { data: pageData, error, refresh } = await useAsyncData(
 )
 
 /* =========================
-   2. Extract HTML Sections
+   2. Extract HTML Sections & Clean ONLY Links
 ========================= */
 const apiSections = computed(() => {
   if (!pageData.value) return {}
   const excludeKeys = ['seo_data', 'Author_page_custom_css', 'id', 'title', 'link']
+  
+  // Highlighting Change: Targeting only href attributes
+  const adminUrlPattern = /href="https:\/\/admin\.dspcrm\.com/g;
 
   return Object.keys(pageData.value).reduce((acc, key) => {
     const value = (pageData.value as Record<string, any>)[key]
+    
     if (typeof value === 'string' && !excludeKeys.includes(key)) {
-      acc[key] = value
+      // Sirf links ko relative banaya ja raha hai
+      acc[key] = value.replace(adminUrlPattern, 'href="')
     }
     return acc
   }, {} as Record<string, string>)
 })
 
 /* =========================
-   3. SEO & Head (Injecting WordPress Assets)
+   3. SEO & Head
 ========================= */
 useHead({
   link: [
@@ -97,21 +102,28 @@ useHead({
 })
 
 /* =========================
-   4. DOM Fixes & Scripts
+   4. DOM Fixes (Only for Anchor Tags)
 ========================= */
-function fixLocalhostUrls() {
+function cleanAllLinks() {
   const container = document.querySelector('.wp-content')
   if (!container) return
 
-  const replaceMap = (str: string) => str.replace(/http:\/\/localhost\/dsplocal/g, 'https://admin.dspcrm.com')
+  const adminBase = 'https://admin.dspcrm.com'
+  const localBase = 'http://localhost/dsplocal'
 
-  container.querySelectorAll('img').forEach((img: any) => { if (img.src.includes('localhost')) img.src = replaceMap(img.src) })
-  container.querySelectorAll('[style*="localhost"]').forEach((el: any) => { el.style.backgroundImage = replaceMap(el.style.backgroundImage) })
-  container.querySelectorAll('a').forEach((anchor: any) => { if (anchor.href.includes('localhost')) anchor.href = replaceMap(anchor.href) })
+  // Highlighting Change: Loops ONLY through 'a' tags, images ignored
+  container.querySelectorAll('a').forEach((anchor: any) => {
+    let href = anchor.getAttribute('href')
+    if (href) {
+      href = href.replace(localBase, '')
+      href = href.replace(adminBase, '')
+      anchor.setAttribute('href', href === '' ? '/' : href)
+    }
+  })
 }
 
 function initializeScripts() {
-  fixLocalhostUrls()
+  cleanAllLinks()
 
   // Init Swiper
   document.querySelectorAll('.testimonialSwiper').forEach((slider: any) => {
@@ -137,10 +149,17 @@ const handleWpClick = (event: MouseEvent) => {
   const href = anchor.getAttribute('href')
   if (!href || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('#')) return
 
-  const url = new URL(href, window.location.origin)
-  if (url.origin === window.location.origin) {
-    event.preventDefault()
-    router.push(url.pathname + url.search + url.hash)
+  try {
+    const url = new URL(href, window.location.origin)
+    if (url.origin === window.location.origin) {
+      event.preventDefault()
+      router.push(url.pathname + url.search + url.hash)
+    }
+  } catch (e) {
+    if (href.startsWith('/')) {
+      event.preventDefault()
+      router.push(href)
+    }
   }
 }
 
@@ -149,18 +168,15 @@ const handleWpClick = (event: MouseEvent) => {
 ========================= */
 const runSetup = async () => {
   await nextTick()
-  // Tiny delay ensures v-html is painted before JS runs
   setTimeout(() => {
     showLoader.value = false
     nextTick(() => initializeScripts())
-  }, 300)
+  }, 400)
 }
 
 onMounted(() => runSetup())
 
-// Crucial: Re-run if the route changes (fixes "display: none" issues)
 watch(() => route.fullPath, () => {
-  // If data is already there, just re-init scripts. If not, refresh.
   if (!pageData.value) refresh()
   runSetup()
 })

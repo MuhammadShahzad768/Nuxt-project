@@ -1,8 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
-
-  devtools: { enabled: true },
+ ssr: true,
+  target: 'static', // generate static HTML
+  devtools: { enabled: false },
 
   modules: [
     '@nuxtjs/tailwindcss',
@@ -13,12 +14,7 @@ export default defineNuxtConfig({
     id: 'G-XWL8VTL6T8'
   },
 
-  nitro: {
-    prerender: {
-      crawlLinks: true,
-      failOnError: false,
-    }
-  },
+  nitro: { prerender: { crawlLinks: true, failOnError: false } },
 
   hooks: {
     async 'nitro:config'(nitroConfig) {
