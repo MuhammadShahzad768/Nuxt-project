@@ -1,8 +1,8 @@
 <template>
-  <div class="flex lg:px-10">
+  <div class="flex ">
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 min-w-0 py-7 px-5 sm:px-8 lg:px-12">
+    <main class="flex-1 min-w-0 py-7 px-5 sm:px-8 ">
       
       <div 
         v-if="post" 
