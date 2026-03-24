@@ -54,20 +54,18 @@ const { data: pageData, error, refresh } = await useAsyncData(
 )
 
 /* =========================
-   2. Extract HTML Sections & Clean ONLY Links
+   2. Extract HTML Sections
 ========================= */
 const apiSections = computed(() => {
   if (!pageData.value) return {}
   const excludeKeys = ['seo_data', 'Author_page_custom_css', 'id', 'title', 'link']
   
-  // Highlighting Change: Targeting only href attributes
   const adminUrlPattern = /href="https:\/\/admin\.dspcrm\.com/g;
 
   return Object.keys(pageData.value).reduce((acc, key) => {
     const value = (pageData.value as Record<string, any>)[key]
     
     if (typeof value === 'string' && !excludeKeys.includes(key)) {
-      // Sirf links ko relative banaya ja raha hai
       acc[key] = value.replace(adminUrlPattern, 'href="')
     }
     return acc
@@ -102,7 +100,25 @@ useHead({
 })
 
 /* =========================
-   4. DOM Fixes (Only for Anchor Tags)
+   4. Close Mega Menu (FIXED)
+========================= */
+function closeMegaMenu() {
+  // body class add
+  document.body.classList.add('menu-closed')
+
+  // mobile reset
+  document.querySelectorAll('.mega-menu-item.is-active').forEach((item: any) => {
+    item.classList.remove('is-active')
+  })
+
+  // remove class after delay (so hover works again)
+  setTimeout(() => {
+    document.body.classList.remove('menu-closed')
+  }, 300)
+}
+
+/* =========================
+   5. DOM Fixes
 ========================= */
 function cleanAllLinks() {
   const container = document.querySelector('.wp-content')
@@ -111,7 +127,6 @@ function cleanAllLinks() {
   const adminBase = 'https://admin.dspcrm.com'
   const localBase = 'http://localhost/dsplocal'
 
-  // Highlighting Change: Loops ONLY through 'a' tags, images ignored
   container.querySelectorAll('a').forEach((anchor: any) => {
     let href = anchor.getAttribute('href')
     if (href) {
@@ -125,7 +140,7 @@ function cleanAllLinks() {
 function initializeScripts() {
   cleanAllLinks()
 
-  // Init Swiper
+  // Swiper init
   document.querySelectorAll('.testimonialSwiper').forEach((slider: any) => {
     if (slider.swiper) return
     new Swiper(slider, {
@@ -140,7 +155,7 @@ function initializeScripts() {
 }
 
 /* =========================
-   5. SPA Navigation Handler
+   6. SPA Navigation Handler
 ========================= */
 const handleWpClick = (event: MouseEvent) => {
   const anchor = (event.target as HTMLElement).closest('a')
@@ -153,18 +168,24 @@ const handleWpClick = (event: MouseEvent) => {
     const url = new URL(href, window.location.origin)
     if (url.origin === window.location.origin) {
       event.preventDefault()
+
+      closeMegaMenu() // 🔥
+
       router.push(url.pathname + url.search + url.hash)
     }
   } catch (e) {
     if (href.startsWith('/')) {
       event.preventDefault()
+
+      closeMegaMenu() // 🔥
+
       router.push(href)
     }
   }
 }
 
 /* =========================
-   6. Lifecycle & Route Watcher
+   7. Lifecycle & Route Watcher
 ========================= */
 const runSetup = async () => {
   await nextTick()
@@ -177,12 +198,19 @@ const runSetup = async () => {
 onMounted(() => runSetup())
 
 watch(() => route.fullPath, () => {
+  closeMegaMenu() // 🔥 FIX
   if (!pageData.value) refresh()
   runSetup()
 })
 </script>
 
 <style>
+/* 🔥 Force close menu */
+body.menu-closed .mega-sub-menu {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
 .header {
     position: absolute;
     z-index: 1;
