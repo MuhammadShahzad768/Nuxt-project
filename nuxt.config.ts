@@ -1,8 +1,8 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
- ssr: true,
-  target: 'static', // generate static HTML
+
+  ssr: true,
+
   devtools: { enabled: false },
 
   modules: [
@@ -14,20 +14,43 @@ export default defineNuxtConfig({
     id: 'G-XWL8VTL6T8'
   },
 
-  nitro: { prerender: { crawlLinks: true, failOnError: false } },
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      failOnError: false
+    }
+  },
 
   hooks: {
     async 'nitro:config'(nitroConfig) {
-      const pages: any = await fetch('https://admin.dspcrm.com/wp-json/wp/v2/pages?per_page=100')
-        .then(r => r.json())
+      const pages: any = await fetch(
+        'https://admin.dspcrm.com/wp-json/wp/v2/pages?per_page=100'
+      ).then(r => r.json())
 
       const slugs = pages.map((p: any) => `/${p.slug}`)
+
       nitroConfig.prerender!.routes = ['/', ...slugs]
     }
   },
 
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'en'
+      },
+
+      // ✅ KEEP ONLY essentials here
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+
+        // fallback only (will be overridden)
+        {
+          name: 'description',
+          content: 'DSP CRM default description'
+        }
+      ],
+
       script: [
         {
           src: 'https://www.googletagmanager.com/gtag/js?id=G-XWL8VTL6T8',
@@ -42,29 +65,12 @@ export default defineNuxtConfig({
           `
         }
       ],
-      title: 'DSP CRM | All-in-One Client Portal for Digital Agencies',
-      htmlAttrs: {
-        lang: 'en'
-      },
-      meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        {
-          name: 'description',
-          content:
-            'DSP CRM is a complete client portal software for European digital agencies. Manage billing, projects, onboarding, and reporting efficiently with ease.'
-        },
-        {
-          name: 'google-site-verification',
-          content: 'Lht-JrIoicrdOErbiNMtiA5Vj4_ItOcWgktZnUA2QwE'
-        }
-      ],
+
       link: [
         {
           rel: 'stylesheet',
           href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
         },
-        { rel: 'canonical', href: 'https://dspcrm.com/' },
         {
           rel: 'icon',
           type: 'image/svg+xml',

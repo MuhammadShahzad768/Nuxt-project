@@ -16,9 +16,9 @@
     </main>
 
     <!-- TOC SIDEBAR -->
-    <aside class="hidden md:block sticky top-0 pt-[20px] h-screen overflow-y-auto border-l border-gray-200 py-[18px] px-4 toc-aside">
+    <aside class="hidden md:block sticky top-0 pt-[20px] h-screen overflow-y-auto border-l border-gray-200 py-[18px] px-4 toc-aside" v-if="toc.length > 0">
 
-      <div class="toc-wrap">
+     <div class="toc-wrap" >
         <p class="toc-title">On this page</p>
 
         <ul class="toc-list">
@@ -121,6 +121,67 @@ const handleScroll = () => {
 
   activeId.value = current
 }
+/**
+ * ✅ FORM HANDLER (MAIN PART 🔥)
+ */
+const initFormHandler = () => {
+  if (!contentRef.value) return
+
+  const form = contentRef.value.querySelector('#contactForm')
+
+  if (!form) {
+    console.log('Form not found ❌')
+    return
+  }
+
+  console.log('Form found ✅')
+
+  // prevent duplicate binding
+  form.removeEventListener('submit', handleSubmit)
+  form.addEventListener('submit', handleSubmit)
+}
+
+const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  const form = e.target
+  const btn = form.querySelector('button')
+  btn.innerText = 'Sending...'
+
+  const data = {
+    contact_first_name: document.getElementById('first_name')?.value,
+    contact_last_name: document.getElementById('last_name')?.value,
+    contact_email: document.getElementById('email')?.value,
+    contact_subject: document.getElementById('subject')?.value,
+    contact_message: document.getElementById('message')?.value
+  }
+
+  console.log("FORM DATA:", data)
+
+  try {
+    const res = await fetch('https://admin.dspcrm.com/wp-json/custom/v1/submit-contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+
+    const result = await res.json()
+    console.log("API RESPONSE:", result)
+
+    if (result.status === 'success') {
+      alert('Form submitted successfully ✅')
+      form.reset()
+    } else {
+      alert('Error: ' + result.message)
+    }
+
+  } catch (err) {
+    console.error(err)
+    alert('Something went wrong ❌')
+  }
+
+  btn.innerText = 'Send message'
+}
 
 /**
  * ✅ WATCH + DELAY (CRITICAL FIX)
@@ -132,6 +193,7 @@ watch(post, async (newVal) => {
     // Delay ensures v-html is fully rendered
     setTimeout(() => {
       generateTOC()
+      initFormHandler()
     }, 100)
   }
 }, { immediate: true })
@@ -202,5 +264,8 @@ onUnmounted(() => {
 .toc-link.active {
   color: #000;
   font-weight: bold;
+}
+.bg-button{
+  background-color:#233267;
 }
 </style>
