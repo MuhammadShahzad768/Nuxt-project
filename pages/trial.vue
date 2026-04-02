@@ -2,7 +2,7 @@
   <div class="flex min-h-screen bg-white custom_family">
 
     <!-- ── CENTERED FORM PANEL ── -->
-    <div class="flex flex-1 items-center justify-center bg-white px-6 py-12 md:px-9 mt-[150px]">
+    <div class="flex flex-1 items-center justify-center bg-white px-6 pb-12 md:px-9 mt-[150px]">
       <div class="w-full max-w-[560px]">
 
         <h1 class="mb-[14px]  text-[clamp(34px,4vw,52px)]
