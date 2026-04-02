@@ -5,7 +5,7 @@
     <div class="flex flex-1 items-center justify-center bg-white px-6 pb-12 md:px-9 mt-[150px]">
       <div class="w-full max-w-[560px]">
 
-        <h1 class="mb-[14px]  text-[clamp(34px,4vw,52px)]
+        <h1 class="mb-[14px]  text-[clamp(34px,4vw,45px)]
                    font-extrabold leading-[1.12] tracking-[-0.02em] text-[#00296B]">
           Create your<br>workspace
         </h1>
