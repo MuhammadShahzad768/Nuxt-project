@@ -13,19 +13,18 @@
         <div class="flex m-auto border-black bg-[#D9D9D9] max-w-[570px] h-[60px] items-center px-1 rounded-md border-2">
           <div class="flex w-full">
  <button
-  v-if="Tabs?.tabs_buttons"
-  v-for="(tab, index) in Tabs.tabs_buttons"
-  :key="index"
-  @click="activeTab = index === 0 ? 'monthly' : 'yearly'"
-  :class="[ 
-    'tab-btn max-w-[50%] w-full h-[48px] rounded-lg text-base font-medium',
-    activeTab === (index === 0 ? 'monthly' : 'yearly')
-      ? 'bg-[var(--bg-custom-color)] text-white'
-      : 'text-[#494949]'
-  ]"
->
-  {{ tab.buttons }}
-</button>
+    v-for="(tab, index) in Tabs.tabs_buttons"
+    :key="index"
+    @click="activeTab = index === 0 ? 'monthly' : 'yearly'"
+    :class="[
+      'tab-btn max-w-[50%] w-full h-[48px] rounded-lg text-base font-medium',
+      activeTab === (index === 0 ? 'monthly' : 'yearly')
+        ? 'bg-[var(--bg-custom-color)] text-white'
+        : 'text-[#494949]'
+    ]"
+  >
+    {{ tab.buttons }}
+  </button>
 
 </div>
 
@@ -34,9 +33,9 @@
       
       <!-- Monthly Plans -->
       <div v-if="activeTab === 'monthly'" class="tab-content  m-auto tracking-tighter mt-16">
-        <div class="flex mt-16 gap-[.8%] max-w-[95%] m-auto justify-center">
+        <div class="flex mt-16 gap-[.8%] max-w-[95%] m-auto justify-center" >
             <Price_box
-     :Price_box="Tabs.price_boxes"
+     :Price_box="Tabs.price_boxes" :activeTab="activeTab" 
     />
 
         </div>
@@ -46,7 +45,7 @@
       <div  v-if="activeTab === 'yearly'" class="tab-content  m-auto tracking-tighter mt-16">
         <div class="flex mt-16 gap-[.8%] max-w-[95%] m-auto justify-center">
               <Price_box
-      :Price_box="Tabs.price_boxes_yearly"/>
+      :Price_box="Tabs.price_boxes_yearly" :activeTab="activeTab" />
     
         </div>
       </div>
@@ -352,19 +351,66 @@ function scrollToFaq() {
 
 // 🔹 Lifecycle
 onMounted(async () => {
+    const savedCycle = localStorage.getItem('cycle')
+  if (savedCycle) {
+    activeTab.value = savedCycle
+  }
   try {
-    const res = await fetch(
-      "https://admin.dspcrm.com/wp-json/myapi/v1/page/241?timestamp=" +
-        Date.now()
-    );
+    // 1. Fetch your Page Data (WordPress)
+    const res = await fetch("https://admin.dspcrm.com/wp-json/myapi/v1/page/241?timestamp=" + Date.now());
     const data = await res.json();
 
+    // 2. Fetch the actual Plans (CRM API)
+    const planRes = await fetch("https://crmservicesprovider.com/api/v1/plans");
+    const planData = await planRes.json();
+
+    // Assign standard fields
     CommentsData.value = data.comments;
     Last.value = data.last_section;
     question.value = data.faqs;
-    question.value = data.faqs;
-    Tabs.value = data.pricing;
     
+    // 3. Transform CRM Plans into your Tabs structure
+    if (planData.success) {
+      const plans = planData.data;
+
+      // Map Monthly
+      const monthlyMapped = plans.map(plan => ({
+        box_title: plan.name,
+        box_descri: plan.description,
+        box_price: `$${plan.monthly_price}`,
+        montly: '/ month',
+        box_button_text: 'Get Started',
+        slug: plan.slug, // <--- Add this line
+        text_include: 'Included features:',
+        team       : plan.team_limit,
+        trial_days : plan.trial_days,
+        include_points: plan.features.map(f => ({ points: f }))
+      }));
+
+      // Map Yearly
+      const yearlyMapped = plans.map(plan => ({
+        box_title: plan.name,
+        box_descri: plan.description,
+        box_price: `$${plan.yearly_price}`,
+        montly: '/ year',
+        box_button_text: 'Get Started',
+        slug: plan.slug, // <--- Add this line
+        text_include: 'Included features:',
+        team       : plan.team_limit,
+        trial_days : plan.trial_days,
+        include_points: plan.features.map(f => ({ points: f }))
+      }));
+
+      // 4. Combine WordPress static text with API dynamic plans
+      Tabs.value = {
+        ...data.pricing, // Keep title_bold, description, etc. from WordPress
+        price_boxes: monthlyMapped,
+        price_boxes_yearly: yearlyMapped
+      };
+    } else {
+      Tabs.value = data.pricing;
+    }
+
     nextTick(() => {
       AOS.init({ duration: 1000, once: true });
       AOS.refresh();
@@ -373,9 +419,10 @@ onMounted(async () => {
     console.error("API Fetch Error:", err);
   } finally {
     loading.value = false;
-    emit("page-loaded"); // ✅ works now
+    emit("page-loaded");
   }
 });
+
 </script>
 <style >
 .mySwiper {
