@@ -236,7 +236,7 @@
         </form>
 
         <!-- Footer -->
-        <div class="mt-6 flex flex-col gap-3">
+        <!-- <div class="mt-6 flex flex-col gap-3">
           <p class="text-[13.5px] text-[#aaa]">Already have a workspace?</p>
           <NuxtLink
             to="/login"
@@ -245,7 +245,7 @@
           >
             <i class="fa-solid fa-arrow-left text-sm"></i> Return
           </NuxtLink>
-        </div>
+        </div> -->
 
       </div>
     </div>
