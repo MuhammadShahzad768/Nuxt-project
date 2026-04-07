@@ -211,6 +211,11 @@ ul {
 }
 
 @media screen  and (min-width:300px) and (max-width:768px) {
+  
+li {
+    padding-left: 0px;
+    position: relative;
+}
   section:not(:first-child){
     overflow: hidden;
   }

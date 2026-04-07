@@ -5,7 +5,7 @@ import { useHead, useServerSeoMeta, useAsyncData, useRouter, useRoute, createErr
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-import Loader from "@/components/Sections/Loader.vue"
+import Loader from '@/components/Sections/Loader.vue'
 
 import Swiper from 'swiper'
 import { Autoplay, Pagination } from 'swiper/modules'
@@ -14,26 +14,31 @@ import 'swiper/css/pagination'
 
 const router = useRouter()
 const route = useRoute()
-const showLoader = ref(true)
+const showLoader = ref<boolean>(true)
 
 /* =========================
-   1. FAQ State
+   1. Template Ref
+========================= */
+const contentRef = ref<HTMLElement | null>(null)
+
+/* =========================
+   2. FAQ State
 ========================= */
 const activeQuestion = ref<string | null>(null)
 
 /* =========================
-   2. SEO + CSS holders
+   3. SEO + CSS holders
 ========================= */
 let seoRaw: any = {}
 let dynamicCss = ''
 
 /* =========================
-   3. Calculator cleanup tracker  ← FIX: declared at module level
+   4. Calculator cleanup tracker
 ========================= */
 let calculatorListeners: Array<() => void> = []
 
 /* =========================
-   4. Fetch Data
+   5. Fetch Data
 ========================= */
 const { data: pageData } = await useAsyncData(
   `page-content-${route.params.slug}`,
@@ -73,7 +78,6 @@ const { data: pageData } = await useAsyncData(
 
       const { seo_data, Author_page_custom_css, ...rest } = customData
       return { ...rest, wp_id: id }
-
     } catch (err) {
       console.error('Fetch Error:', err)
       throw err
@@ -83,7 +87,7 @@ const { data: pageData } = await useAsyncData(
 )
 
 /* =========================
-   5. CALCULATOR
+   6. CALCULATOR
 ========================= */
 const parseNumber = (val: string): number =>
   parseFloat(val.replace(/[^0-9.-]+/g, '')) || 0
@@ -112,13 +116,13 @@ const getVal = (id: string): string | undefined => {
 }
 
 const getFormData = () => ({
-  profit: parseNumber(getVal('profit') || '0'),
-  recurringRevenue: parsePercent(getVal('recurring') || '0'),
-  topClientRevenue: parsePercent(getVal('topClient') || '0'),
-  service: getVal('service') || 'SEO & Digital Marketing',
-  ownerDependency: getVal('owner') || "I'm involved but not essential",
-  years: getVal('years') || '3-5 years',
-  teamSize: getVal('team') || '2-5 people'
+  profit: parseNumber(getVal('profit') ?? '0'),
+  recurringRevenue: parsePercent(getVal('recurring') ?? '0'),
+  topClientRevenue: parsePercent(getVal('topClient') ?? '0'),
+  service: getVal('service') ?? 'SEO & Digital Marketing',
+  ownerDependency: getVal('owner') ?? "I'm involved but not essential",
+  years: getVal('years') ?? '3-5 years',
+  teamSize: getVal('team') ?? '2-5 people'
 })
 
 const generateRecommendations = (data: ReturnType<typeof getFormData>) => {
@@ -187,8 +191,8 @@ const calculateValuation = (data: ReturnType<typeof getFormData>) => {
   multiple = Math.min(Math.max(multiple, 1), 6)
 
   const valuation = Math.round(data.profit * multiple)
-  const valLow    = Math.round(valuation * 0.9)
-  const valHigh   = Math.round(valuation * 1.1)
+  const valLow = Math.round(valuation * 0.9)
+  const valHigh = Math.round(valuation * 1.1)
 
   let benchmark = 'Average'
   if (multiple >= 4.5) benchmark = 'Above Average'
@@ -238,7 +242,6 @@ const updateUI = (result: ReturnType<typeof calculateValuation>, data: ReturnTyp
 }
 
 const initCalculator = () => {
-  // Cleanup previous listeners before re-attaching
   calculatorListeners.forEach(fn => fn())
   calculatorListeners = []
 
@@ -269,7 +272,7 @@ const initCalculator = () => {
 }
 
 /* =========================
-   6. Sections
+   7. Sections
 ========================= */
 const apiSections = computed(() => {
   if (!pageData.value) return {}
@@ -284,7 +287,7 @@ const apiSections = computed(() => {
 })
 
 /* =========================
-   7. SEO
+   8. SEO
 ========================= */
 useServerSeoMeta({
   title: seoRaw.meta_title || 'DSP CRM',
@@ -307,7 +310,7 @@ useHead({
 })
 
 /* =========================
-   8. Swiper + AOS
+   9. Swiper + AOS
 ========================= */
 function initializeScripts() {
   const selectors = ['.testimonialSwiper', '.mySwiper']
@@ -319,7 +322,10 @@ function initializeScripts() {
         loop: slider.dataset.loop === 'true',
         speed: Number(slider.dataset.speed) || 800,
         autoplay: { delay: Number(slider.dataset.delay) || 3000 },
-        pagination: { el: slider.querySelector('.swiper-pagination'), clickable: true }
+        pagination: {
+          el: slider.querySelector('.swiper-pagination'),
+          clickable: true
+        }
       })
     })
   })
@@ -327,7 +333,7 @@ function initializeScripts() {
 }
 
 /* =========================
-   9. Filters
+   10. Filters
 ========================= */
 function initFilters() {
   const categoryItems = document.querySelectorAll('.toogle_sidebar li')
@@ -342,7 +348,11 @@ function initFilters() {
       ?.getAttribute('data-type')?.toLowerCase() || 'all'
 
     toolBoxes.forEach((box: any) => {
-      const categories = (box.dataset.category || '').toLowerCase().split(' ').map((c: string) => c.trim()).filter(Boolean)
+      const categories = (box.dataset.category || '')
+        .toLowerCase()
+        .split(' ')
+        .map((c: string) => c.trim())
+        .filter(Boolean)
       const type = (box.dataset.type || '').toLowerCase()
       const show =
         (activeCategory === 'all' || categories.includes(activeCategory)) &&
@@ -374,7 +384,7 @@ function initFilters() {
 }
 
 /* =========================
-   10. FAQ Handler
+   11. FAQ Handler
 ========================= */
 function handleFaqClick(id: string) {
   activeQuestion.value = id
@@ -383,14 +393,13 @@ function handleFaqClick(id: string) {
   })
   const activeBtn = document.querySelector(`.faq-btn[data-id="${id}"]`) as HTMLElement | null
   activeBtn?.classList.add('active', 'bg-white', 'shadow-[0_4px_4px_rgba(0,0,0,0.25)]', 'rounded-l-lg')
-
   nextTick(() => {
     document.getElementById('Faqs')?.scrollIntoView({ behavior: 'smooth' })
   })
 }
 
 /* =========================
-   11. Global Click Handler
+   12. Global Click Handler
 ========================= */
 const handleWpClick = (event: MouseEvent) => {
   const blogTarget = (event.target as HTMLElement).closest('.blog_box')
@@ -408,7 +417,59 @@ const handleWpClick = (event: MouseEvent) => {
 }
 
 /* =========================
-   12. Watch pageData → init calculator
+   13. Form Handler
+========================= */
+const handleSubmit = async (e: Event) => {
+  e.preventDefault()
+
+  const form = e.target as HTMLFormElement
+  const btn = form.querySelector('button') as HTMLButtonElement | null
+  if (btn) btn.innerText = 'Sending...'
+
+  const data = {
+    contact_first_name: (document.getElementById('first_name') as HTMLInputElement)?.value ?? '',
+    contact_last_name: (document.getElementById('last_name') as HTMLInputElement)?.value ?? '',
+    contact_email: (document.getElementById('email') as HTMLInputElement)?.value ?? '',
+    contact_subject: (document.getElementById('subject') as HTMLInputElement)?.value ?? '',
+    contact_message: (document.getElementById('message') as HTMLTextAreaElement)?.value ?? ''
+  }
+
+  try {
+    const res = await fetch('https://admin.dspcrm.com/wp-json/custom/v1/submit-contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+
+    const result = await res.json()
+
+    if (result.status === 'success') {
+      alert('Form submitted successfully ✅')
+      form.reset()
+    } else {
+      alert('Error: ' + result.message)
+    }
+  } catch (err) {
+    console.error(err)
+    alert('Something went wrong ❌')
+  }
+
+  if (btn) btn.innerText = 'Send message'
+}
+
+const initFormHandler = () => {
+  if (!contentRef.value) return
+
+  const form = contentRef.value.querySelector('#contactForm') as HTMLFormElement | null
+  if (!form) return
+
+  // Remove old listener before re-attaching to prevent duplicates
+  form.removeEventListener('submit', handleSubmit)
+  form.addEventListener('submit', handleSubmit)
+}
+
+/* =========================
+   14. Watch pageData → init calculator
 ========================= */
 watch(
   () => pageData.value,
@@ -421,7 +482,7 @@ watch(
 )
 
 /* =========================
-   13. Mounted
+   15. Mounted
 ========================= */
 onMounted(() => {
   setTimeout(() => {
@@ -429,16 +490,24 @@ onMounted(() => {
     nextTick(() => {
       initializeScripts()
       initFilters()
+      // Extra delay so v-html rendered sections are in the DOM
+      setTimeout(initFormHandler, 300)
     })
   }, 300)
 })
 
 /* =========================
-   14. Cleanup on Unmount
+   16. Cleanup on Unmount
 ========================= */
 onUnmounted(() => {
   calculatorListeners.forEach(fn => fn())
   calculatorListeners = []
+
+  // Clean up form listener if contentRef is still alive
+  if (contentRef.value) {
+    const form = contentRef.value.querySelector('#contactForm') as HTMLFormElement | null
+    form?.removeEventListener('submit', handleSubmit)
+  }
 })
 </script>
 
@@ -447,6 +516,7 @@ onUnmounted(() => {
     <Loader v-if="showLoader" />
 
     <div
+      ref="contentRef"
       class="wp-content"
       :class="{ 'content-hidden': showLoader }"
       @click="handleWpClick"

@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-[#F4F4F4] pt-0">
+  <footer class="bg-[#F4F4F4] pt-0 overflow-x-hidden">
     <section class="max-w-screen-xl md:px-10 px-5 flex m-auto md:mt-10 flex-wrap">
     <div class="logo w-full">
           <router-link to="/">
@@ -134,15 +134,15 @@
         <div class="mt-16">
           <h3 class="text-[#080809] mb-2 font-poppins font-bold text-xl">{{ resourcesTitle }}</h3>
           <ul class="space-y-2 text-[#5E6282] font-poppins font-medium text-[14px] list-disc pl-5 cursor-pointer">
-            <li
+           <li
               v-for="(item, index) in resources"
-              :key="`resource-${index}`"
+              :key="`feature2-${index}`"
               ref="listItems"
               class="hover:text-blue-600 wow skewIn flex items-center gap-1"
               :class="{ animated: visibleItems[index] }"
               :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
             >
-              <a v-if="item.links" href="https://calendly.com/dspcrm-info/30min">{{ item.name }}</a>
+             <router-link v-if="item.links" :to="item.links">{{ item.name }}</router-link>
               <span v-else>{{ item.name }}</span>
               <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
             </li>
@@ -154,17 +154,17 @@
         <h3 class="text-[#080809] mb-2 font-poppins font-bold text-xl">{{ ProductTitle }}</h3>
         <ul class="space-y-2 text-[#5E6282] font-poppins font-medium text-[14px] list-disc pl-5 cursor-pointer">
           <li
-            v-for="(item, index) in Product"
-            :key="`product-${index}`"
-            ref="listItems"
-            class="hover:text-blue-600 wow skewIn flex items-center gap-1"
-            :class="{ animated: visibleItems[index] }"
-            :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
-          >
-            <a v-if="item.links" href="https://calendly.com/dspcrm-info/30min">{{ item.name }}</a>
-            <span v-else>{{ item.name }}</span>
-            <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
-          </li>
+              v-for="(item, index) in Product"
+              :key="`feature2-${index}`"
+              ref="listItems"
+              class="hover:text-blue-600 wow skewIn flex items-center gap-1"
+              :class="{ animated: visibleItems[index] }"
+              :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
+            >
+             <router-link v-if="item.links" :to="item.links">{{ item.name }}</router-link>
+              <span v-else>{{ item.name }}</span>
+              <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
+            </li>
         </ul>
       </div>
 

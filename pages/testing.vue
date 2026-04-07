@@ -304,7 +304,11 @@ header {
     font-size: 1.125rem !important;
   }
 }
-
+@media screen and (max-width:768px) {
+  .banner_wrapper {
+    padding-top: 100px !important;
+}
+}
 /* Desktop Dropdown Behavior */
 @media (min-width: 1024px) {
   #mega-menu-menu-1 .mega-sub-menu {
