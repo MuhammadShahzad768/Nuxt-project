@@ -11,11 +11,12 @@
 
 <p class='text-center mt-7 text-[#999999] text-[15px] '> {{ hero[0].tagline }}</p>
 <div class='m-auto max-w-[500px] mt-7 flex items-center gap-5 justify-center'>
- <a href='https://calendly.com/dspcrm-info/30min' target='_blank' class="max-w-[170px] transition-all duration-300 ease-in-out hidden md:block border-4 hover:bg-[#00296B] hover:border-1 hover:text-white rounded-xl border-[var(--border-custom-color)] lg:py-4 lg:px-7 text-[#00296B] font-medium md:px-4 md:py-2"
-            >
-              {{ hero[0].button_text }}
-            </a>
-                        <p class="text-xl  hidden md:block text-[var(--text-custom)]" >Ready? <span class='font-bold'><a target='_blank' href="https://calendly.com/dspcrm-info/30min">Try it Free</a></span></p>
+
+             <router-link  to="/book-a-demo" class="max-w-[170px] transition-all duration-300 ease-in-out hidden md:block border-4 hover:bg-[#00296B] hover:border-1 hover:text-white rounded-xl border-[var(--border-custom-color)] lg:py-4 lg:px-7 text-[#00296B] font-medium md:px-4 md:py-2"> {{ hero[0].button_text }}</router-link>
+                        <p class="text-xl  hidden md:block text-[var(--text-custom)]" >Ready? <span class='font-bold'>
+                         
+                         <router-link  to="/book-a-demo" > Try It Free</router-link>
+                        </span></p>
             </div>
             <img src='http://admin.dspcrm.com/wp-content/uploads/2026/02/Group-143-Cf659UdD.svg' class='xl:w-[100px] w-[80px] absolute xl:top-[26%] top-[17%] left-[5%] xl:left-[17%]'>
             <img src='http://admin.dspcrm.com/wp-content/uploads/2026/02/Group-144-CbSq2YSC.svg' class='xl:w-[100px] w-[80px] absolute xl:top-[26%]  xl:right-[24%] top-[14%] right-[0%]'>

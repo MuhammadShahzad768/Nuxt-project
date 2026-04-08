@@ -161,7 +161,7 @@
               </div>
               <span class="select-none border-l-[1.5px] border-[#ddd] bg-[#f0f0f0]
                            px-3 py-[11px] text-[13.5px] text-[#aaa] whitespace-nowrap">
-                .dspcrm.com
+                .dspcrm.app
               </span>
             </div>
 
@@ -201,13 +201,11 @@
               </div>
               <span class="text-[13px] leading-[1.5] text-[#494949]">
                 I agree to the
-                <a href="#" class="text-[#00296B] no-underline transition-colors duration-150 hover:underline">
-                  Terms of Service
-                </a>
+                 <router-link  to="/Terms"  class="text-[#00296B] no-underline transition-colors duration-150 hover:underline"> Terms of Service</router-link>
+               
                 and
-                <a href="#" class="text-[#00296B] no-underline transition-colors duration-150 hover:underline">
-                  Privacy Policy
-                </a>
+                 <router-link  to="/Privacy-Policy" class="text-[#00296B] no-underline transition-colors duration-150 hover:underline">  Privacy Policy</router-link>
+                
               </span>
             </label>
             <p v-if="errors.agreed" class="pl-7 flex items-center gap-[5px] text-[12px] leading-[1.4] text-[#f07070]">

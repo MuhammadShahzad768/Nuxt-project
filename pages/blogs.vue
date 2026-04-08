@@ -3,10 +3,10 @@
 
     <section class="max-w-7xl mx-auto px-6 py-20">
       <div class="text-center mb-10 pt-20">
-        <h2 class="xl:text-[45px] text-center text-[20px] text-[#00296b] font-bold leading-tight tracking-tight mb-0">
+        <h2 class="xl:text-[45px] text-center text-[20px] text-[var(--bg-custom-color)] font-bold leading-[30px] md:leading-[30px] lg:leading-[40px] xl:leading-[70px] tracking-tight mb-0">
           Latest posts
         </h2>
-        <p class="text-[#8a7560] text-sm">Read the latest guides for your firm</p>
+        <p class="mt-[10px] xl:mt-[20px] max-w-[100%] xl:max-w-[36%] text-center text-[#999999] font-semibold text-base m-auto">Read the latest guides for your firm</p>
       </div>
 
       <div v-if="pending" class="flex justify-center py-20">
@@ -30,7 +30,7 @@
             <h3 class="text-lg md:text-xl font-bold text-[#00296b] leading-snug line-clamp-2">{{ post.title }}</h3>
             <p class="text-gray-500 text-[15px] leading-relaxed mb-5 flex-1 line-clamp-2">{{ post.excerpt }}</p>
             
-            <div class="flex items-center gap-2 text-[#00296B] font-semibold text-[15px] group-hover:text-[#0052CC]">
+            <div class="flex items-center gap-2 text-[#00296B] x font-semibold text-[15px] group-hover:text-[#0052CC]">
               Read More
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[20px] transition-transform duration-300 group-hover:translate-x-1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"></path>
@@ -43,8 +43,8 @@
 
     <section v-if="growthSection.featured" class="max-w-7xl mx-auto pb-16 px-6 font-sans">
       <div class="headers pb-12 text-center">
-        <h2 class="xl:text-[40px] text-[20px] text-[#00296b] font-bold">Scaling & Strategic Growth</h2>
-        <p class="text-[#8a7560] text-sm">Deep dives into agency expansion</p>
+        <h2 class="xl:text-[45px] text-center text-[20px] text-[var(--bg-custom-color)] font-bold leading-[30px] md:leading-[30px] lg:leading-[40px] xl:leading-[70px] tracking-tight mb-0">Scaling & Strategic Growth</h2>
+        <p class="mt-[10px] xl:mt-[20px] max-w-[100%] xl:max-w-[36%] text-center text-[#999999] font-semibold text-base m-auto">Deep dives into agency expansion</p>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-12">
