@@ -213,6 +213,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+:deep(.content-img-section){
+  padding-top:150px !important;
+}
 .wp-content {
   width: 100%;
   min-height: 80vh;
