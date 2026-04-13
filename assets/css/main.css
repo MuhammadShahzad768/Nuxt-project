@@ -14,6 +14,9 @@ footer .logo{
 :deep(.none){
   display:none;
 }
+.-top-10{
+      top: -4.5rem;
+}
 /* *{
   transition: all 0.5s ease-in;
 } */
@@ -211,7 +214,11 @@ ul {
 }
 
 @media screen  and (min-width:300px) and (max-width:768px) {
-  
+
+    div:first-child .content-img-section {
+        padding-top: 100px !important;
+    }
+
 li {
     padding-left: 0px;
     position: relative;

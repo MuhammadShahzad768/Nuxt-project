@@ -14,7 +14,7 @@ import 'swiper/css/pagination'
 
 const router = useRouter()
 const route = useRoute()
-const showLoader = ref(true);
+const showLoader = ref(true)
 
 /* =========================
    1. FAQ State
@@ -34,8 +34,6 @@ const { data: pageData } = await useAsyncData(
   `page-content-${route.params.slug}`,
   async () => {
     try {
-
-      // Step A: Get WP Page ID by slug
       const wpPage: any = await $fetch(
         'https://admin.dspcrm.com/wp-json/wp/v2/pages',
         { params: { slug: route.params.slug } }
@@ -47,7 +45,6 @@ const { data: pageData } = await useAsyncData(
 
       const id = wpPage[0].id
 
-      // Step B: Fetch custom API data
       const res = await fetch(`https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`)
       const text = await res.text()
 
@@ -59,7 +56,6 @@ const { data: pageData } = await useAsyncData(
         throw createError({ statusCode: 500, statusMessage: 'Invalid API Response' })
       }
 
-      // ✅ Extract SEO & CSS on server BEFORE stripping from payload
       if (import.meta.server) {
         seoRaw = customData?.seo_data || {}
         dynamicCss = (customData?.Author_page_custom_css || '')
@@ -72,7 +68,6 @@ const { data: pageData } = await useAsyncData(
           .trim()
       }
 
-      // ✅ Strip seo_data + CSS so they never appear in __NUXT_DATA__
       const { seo_data, Author_page_custom_css, ...rest } = customData
       return { ...rest, wp_id: id }
 
@@ -105,7 +100,14 @@ const apiSections = computed(() => {
 })
 
 /* =========================
-   5. SEO — inject into <head> server-side only
+   ✅ NEW: Page ID Class
+========================= */
+const wpClass = computed(() => {
+  return pageData.value?.wp_id ? `page-id-${pageData.value.wp_id}` : ''
+})
+
+/* =========================
+   5. SEO
 ========================= */
 useServerSeoMeta({
   title: seoRaw.meta_title || 'DSP CRM',
@@ -148,10 +150,17 @@ function initializeScripts() {
         modules: [Autoplay, Pagination],
         loop: slider.dataset.loop === 'true',
         speed: Number(slider.dataset.speed) || 800,
-        autoplay: { delay: Number(slider.dataset.delay) || 3000 },
+
         pagination: {
           el: slider.querySelector('.swiper-pagination'),
           clickable: true
+        },
+
+        breakpoints: {
+          320: { slidesPerView: 1, spaceBetween: 10 },
+          640: { slidesPerView: 1, spaceBetween: 15 },
+          1024: { slidesPerView: 1, spaceBetween: 20 },
+          1280: { slidesPerView: 1, spaceBetween: 32 }
         }
       })
     })
@@ -161,113 +170,13 @@ function initializeScripts() {
 }
 
 /* =========================
-   7. Filters
-========================= */
-function initFilters() {
-  const categoryItems = document.querySelectorAll('.toogle_sidebar li')
-  const typeItems = document.querySelectorAll('.type_sidebar li')
-  const toolBoxes = document.querySelectorAll('.tool_box')
-
-  if (!toolBoxes.length) return
-
-  const applyFilters = () => {
-    const activeCategory = document.querySelector('.toogle_sidebar li.active')
-      ?.getAttribute('data-filter')?.toLowerCase() || 'all'
-    const activeType = document.querySelector('.type_sidebar li.active')
-      ?.getAttribute('data-type')?.toLowerCase() || 'all'
-
-    toolBoxes.forEach((box: any) => {
-      const categories = (box.dataset.category || '').toLowerCase().split(' ').map((c: string) => c.trim()).filter(Boolean)
-      const type = (box.dataset.type || '').toLowerCase()
-      const show = (activeCategory === 'all' || categories.includes(activeCategory)) &&
-                   (activeType === 'all' || type === activeType)
-      box.classList.toggle('show', show)
-      box.classList.toggle('hide', !show)
-    })
-  }
-
-  categoryItems.forEach((item: any) => {
-    item.addEventListener('click', () => {
-      categoryItems.forEach((li: any) => li.classList.remove('active'))
-      item.classList.add('active')
-      applyFilters()
-    })
-  })
-
-  // ✅ Fixed: was missing addEventListener
-  typeItems.forEach((item: any) => {
-    item.addEventListener('click', () => {
-      typeItems.forEach((li: any) => li.classList.remove('active'))
-      item.classList.add('active')
-      applyFilters()
-    })
-  })
-
-  categoryItems[0]?.classList.add('active')
-  typeItems[0]?.classList.add('active')
-
-  applyFilters()
-}
-
-/* =========================
-   8. FAQ Handler
-========================= */
-function handleFaqClick(id: string) {
-  setActiveQuestion(id)
-  scrollToFaq()
-}
-
-function setActiveQuestion(id: string) {
-  activeQuestion.value = id
-
-  document.querySelectorAll('.faq-btn').forEach((btn: any) => {
-    btn.classList.remove('active', 'bg-white', 'shadow-[0_4px_4px_rgba(0,0,0,0.25)]', 'rounded-l-lg')
-  })
-
-  const activeBtn = document.querySelector(`.faq-btn[data-id="${id}"]`) as HTMLElement | null
-  if (activeBtn) {
-    activeBtn.classList.add('active', 'bg-white', 'shadow-[0_4px_4px_rgba(0,0,0,0.25)]', 'rounded-l-lg')
-  }
-}
-
-function scrollToFaq() {
-  nextTick(() => {
-    const el = document.getElementById('Faqs')
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  })
-}
-
-/* =========================
-   9. Global Click Handler
-========================= */
-const handleWpClick = (event: MouseEvent) => {
-
-  // Blog click
-  const blogTarget = (event.target as HTMLElement).closest('.blog_box')
-  if (blogTarget) {
-    const slug = blogTarget.getAttribute('data-slug') // ✅ Fixed: was 'data-sluga'
-    if (slug) router.push(`/blog/${slug}`)
-    return
-  }
-
-  // FAQ click
-  const faqTarget = (event.target as HTMLElement).closest('.faq-btn')
-  if (faqTarget) {
-    const id = faqTarget.getAttribute('data-id')
-    if (id) handleFaqClick(id)
-    return
-  }
-}
-
-/* =========================
-   10. Mounted
+   7. Mounted
 ========================= */
 onMounted(() => {
   setTimeout(() => {
     showLoader.value = false
     nextTick(() => {
       initializeScripts()
-      initFilters()
     })
   }, 300)
 })
@@ -279,8 +188,10 @@ onMounted(() => {
 
     <div
       class="wp-content"
-      :class="{ 'content-hidden': showLoader }"
-      @click="handleWpClick"
+      :class="[
+        { 'content-hidden': showLoader },
+        wpClass
+      ]"
     >
       <div v-if="pageData">
         <div
@@ -311,32 +222,5 @@ onMounted(() => {
   visibility: hidden;
   height: 0;
   overflow: hidden;
-}
-
-.error {
-  color: #333;
-  text-align: center;
-  padding: 5rem 2rem;
-}
-
-:deep(.mySwiper .swiper-wrapper) {
-  padding-top: 0;
-}
-
-:deep(.tool_box) {
-  transition: all 0.4s ease;
-}
-
-:deep(.tool_box.hide) {
-  opacity: 0;
-  transform: scale(0.9);
-  pointer-events: none;
-  position: absolute;
-}
-
-:deep(.tool_box.show) {
-  opacity: 1;
-  transform: scale(1);
-  position: relative;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <header class="header-wrapper">
     <Loader v-if="showLoader" />
-    
+
     <div
       class="wp-content"
       :class="{ 'content-hidden': showLoader }"
@@ -14,7 +14,7 @@
           v-html="sectionContent"
         ></div>
       </div>
-      
+
       <div v-if="error" class="error-msg">
         Failed to load navigation.
       </div>
@@ -30,7 +30,7 @@ import 'aos/dist/aos.css'
 
 import Loader from "@/components/Sections/Loader.vue"
 
-// Swiper imports
+// Swiper
 import Swiper from 'swiper'
 import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'
@@ -42,29 +42,26 @@ const pageId = 'Header'
 const showLoader = ref(true)
 
 /* =========================
-   1. Fetch Page Data
+   1. FETCH DATA
 ========================= */
 const { data: pageData, error, refresh } = await useAsyncData(
   `wp-page-${pageId}`,
   () => $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/Header`),
-  {
-    server: true,
-    lazy: false
-  }
+  { server: true, lazy: false }
 )
 
 /* =========================
-   2. Extract HTML Sections
+   2. PARSE API HTML
 ========================= */
 const apiSections = computed(() => {
   if (!pageData.value) return {}
+
   const excludeKeys = ['seo_data', 'Author_page_custom_css', 'id', 'title', 'link']
-  
-  const adminUrlPattern = /href="https:\/\/admin\.dspcrm\.com/g;
+  const adminUrlPattern = /href="https:\/\/admin\.dspcrm\.com/g
 
   return Object.keys(pageData.value).reduce((acc, key) => {
     const value = (pageData.value as Record<string, any>)[key]
-    
+
     if (typeof value === 'string' && !excludeKeys.includes(key)) {
       acc[key] = value.replace(adminUrlPattern, 'href="')
     }
@@ -73,52 +70,63 @@ const apiSections = computed(() => {
 })
 
 /* =========================
-   3. SEO & Head
+   3. MENU TOGGLE
 ========================= */
-useHead({
-  link: [
-    { rel: 'stylesheet', href: 'https://admin.dspcrm.com/wp-content/plugins/mega-main-menu/css/mega-main-menu.css' },
-    { rel: 'stylesheet', href: 'https://admin.dspcrm.com/wp-includes/css/dashicons.min.css' }
-  ],
-  script: [
-    { src: 'https://admin.dspcrm.com/wp-includes/js/jquery/jquery.min.js', defer: false },
-    { src: 'https://admin.dspcrm.com/wp-content/plugins/mega-main-menu/js/mega-main-menu.js', defer: true }
-  ],
-  style: [
-    {
-      id: 'dynamic-header-css',
-      innerHTML: computed(() => {
-        const css = (pageData.value as any)?.Author_page_custom_css || ''
-        return css
-          .replace(/<\/?style[^>]*>/gi, '')
-          .replace(/&gt;/g, '>')
-          .replace(/&lt;/g, '<')
-          .trim()
-      })
-    }
-  ]
-})
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu')
+  if (!menu) return
 
-/* =========================
-   4. Close Mega Menu (FIXED)
-========================= */
-function closeMegaMenu() {
-  // body class add
-  document.body.classList.add('menu-closed')
+  const isHidden = menu.classList.contains('menu-hidden')
 
-  // mobile reset
-  document.querySelectorAll('.mega-menu-item.is-active').forEach((item: any) => {
-    item.classList.remove('is-active')
-  })
-
-  // remove class after delay (so hover works again)
-  setTimeout(() => {
-    document.body.classList.remove('menu-closed')
-  }, 300)
+  if (isHidden) {
+    menu.classList.remove(
+      'menu-hidden',
+      'opacity-0',
+      '-translate-x-full',
+      'pointer-events-none'
+    )
+    menu.classList.add('opacity-100', 'translate-x-0')
+    document.body.style.overflow = 'hidden'
+  } else {
+    menu.classList.add(
+      'menu-hidden',
+      'opacity-0',
+      '-translate-x-full',
+      'pointer-events-none'
+    )
+    menu.classList.remove('opacity-100', 'translate-x-0')
+    document.body.style.overflow = ''
+  }
 }
 
 /* =========================
-   5. DOM Fixes
+   4. CLOSE MENU
+========================= */
+function closeMegaMenu() {
+  document.body.classList.add('menu-closed')
+
+  const mobileMenu = document.querySelector('#mobileMenu') as HTMLElement
+  if (mobileMenu) {
+    mobileMenu.classList.remove(
+      'is-active',
+      'mega-menu-open',
+      'mega-toggle-on',
+      'mega-menu-visible'
+    )
+    mobileMenu.setAttribute('aria-expanded', 'false')
+    mobileMenu.classList.add('menu-hidden')
+  }
+
+  document.body.style.overflow = ''
+  document.documentElement.style.overflow = ''
+
+  setTimeout(() => {
+    document.body.classList.remove('menu-closed')
+  }, 500)
+}
+
+/* =========================
+   5. CLEAN LINKS
 ========================= */
 function cleanAllLinks() {
   const container = document.querySelector('.wp-content')
@@ -137,17 +145,25 @@ function cleanAllLinks() {
   })
 }
 
+/* =========================
+   6. INIT SCRIPTS
+========================= */
 function initializeScripts() {
   cleanAllLinks()
 
-  // Swiper init
   document.querySelectorAll('.testimonialSwiper').forEach((slider: any) => {
     if (slider.swiper) return
+
     new Swiper(slider, {
       modules: [Autoplay, Pagination],
       loop: slider.dataset.loop === 'true',
-      autoplay: slider.dataset.delay ? { delay: Number(slider.dataset.delay) } : false,
-      pagination: { el: slider.querySelector('.swiper-pagination'), clickable: true }
+      autoplay: slider.dataset.delay
+        ? { delay: Number(slider.dataset.delay) }
+        : false,
+      pagination: {
+        el: slider.querySelector('.swiper-pagination'),
+        clickable: true
+      }
     })
   })
 
@@ -155,10 +171,21 @@ function initializeScripts() {
 }
 
 /* =========================
-   6. SPA Navigation Handler
+   7. CLICK HANDLER (MAIN FIX)
 ========================= */
 const handleWpClick = (event: MouseEvent) => {
-  const anchor = (event.target as HTMLElement).closest('a')
+  const target = event.target as HTMLElement
+
+  // ✅ MENU BUTTON (from API)
+  const toggleBtn = target.closest('.mobile-menu-btn')
+  if (toggleBtn) {
+    event.preventDefault()
+    toggleMenu()
+    return
+  }
+
+  // ✅ LINKS (SPA)
+  const anchor = target.closest('a')
   if (!anchor || anchor.target === '_blank' || event.ctrlKey || event.metaKey) return
 
   const href = anchor.getAttribute('href')
@@ -168,27 +195,24 @@ const handleWpClick = (event: MouseEvent) => {
     const url = new URL(href, window.location.origin)
     if (url.origin === window.location.origin) {
       event.preventDefault()
-
-      closeMegaMenu() // 🔥
-
+      closeMegaMenu()
       router.push(url.pathname + url.search + url.hash)
     }
   } catch (e) {
     if (href.startsWith('/')) {
       event.preventDefault()
-
-      closeMegaMenu() // 🔥
-
+      closeMegaMenu()
       router.push(href)
     }
   }
 }
 
 /* =========================
-   7. Lifecycle & Route Watcher
+   8. LIFECYCLE
 ========================= */
 const runSetup = async () => {
   await nextTick()
+
   setTimeout(() => {
     showLoader.value = false
     nextTick(() => initializeScripts())
@@ -198,19 +222,72 @@ const runSetup = async () => {
 onMounted(() => runSetup())
 
 watch(() => route.fullPath, () => {
-  closeMegaMenu() // 🔥 FIX
+  closeMegaMenu()
   if (!pageData.value) refresh()
   runSetup()
+})
+
+/* =========================
+   9. HEAD
+========================= */
+useHead({
+  link: [
+    {
+      rel: 'stylesheet',
+      href: 'https://admin.dspcrm.com/wp-content/plugins/mega-main-menu/css/mega-main-menu.css'
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://admin.dspcrm.com/wp-includes/css/dashicons.min.css'
+    }
+  ],
+  script: [
+    {
+      src: 'https://admin.dspcrm.com/wp-includes/js/jquery/jquery.min.js',
+      defer: false
+    },
+    {
+      src: 'https://admin.dspcrm.com/wp-content/plugins/mega-main-menu/js/mega-main-menu.js',
+      defer: true
+    }
+  ],
+  style: [
+    {
+      id: 'dynamic-header-css',
+      innerHTML: computed(() => {
+        const css = (pageData.value as any)?.Author_page_custom_css || ''
+        return css
+          .replace(/<\/?style[^>]*>/gi, '')
+          .replace(/&gt;/g, '>')
+          .replace(/&lt;/g, '<')
+          .trim()
+      })
+    }
+  ]
 })
 </script>
 
 <style>
-/* 🔥 Force close menu */
-body.menu-closed .mega-sub-menu {
+/* Custom class to hide mobile menu */
+#mobileMenu.menu-hidden {
+  transform: translateX(-100%);
+  display: none;
+}
+
+/* Force close menu via CSS when helper class is present */
+body.menu-closed .mega-sub-menu,
+body.menu-closed .mega-menu-wrap .mega-sub-menu {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+  display: none !important; /* Forces mobile collapse */
 }
+
+/* Ensure mobile menu wrapper itself hides if it uses a specific container */
+body.menu-closed .mega-menu-toggle.mega-menu-open + .mega-menu-nav {
+    display: none !important;
+}
+
 .header {
     position: absolute;
     z-index: 1;
@@ -222,6 +299,7 @@ body.menu-closed .mega-sub-menu {
 .mobile {
   will-change: transform, opacity;
 }
+
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 header {
@@ -313,7 +391,6 @@ header {
 @media (min-width: 1024px) {
   #mega-menu-menu-1 .mega-sub-menu {
     opacity: 0;
-  
     position: fixed;
     left: 0;
     right: 0;
@@ -391,7 +468,6 @@ header {
     display: block;
     top: 120px;
     left: 50%;
-    /* transform: translate(-50%); */
 }
 li{
   position:static;
@@ -402,31 +478,25 @@ header li:before{
 header li::marker{
   content:none;
 }
-/* Ensure the parent li can trigger the hover */
 .mega-menu-item {
-  position: static; /* Required for full-width mega menus */
+  position: static; 
 }
 
 /* Desktop Hover Trigger */
 @media (min-width: 1024px) {
-  /* Show the menu when the parent LI is hovered */
   .mega-menu-item:hover > .mega-sub-menu {
     opacity: 1 !important;
     pointer-events: all !important;
-    /* transform: translate(-50%, 0) !important; */
     visibility: visible;
   }
 
-  /* Transition for the sub-menu */
   .mega-sub-menu {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     visibility: hidden;
-    /* Keeps the menu centered based on your existing style */
     transform: translate(-50%, 10px); 
   }
 }
 
-/* Hover effect for individual items inside the mega menu */
 .sub-menu-items-wrapper a {
   transition: all 0.2s ease-in-out;
   border: 1px solid transparent;
@@ -439,7 +509,6 @@ header li::marker{
   border-color: #e5e7eb;
 }
 
-/* Subtle icon bounce on hover */
 .sub-menu-items-wrapper a:hover img {
   transform: scale(1.1);
   transition: transform 0.2s ease;

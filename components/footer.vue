@@ -34,7 +34,7 @@
       </div>
         <li
             ref="listItems"
-            class="hover:text-blue-600  flex items-center gap-0 relative"
+            class="hover:text-blue-600  flex items-center gap-0 relative pl-5"
           >
        <router-link class="text-[#5E6282] font-medium" to="/privacy-policy">
         Privacy
@@ -84,7 +84,7 @@
                 :href="item.href"
                 target="_blank"
                 rel="noopener"
-                class="group w-9 h-9 rounded-full bg-white shadow flex items-center justify-center transition-all duration-500 opacity-0 translate-y-3 hover:scale-110 hover:bg-[#00296B]"
+                class=" group w-9 h-9 rounded-full bg-white shadow flex items-center justify-center transition-all duration-500 opacity-0 translate-y-3 hover:scale-110 hover:bg-[#00296B]"
                 :class="{ 'opacity-100 translate-y-0': visibleItems[index] }"
               >
                 <i :class="['fa-brands', `fa-${item.icon[1]}`, 'text-[#00296B] w-4 h-4 transition-colors duration-300 group-hover:text-white']"></i>
@@ -105,7 +105,7 @@
               :class="{ animated: visibleItems[index] }"
               :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
             >
-             <router-link v-if="item.links" :to="item.links">{{ item.name }}</router-link>
+             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0">{{ item.name }}</router-link>
               <span v-else>{{ item.name }}</span>
               <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
             </li>
@@ -124,7 +124,7 @@
               :class="{ animated: visibleItems[index] }"
               :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
             >
-             <router-link v-if="item.links" :to="item.links">{{ item.name }}</router-link>
+             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0">{{ item.name }}</router-link>
               <span v-else>{{ item.name }}</span>
               <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
             </li>
@@ -142,7 +142,7 @@
               :class="{ animated: visibleItems[index] }"
               :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
             >
-             <router-link v-if="item.links" :to="item.links">{{ item.name }}</router-link>
+             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0">{{ item.name }}</router-link>
               <span v-else>{{ item.name }}</span>
               <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
             </li>
@@ -161,7 +161,7 @@
               :class="{ animated: visibleItems[index] }"
               :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
             >
-             <router-link v-if="item.links" :to="item.links">{{ item.name }}</router-link>
+             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0">{{ item.name }}</router-link>
               <span v-else>{{ item.name }}</span>
               <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
             </li>
@@ -182,6 +182,7 @@
             <router-link
         v-if="item.links"
         :to="item.links"
+        class="pl-8 xl:pl-0"
       >
         {{ item.name }}
       </router-link>

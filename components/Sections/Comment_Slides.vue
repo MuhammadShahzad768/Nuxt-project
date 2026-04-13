@@ -121,7 +121,7 @@ const Logos = computed(
 
 <style setup>
 .mySwiper {
-  width: 612px;
+  max-width: 612px;
   height: 400px !important;
   padding-bottom:30px;
 }

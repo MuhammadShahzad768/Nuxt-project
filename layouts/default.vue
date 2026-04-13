@@ -6,7 +6,7 @@ import Testing from '~/pages/testing.vue';
 
 
 <template>
-  <div class="layout-wrapper">
+  <div class="layout-wrapper overflow-x-hidden">
     <Testing/>
 
     <main class="content">
