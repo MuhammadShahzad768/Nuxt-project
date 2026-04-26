@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick, computed } from 'vue'
-import { useHead, useServerSeoMeta, useAsyncData, useRouter, useRoute, createError } from '#imports'
+import {
+  useHead,
+  useServerSeoMeta,
+  useAsyncData,
+  useRouter,
+  useRoute,
+  createError,
+  navigateTo
+} from '#imports'
 
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -17,18 +25,44 @@ const route = useRoute()
 const showLoader = ref(true)
 
 /* =========================
-   1. FAQ State
+   🔥 HTML SANITIZER (MAIN FIX)
 ========================= */
-const activeQuestion = ref<string | null>(null)
+function sanitizeHtml(html: string): string {
+  if (!html) return html
+
+  // ✅ SSR safe check
+  if (typeof window === 'undefined') {
+    return html.replace(/https:\/\/admin\.dspcrm\.com/g, '')
+  }
+
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(html, 'text/html')
+
+  const links = doc.querySelectorAll('a')
+
+  links.forEach((link) => {
+    const href = link.getAttribute('href')
+    if (!href) return
+
+    if (href.includes('https://admin.dspcrm.com')) {
+      link.setAttribute(
+        'href',
+        href.replace('https://admin.dspcrm.com', '')
+      )
+    }
+  })
+
+  return doc.body.innerHTML
+}
 
 /* =========================
-   2. SEO + CSS holders
+   SEO + CSS
 ========================= */
 let seoRaw: any = {}
 let dynamicCss = ''
 
 /* =========================
-   3. Fetch Data
+   FETCH DATA
 ========================= */
 const { data: pageData } = await useAsyncData(
   `page-content-${route.params.slug}`,
@@ -48,13 +82,7 @@ const { data: pageData } = await useAsyncData(
       const res = await fetch(`https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`)
       const text = await res.text()
 
-      let customData: any = null
-      try {
-        customData = JSON.parse(text)
-      } catch (err) {
-        console.error('Invalid JSON:', text)
-        throw createError({ statusCode: 500, statusMessage: 'Invalid API Response' })
-      }
+      let customData: any = JSON.parse(text)
 
       if (import.meta.server) {
         seoRaw = customData?.seo_data || {}
@@ -62,14 +90,25 @@ const { data: pageData } = await useAsyncData(
           .replace(/<\/?style[^>]*>/gi, '')
           .replace(/&gt;/g, '>')
           .replace(/&lt;/g, '<')
-          .replace(/\.([\w\d\-\[\]%]+)/g, (m: string) =>
-            m.replace(/\[/g, '\\[').replace(/\]/g, '\\]')
-          )
           .trim()
       }
 
       const { seo_data, Author_page_custom_css, ...rest } = customData
-      return { ...rest, wp_id: id }
+
+      /* 🔥 APPLY SANITIZER HERE */
+      const cleanData: any = {}
+
+      Object.keys(rest).forEach((key) => {
+        let value = rest[key]
+
+        if (typeof value === 'string') {
+          value = sanitizeHtml(value)
+        }
+
+        cleanData[key] = value
+      })
+
+      return { ...cleanData, wp_id: id }
 
     } catch (err) {
       console.error('Fetch Error:', err)
@@ -83,7 +122,7 @@ const { data: pageData } = await useAsyncData(
 )
 
 /* =========================
-   4. Sections
+   SECTIONS
 ========================= */
 const apiSections = computed(() => {
   if (!pageData.value) return {}
@@ -100,28 +139,18 @@ const apiSections = computed(() => {
 })
 
 /* =========================
-   ✅ NEW: Page ID Class
+   PAGE CLASS
 ========================= */
 const wpClass = computed(() => {
   return pageData.value?.wp_id ? `page-id-${pageData.value.wp_id}` : ''
 })
 
 /* =========================
-   5. SEO
+   SEO
 ========================= */
 useServerSeoMeta({
   title: seoRaw.meta_title || 'DSP CRM',
   description: seoRaw.meta_description || '',
-  keywords: seoRaw.meta_keywords || '',
-  robots: seoRaw.robots || 'index, follow',
-  ogTitle: seoRaw.og_title || '',
-  ogDescription: seoRaw.og_description || '',
-  ogImage: seoRaw.og_image || '',
-  ogType: seoRaw.og_type || 'website',
-  twitterCard: seoRaw.twitter_card || 'summary_large_image',
-  twitterTitle: seoRaw.twitter_title || '',
-  twitterDescription: seoRaw.twitter_description || '',
-  twitterImage: seoRaw.twitter_image || '',
 })
 
 useHead({
@@ -137,44 +166,45 @@ useHead({
 })
 
 /* =========================
-   6. Swiper + AOS
+   SCRIPTS
 ========================= */
 function initializeScripts() {
-  const selectors = ['.testimonialSwiper', '.mySwiper']
+  document.querySelectorAll('.testimonialSwiper, .mySwiper').forEach((slider: any) => {
+    if (slider.swiper) return
 
-  selectors.forEach(selector => {
-    document.querySelectorAll(selector).forEach((slider: any) => {
-      if (slider.swiper) return
-
-      new Swiper(slider, {
-        modules: [Autoplay, Pagination],
-        loop: slider.dataset.loop === 'true',
-        speed: Number(slider.dataset.speed) || 800,
-
-        pagination: {
-          el: slider.querySelector('.swiper-pagination'),
-          clickable: true
-        },
-
-        breakpoints: {
-          320: { slidesPerView: 1, spaceBetween: 10 },
-          640: { slidesPerView: 1, spaceBetween: 15 },
-          1024: { slidesPerView: 1, spaceBetween: 20 },
-          1280: { slidesPerView: 1, spaceBetween: 32 }
-        }
-      })
+    new Swiper(slider, {
+      modules: [Autoplay, Pagination],
+      loop: true,
+      pagination: {
+        el: slider.querySelector('.swiper-pagination'),
+        clickable: true
+      }
     })
   })
 
-  AOS.init({ duration: 1000, once: true, offset: 120 })
+  AOS.init({ duration: 1000, once: true })
 }
 
 /* =========================
-   7. Mounted
+   MOUNTED
 ========================= */
 onMounted(() => {
+  document.addEventListener('click', (e: any) => {
+  const link = e.target.closest('a')
+  if (!link) return
+
+  const url = link.getAttribute('href')
+  if (!url) return
+
+  if (url.startsWith('/')) {
+    e.preventDefault()
+    navigateTo(url)
+  }
+})
+
   setTimeout(() => {
     showLoader.value = false
+
     nextTick(() => {
       initializeScripts()
     })
@@ -188,10 +218,7 @@ onMounted(() => {
 
     <div
       class="wp-content"
-      :class="[
-        { 'content-hidden': showLoader },
-        wpClass
-      ]"
+      :class="[{ 'content-hidden': showLoader }, wpClass]"
     >
       <div v-if="pageData">
         <div
@@ -203,7 +230,6 @@ onMounted(() => {
 
       <div v-else-if="!showLoader" class="error">
         <h1 class="text-3xl font-bold">Page Not Found</h1>
-        <p>We couldn't find the content for /{{ $route.params.slug }}</p>
         <button @click="router.push('/')" class="mt-4 underline">
           Go Home
         </button>
@@ -212,7 +238,42 @@ onMounted(() => {
   </div>
 </template>
 
+
+
 <style scoped>
+:deep(.max-w-8xl){
+  max-width: 90rem;
+  margin: 0 auto;
+}
+.content-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+:deep(.tool_box) {
+  transition: all 0.4s ease;
+}
+
+:deep(.tool_box.hide) {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+  position: absolute;
+}
+
+:deep(.tool_box.show) {
+  opacity: 1;
+  transform: scale(1);
+  position: relative;
+}
 .wp-content {
   width: 100%;
   min-height: 80vh;
@@ -222,6 +283,15 @@ onMounted(() => {
   visibility: hidden;
   height: 0;
   overflow: hidden;
+}
+:deep(.page-id-1159 .head.text-center ){
+    max-width: 700px;
+    margin: auto;
+}
+
+:deep(.page-id-1159 .head.text-center h2) {
+    margin-bottom: 40px;
+    line-height: 110%;
 }
 @media screen and (min-width:320px) and (max-width:768px){
 :deep(.page-id-659 .left_right) {
@@ -238,6 +308,9 @@ onMounted(() => {
 }
 :deep(.page-id-662 .local-seo_button) {
     padding-bottom: 40px;
+}
+:deep(.page-id-1154 .reday) {
+    padding-top: 0;
 }
 }
 </style>

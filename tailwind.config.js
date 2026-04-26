@@ -23,7 +23,7 @@ export default {
     'w-[40%]',
     'w-[70%]',
     'gap-[30px]',
-    'rounded-[10px]'
+    'rounded-[10px]',
   ],
 
   theme: {
