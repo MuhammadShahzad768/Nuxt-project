@@ -253,7 +253,8 @@
 <script setup>
 
 const route = useRoute();
-import { ref, onMounted } from 'vue'
+const router = useRouter();
+import { ref, onMounted, computed } from 'vue'
 const API_URL = 'https://dspcrm.app/api/v1/register-workspace';
 
 // ── Form & State ──────────────────────────────────────────────────────
@@ -299,33 +300,10 @@ const touch = (field) => touched.value[field] = true;
 // ── Async Existence Checks ────────────────────────────────────────────
 const onEmailBlur = async () => {
   touch('email');
-  // if (rules.email(form.value.email)) return;
-  // pending.value.email = true;
-  // existenceErrors.value.email = '';
-  // try {
-  //   const res = await fetch(`https://crmservicesprovider.com/api/v1/check-user?email=${form.value.email}`);
-  //   const contentType = res.headers.get('content-type');
-  //   if (!contentType || !contentType.includes('application/json')) {
-  //     console.error('Expected JSON, got:', contentType);
-  //     return;
-  //   }
-  //   const data = await res.json();
-  //   if (data.exists) existenceErrors.value.email = 'This email is already in use.';
-  // } catch (e) { console.error(e); }
-  // finally { pending.value.email = false; }
+
 };
 
 const onWorkspaceBlur = async () => {
-  // touch('workspace');
-  // if (rules.workspace(form.value.workspace)) return;
-  // pending.value.workspace = true;
-  // existenceErrors.value.workspace = '';
-  // try {
-  //   const res = await fetch(`https://crmservicesprovider.com/api/v1/check-workspace?slug=${form.value.workspace}`);
-  //   const data = await res.json();
-  //   if (data.exists) existenceErrors.value.workspace = 'Workspace URL is taken.';
-  // } catch (e) {  }
-  // finally { pending.value.workspace = false; }
 };
 
 // ── Password Strength ─────────────────────────────────────────────────
@@ -389,6 +367,14 @@ const handleRegistration = async () => {
     } else {
       console.log('✅ Success:', data.message); // <-- success
       successMsg.value = data.message || 'Workspace created successfully!';
+      setTimeout(() => {
+ router.push({
+  path: '/welcome',
+  query: {
+    email: form.value.email
+  }
+})
+}, 800)
     }
   } catch (err) {
     console.log('🔴 Network error:', err); // <-- catch error
