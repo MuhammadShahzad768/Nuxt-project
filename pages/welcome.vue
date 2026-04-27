@@ -26,12 +26,7 @@
 
           <p class="text-neutral-400 text-sm leading-relaxed">
             Didn't get the email? Check your spam folder or
-            <button
-              @click="resend"
-              class="text-amber-500 hover:text-amber-400 transition-colors duration-200 underline-offset-2 hover:underline focus:outline-none"
-            >
-              resend it
-            </button>.
+            
           </p>
         </div>
 
