@@ -254,7 +254,7 @@
 
 const route = useRoute();
 import { ref, onMounted } from 'vue'
-const API_URL = 'https://crmservicesprovider.com/api/v1/register-workspace';
+const API_URL = 'https://dspcrm.app/api/v1/register-workspace';
 
 // ── Form & State ──────────────────────────────────────────────────────
 const loading = ref(false);
