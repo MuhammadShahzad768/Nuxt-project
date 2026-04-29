@@ -216,7 +216,7 @@
     nextTick(() => {
       const BASE_URL = 'https://admin.dspcrm.com'
 
-      const images = document.querySelectorAll('.page-id-1328 .success img')
+      const images = document.querySelectorAll('.success img')
 
       images.forEach((img: HTMLImageElement) => {
         let src = img.getAttribute('src') || img.src
