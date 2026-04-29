@@ -1,216 +1,239 @@
-<script setup lang="ts">
-import { ref, onMounted, nextTick, computed } from 'vue'
-import {
-  useHead,
-  useServerSeoMeta,
-  useAsyncData,
-  useRouter,
-  useRoute,
-  createError,
-  navigateTo
-} from '#imports'
+  <script setup lang="ts">
+  import { ref, onMounted, nextTick, computed } from 'vue'
+  import {
+    useHead,
+    useServerSeoMeta,
+    useAsyncData,
+    useRouter,
+    useRoute,
+    createError,
+    navigateTo
+  } from '#imports'
 
-import AOS from 'aos'
-import 'aos/dist/aos.css'
+  import AOS from 'aos'
+  import 'aos/dist/aos.css'
 
-import Loader from "@/components/Sections/Loader.vue"
+  import Loader from "@/components/Sections/Loader.vue"
 
-import Swiper from 'swiper'
-import { Autoplay, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/pagination'
+  import Swiper from 'swiper'
+  import { Autoplay, Pagination } from 'swiper/modules'
+  import 'swiper/css'
+  import 'swiper/css/pagination'
 
-const router = useRouter()
-const route = useRoute()
-const showLoader = ref(true)
+  const router = useRouter()
+  const route = useRoute()
+  const showLoader = ref(true)
 
-/* =========================
-   🔥 HTML SANITIZER (MAIN FIX)
-========================= */
-function sanitizeHtml(html: string): string {
-  if (!html) return html
+  /* =========================
+    🔥 HTML SANITIZER (MAIN FIX)
+  ========================= */
+  function sanitizeHtml(html: string): string {
+    if (!html) return html
 
-  // ✅ SSR safe check
-  if (typeof window === 'undefined') {
-    return html.replace(/https:\/\/admin\.dspcrm\.com/g, '')
-  }
-
-  const parser = new DOMParser()
-  const doc = parser.parseFromString(html, 'text/html')
-
-  const links = doc.querySelectorAll('a')
-
-  links.forEach((link) => {
-    const href = link.getAttribute('href')
-    if (!href) return
-
-    if (href.includes('https://admin.dspcrm.com')) {
-      link.setAttribute(
-        'href',
-        href.replace('https://admin.dspcrm.com', '')
-      )
+    // SSR-safe replacement
+    if (typeof window === 'undefined') {
+      return html.replace(/https:\/\/admin\.dspcrm\.com/g, '')
     }
-  })
 
-  return doc.body.innerHTML
-}
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html')
 
-/* =========================
-   SEO + CSS
-========================= */
-let seoRaw: any = {}
-let dynamicCss = ''
-
-/* =========================
-   FETCH DATA
-========================= */
-const { data: pageData } = await useAsyncData(
-  `page-content-${route.params.slug}`,
-  async () => {
-    try {
-      const wpPage: any = await $fetch(
-        'https://admin.dspcrm.com/wp-json/wp/v2/pages',
-        { params: { slug: route.params.slug } }
-      )
-
-      if (!wpPage || wpPage.length === 0) {
-        throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
-      }
-
-      const id = wpPage[0].id
-
-      const res = await fetch(`https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`)
-      const text = await res.text()
-
-      let customData: any = JSON.parse(text)
-
-      if (import.meta.server) {
-        seoRaw = customData?.seo_data || {}
-        dynamicCss = (customData?.Author_page_custom_css || '')
-          .replace(/<\/?style[^>]*>/gi, '')
-          .replace(/&gt;/g, '>')
-          .replace(/&lt;/g, '<')
-          .trim()
-      }
-
-      const { seo_data, Author_page_custom_css, ...rest } = customData
-
-      /* 🔥 APPLY SANITIZER HERE */
-      const cleanData: any = {}
-
-      Object.keys(rest).forEach((key) => {
-        let value = rest[key]
-
-        if (typeof value === 'string') {
-          value = sanitizeHtml(value)
-        }
-
-        cleanData[key] = value
-      })
-
-      return { ...cleanData, wp_id: id }
-
-    } catch (err) {
-      console.error('Fetch Error:', err)
-      throw err
-    }
-  },
-  {
-    server: true,
-    watch: [() => route.params.slug]
-  }
-)
-
-/* =========================
-   SECTIONS
-========================= */
-const apiSections = computed(() => {
-  if (!pageData.value) return {}
-
-  const excludeKeys = ['id', 'title', 'link', 'wp_id']
-
-  return Object.keys(pageData.value).reduce((acc, key) => {
-    const value = (pageData.value as any)[key]
-    if (typeof value === 'string' && !excludeKeys.includes(key)) {
-      acc[key] = value
-    }
-    return acc
-  }, {} as Record<string, string>)
-})
-
-/* =========================
-   PAGE CLASS
-========================= */
-const wpClass = computed(() => {
-  return pageData.value?.wp_id ? `page-id-${pageData.value.wp_id}` : ''
-})
-
-/* =========================
-   SEO
-========================= */
-useServerSeoMeta({
-  title: seoRaw.meta_title || 'DSP CRM',
-  description: seoRaw.meta_description || '',
-})
-
-useHead({
-  link: [
-    {
-      rel: 'canonical',
-      href: seoRaw.canonical_url || `https://dspcrm.com${route.path}`
-    }
-  ],
-  ...(dynamicCss ? {
-    style: [{ id: 'dynamic-page-css', innerHTML: dynamicCss }]
-  } : {})
-})
-
-/* =========================
-   SCRIPTS
-========================= */
-function initializeScripts() {
-  document.querySelectorAll('.testimonialSwiper, .mySwiper').forEach((slider: any) => {
-    if (slider.swiper) return
-
-    new Swiper(slider, {
-      modules: [Autoplay, Pagination],
-      loop: true,
-      pagination: {
-        el: slider.querySelector('.swiper-pagination'),
-        clickable: true
+    /* Remove domain from links */
+    doc.querySelectorAll('a').forEach((link) => {
+      const href = link.getAttribute('href')
+      if (href?.includes('https://admin.dspcrm.com')) {
+        link.setAttribute(
+          'href',
+          href.replace('https://admin.dspcrm.com', '')
+        )
       }
     })
+
+    /* Remove domain from images */
+    doc.querySelectorAll('img').forEach((img) => {
+      const src = img.getAttribute('src')
+      if (src?.includes('https://admin.dspcrm.com')) {
+        img.setAttribute(
+          'src',
+          src.replace('https://admin.dspcrm.com', '')
+        )
+      }
+    })
+
+    return doc.body.innerHTML
+  }
+
+  /* =========================
+    SEO + CSS
+  ========================= */
+  let seoRaw: any = {}
+  let dynamicCss = ''
+
+  /* =========================
+    FETCH DATA
+  ========================= */
+  const { data: pageData } = await useAsyncData(
+    `page-content-${route.params.slug}`,
+    async () => {
+      try {
+        const wpPage: any = await $fetch(
+          'https://admin.dspcrm.com/wp-json/wp/v2/pages',
+          { params: { slug: route.params.slug } }
+        )
+
+        if (!wpPage || wpPage.length === 0) {
+          throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+        }
+
+        const id = wpPage[0].id
+
+        const res = await fetch(`https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`)
+        const text = await res.text()
+
+        let customData: any = JSON.parse(text)
+
+        if (import.meta.server) {
+          seoRaw = customData?.seo_data || {}
+          dynamicCss = (customData?.Author_page_custom_css || '')
+            .replace(/<\/?style[^>]*>/gi, '')
+            .replace(/&gt;/g, '>')
+            .replace(/&lt;/g, '<')
+            .trim()
+        }
+
+        const { seo_data, Author_page_custom_css, ...rest } = customData
+
+        /* 🔥 APPLY SANITIZER HERE */
+        const cleanData: any = {}
+
+        Object.keys(rest).forEach((key) => {
+          let value = rest[key]
+
+          if (typeof value === 'string') {
+            value = sanitizeHtml(value)
+          }
+
+          cleanData[key] = value
+        })
+
+        return { ...cleanData, wp_id: id }
+
+      } catch (err) {
+        console.error('Fetch Error:', err)
+        throw err
+      }
+    },
+    {
+      server: true,
+      watch: [() => route.params.slug]
+    }
+  )
+
+  /* =========================
+    SECTIONS
+  ========================= */
+  const apiSections = computed(() => {
+    if (!pageData.value) return {}
+
+    const excludeKeys = ['id', 'title', 'link', 'wp_id']
+
+    return Object.keys(pageData.value).reduce((acc, key) => {
+      const value = (pageData.value as any)[key]
+      if (typeof value === 'string' && !excludeKeys.includes(key)) {
+        acc[key] = value
+      }
+      return acc
+    }, {} as Record<string, string>)
   })
 
-  AOS.init({ duration: 1000, once: true })
-}
+  /* =========================
+    PAGE CLASS
+  ========================= */
+  const wpClass = computed(() => {
+    return pageData.value?.wp_id ? `page-id-${pageData.value.wp_id}` : ''
+  })
 
-/* =========================
-   MOUNTED
-========================= */
-onMounted(() => {
-  document.addEventListener('click', (e: any) => {
-  const link = e.target.closest('a')
-  if (!link) return
+  /* =========================
+    SEO
+  ========================= */
+  useServerSeoMeta({
+    title: seoRaw.meta_title || 'DSP CRM',
+    description: seoRaw.meta_description || '',
+  })
 
-  const url = link.getAttribute('href')
-  if (!url) return
+  useHead({
+    link: [
+      {
+        rel: 'canonical',
+        href: seoRaw.canonical_url || `https://dspcrm.com${route.path}`
+      }
+    ],
+    ...(dynamicCss ? {
+      style: [{ id: 'dynamic-page-css', innerHTML: dynamicCss }]
+    } : {})
+  })
 
-  if (url.startsWith('/')) {
-    e.preventDefault()
-    navigateTo(url)
+  /* =========================
+    SCRIPTS
+  ========================= */
+  function initializeScripts() {
+    document.querySelectorAll('.testimonialSwiper, .mySwiper').forEach((slider: any) => {
+      if (slider.swiper) return
+
+      new Swiper(slider, {
+        modules: [Autoplay, Pagination],
+        loop: true,
+        pagination: {
+          el: slider.querySelector('.swiper-pagination'),
+          clickable: true
+        }
+      })
+    })
+
+    AOS.init({ duration: 1000, once: true })
   }
-})
+
+  /* =========================
+    MOUNTED
+  ========================= */
+  onMounted(() => {
+    document.addEventListener('click', (e: any) => {
+    const link = e.target.closest('a')
+    if (!link) return
+
+    const url = link.getAttribute('href')
+    if (!url) return
+
+    if (url.startsWith('/')) {
+      e.preventDefault()
+      navigateTo(url)
+    }
+  })
 
   setTimeout(() => {
     showLoader.value = false
 
     nextTick(() => {
+      const BASE_URL = 'https://admin.dspcrm.com'
+
+      const images = document.querySelectorAll('.page-id-1328 .success img')
+
+      images.forEach((img: HTMLImageElement) => {
+        let src = img.getAttribute('src') || img.src
+
+        if (src && !src.startsWith('http')) {
+          src = `${BASE_URL}${src}`
+          img.src = src // ✅ IMPORTANT: update actual image in DOM
+        }
+
+        console.log('Image URL:', src)
+      })
+
       initializeScripts()
     })
   }, 300)
-})
-</script>
+  })
+  </script>
 
 <template>
   <div>

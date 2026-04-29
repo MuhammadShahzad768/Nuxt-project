@@ -171,7 +171,7 @@
               {{ errors.workspace || existenceErrors.workspace }}
             </p>
             <p v-else class="text-[12px] leading-[1.55] text-[#aaa]">
-              Once you set up a custom domain, your team will access Wayfront from here.
+              Once you set up a custom domain, your team will access DSPCRM from here.
             </p>
           </div>
 
