@@ -361,7 +361,7 @@ onMounted(async () => {
     const data = await res.json();
 
     // 2. Fetch the actual Plans (CRM API)
-    const planRes = await fetch("https://crmservicesprovider.com/api/v1/plans");
+    const planRes = await fetch("https://dspcrm.app/api/v1/plans");
     const planData = await planRes.json();
 
     // Assign standard fields
