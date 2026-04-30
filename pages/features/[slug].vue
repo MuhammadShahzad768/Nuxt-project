@@ -106,35 +106,26 @@ const wpClass = computed(() => {
   return pageData.value?.wp_id ? `page-id-${pageData.value.wp_id}` : ''
 })
 
-/* =========================
-   5. SEO
-========================= */
-useServerSeoMeta({
-  title: seoRaw.meta_title || 'DSP CRM',
-  description: seoRaw.meta_description || '',
-  keywords: seoRaw.meta_keywords || '',
-  robots: seoRaw.robots || 'index, follow',
-  ogTitle: seoRaw.og_title || '',
-  ogDescription: seoRaw.og_description || '',
-  ogImage: seoRaw.og_image || '',
-  ogType: seoRaw.og_type || 'website',
-  twitterCard: seoRaw.twitter_card || 'summary_large_image',
-  twitterTitle: seoRaw.twitter_title || '',
-  twitterDescription: seoRaw.twitter_description || '',
-  twitterImage: seoRaw.twitter_image || '',
-})
+ /* =========================
+    SEO
+  ========================= */
+  useServerSeoMeta({
+    title: seoRaw.meta_title || 'DSP CRM',
+    description: seoRaw.meta_description || '',
+  })
 
-useHead({
-  link: [
-    {
-      rel: 'canonical',
-      href: seoRaw.canonical_url || `https://dspcrm.com${route.path}`
-    }
-  ],
-  ...(dynamicCss ? {
-    style: [{ id: 'dynamic-page-css', innerHTML: dynamicCss }]
-  } : {})
-})
+  useHead({
+    link: [
+      {
+        rel: 'canonical',
+        href: seoRaw.canonical_url || `https://dspcrm.com${route.path}`
+      }
+    ],
+    ...(dynamicCss ? {
+      style: [{ id: 'dynamic-page-css', innerHTML: dynamicCss }]
+    } : {})
+  })
+
 
 /* =========================
    6. Swiper + AOS
