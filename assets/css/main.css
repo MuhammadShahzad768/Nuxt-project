@@ -8,6 +8,10 @@
     max-width: 240px;
     /* height: 60px; */
 }
+a.mega-menu-link:not(:last-child) {
+    pointer-events: none;
+
+}
 footer .logo{
   max-width: 80px;
 }

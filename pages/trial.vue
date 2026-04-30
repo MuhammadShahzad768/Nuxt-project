@@ -325,35 +325,45 @@ const handleRegistration = async () => {
   apiError.value = '';
   existenceErrors.value.workspace = '';
   existenceErrors.value.email = '';
+
   Object.keys(touched.value).forEach(k => touched.value[k] = true);
-  if (Object.values(errors.value).some(e => e) || existenceErrors.value.email || existenceErrors.value.workspace) return;
+
+  if (
+    Object.values(errors.value).some(e => e) ||
+    existenceErrors.value.email ||
+    existenceErrors.value.workspace
+  ) {
+    return;
+  }
 
   loading.value = true;
-  try {
-    const payload = {
-      domain_name:           form.value.workspace.trim().toLowerCase(),
-      name:                  form.value.name.trim(),
-      email:                 form.value.email.trim().toLowerCase(),
-      password:              form.value.password,
-      password_confirmation: form.value.password,
-      plan_slug:             form.value.plan_slug,
-      billing_cycle:         form.value.billing_cycle
-    };
 
-    console.log('📤 Payload:', payload); // <-- sending data
+  try {
+    const formData = new URLSearchParams({
+      domain_name: form.value.workspace.trim().toLowerCase(),
+      name: form.value.name.trim(),
+      email: form.value.email.trim().toLowerCase(),
+      password: form.value.password,
+      password_confirmation: form.value.password,
+      plan_slug: form.value.plan_slug,
+      billing_cycle: form.value.billing_cycle
+    });
 
     const res = await fetch(API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payload)
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'
+      },
+      body: formData
     });
+
     const data = await res.json();
+
     if (!res.ok) {
       const msg = data.errors
         ? Object.values(data.errors).flat()[0]
         : (data.message || 'Error occurred.');
-
-      console.log('❌ Error message:', msg); // <-- parsed error
 
       const msgLower = msg.toLowerCase();
 
@@ -365,19 +375,19 @@ const handleRegistration = async () => {
         apiError.value = msg;
       }
     } else {
-      console.log('✅ Success:', data.message); // <-- success
       successMsg.value = data.message || 'Workspace created successfully!';
+
       setTimeout(() => {
- router.push({
-  path: '/welcome',
-  query: {
-    email: form.value.email
-  }
-})
-}, 800)
+        router.push({
+          path: '/welcome',
+          query: {
+            email: form.value.email
+          }
+        });
+      }, 800);
     }
   } catch (err) {
-    console.log('🔴 Network error:', err); // <-- catch error
+    console.error(err);
     apiError.value = 'Network error. Please try again.';
   } finally {
     loading.value = false;
