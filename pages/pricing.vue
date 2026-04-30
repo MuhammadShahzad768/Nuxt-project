@@ -3,10 +3,10 @@
     <!-- Show spinner while loading -->
     <Loader v-if="loading" />
      <div v-else>
-  <section class="custom_family pt-40 bg-[#F4F4F4]">
+  <section class="custom_family pt-40 bg-[#F4F4F4] xl:px-0 px-4">
         <div class="container m-auto">
     <div class="head text-center">
-         <h2 class="text-5xl text-[var(--text-color)] leading-[70px] font-medium tracking-tight"><span class="font-bold ">{{Tabs.title_bold}}</span><br>{{Tabs.title_}}</h2>
+         <h2 class="text-[var(--bg-custom-color)] font-bold text-center m-auto xl:text-[42px] text-[28px] xl:leading-[55px] leading-[30px] max-w-4xl xl:px-4"><span class="font-bold ">{{Tabs.title_bold}}</span><br>{{Tabs.title_}}</h2>
          <p class="text-base font-medium text-[#494949] mt-6">{{Tabs.description}}</p>
     </div>
     <div class="pricing_tabs_buttons mt-16">
@@ -33,7 +33,7 @@
       
       <!-- Monthly Plans -->
       <div v-if="activeTab === 'monthly'" class="tab-content  m-auto tracking-tighter mt-16">
-        <div class="flex mt-16 gap-[.8%] max-w-[95%] m-auto justify-center" >
+        <div class="flex flex-wrap mt-16 gap-5 xl:gap-[.8%] max-w-[95%] m-auto justify-center" >
             <Price_box
      :Price_box="Tabs.price_boxes" :activeTab="activeTab" 
     />
@@ -81,11 +81,11 @@
   <section class="custom_family bg-[#F4F4F4]" id="Compare">
             <div class="container m-auto pt-14">
                 <div class="">
-                    <div class="flex text-[25px] font-medium mb-3 w-[96%] m-auto text-center" >
-                        <div class="max-w-[670px] w-full"></div>
-                        <div class="max-w-[18%] w-full">Basic</div>
-                        <div class="max-w-[18%] w-full">Pro</div>
-                        <div class="max-w-[18%] w-full">Plus</div>
+                    <div class="flex xl:text-[25px]  justify-end text-[15px] font-medium mb-3 w-[96%] m-auto text-center" >
+                        <div class="xl:max-w-[670px] max-w-[110px]  w-full"></div>
+                        <div class="max-w-[15%] w-full">Basic</div>
+                        <div class="max-w-[15%] w-full">Pro</div>
+                        <div class="max-w-[15%] w-full">Plus</div>
                     </div>
                 </div>
                 <hr class="border border-black max-w-[96%] m-auto">
@@ -93,66 +93,66 @@
                     <h3 class="text-[25px] font-medium pl-14">Personalization</h3>
                     
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-6 bg-white">
-                        <p class="max-w-[670px] w-full pl-14">Custom client portal branding</p>
-                        <div class="max-w-[18%] w-full text-center">✅  </div>
-                        <div class="max-w-[18%] w-full text-center " >✅</div>
-                        <div class="max-w-[18%] w-full text-center" >✅</div>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px] text-[13px]">Custom client portal branding</p>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full pl-14">Custom client portal domain</p>
-                        <div class="max-w-[18%] w-full text-center">✅  </div>
-                        <div class="max-w-[18%] w-full text-center " >✅</div>
-                        <div class="max-w-[18%] w-full text-center" >✅</div>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Custom client portal domain</p>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >✅</div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full pl-14">Custom email domain</p>
-                        <div class="max-w-[18%] w-full text-center">✅  </div>
-                        <div class="max-w-[18%] w-full text-center " >✅</div>
-                        <div class="max-w-[18%] w-full text-center" >✅</div>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Custom email domain</p>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >✅</div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full pl-14">Client portal menu editor</p>
-                        <div class="max-w-[18%] w-full text-center">✅  </div>
-                        <div class="max-w-[18%] w-full text-center " >✅</div>
-                        <div class="max-w-[18%] w-full text-center" >✅</div>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Client portal menu editor</p>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >✅</div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full pl-14">Client portal language editor</p>
-                        <div class="max-w-[18%] w-full text-center">🚫    </div>
-                        <div class="max-w-[18%] w-full text-center " >🚫  </div>
-                        <div class="max-w-[18%] w-full text-center" >🚫  </div>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Client portal language editor</p>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫    </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >🚫  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full pl-14">Client portal template editor</p>
-                        <div class="max-w-[18%] w-full text-center">🚫  </div>
-                        <div class="max-w-[18%] w-full text-center " >🚫 </div>
-                        <div class="max-w-[18%] w-full text-center" >🚫 </div>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Client portal template editor</p>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >🚫 </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫 </div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full pl-14">Remove «Powered by»</p>
-                        <div class="max-w-[18%] w-full text-center">🚫  </div>
-                        <div class="max-w-[18%] w-full text-center " >🚫</div>
-                        <div class="max-w-[18%] w-full text-center" >🚫 </div>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Remove «Powered by»</p>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >🚫</div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫 </div>
                     </div>
                 </div>
                 <hr class="border border-black max-w-[96%] m-auto mt-14">
                 <div class="max-w-[96%] m-auto mt-14">
                     <h3 class="text-[25px] font-medium pl-14">Team management</h3>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full pl-14">Team members
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Team members
                         </p>
-                        <div class="max-w-[18%] w-full text-center">5  </div>
-                        <div class="max-w-[18%] w-full text-center" >10  </div>
-                        <div class="max-w-[18%] w-full text-center" >50+</div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">5  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >10  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >50+</div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full pl-14">Additional team members</p>
-                        <div class="max-w-[18%] w-full text-center">🚫  </div>
-                        <div class="max-w-[18%] w-full text-center" style="
-    font-size: 20px;
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Additional team members</p>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" style="
+    font-size: 10px;
 ">$20 / seat / month  </div>
-                        <div class="max-w-[18%] w-full text-center" style="
-    font-size: 20px;
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" style="
+    font-size: 10px;
 ">Contact us </div>
                     </div>
                     </div>
@@ -160,129 +160,129 @@
                     <div class="max-w-[96%] m-auto mt-10">
                         <h3 class="text-[25px] font-medium pl-14">Client management</h3>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full pl-14">Unlimited clients
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Unlimited clients
                             </p>
-                            <div class="max-w-[18%] w-full text-center">✅</div>
-                            <div class="max-w-[18%] w-full text-center" >✅ </div>
-                            <div class="max-w-[18%] w-full text-center" >✅</div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅</div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅ </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full pl-14">Client-side teams</p>
-                            <div class="max-w-[18%] w-full text-center">🚫  </div>
-                            <div class="max-w-[18%] w-full text-center" >🚫   </div>
-                            <div class="max-w-[18%] w-full text-center" >🚫 </div>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Client-side teams</p>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫  </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫   </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫 </div>
                         </div>
                         </div>
                         <hr class="border border-black max-w-[96%] m-auto mt-8">
                     <div class="max-w-[96%] m-auto mt-10">
                         <h3 class="text-[25px] font-medium pl-14">Modules</h3>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full pl-14">Helpdesk                            </p>
-                            <div class="max-w-[18%] w-full text-center">✅</div>
-                            <div class="max-w-[18%] w-full text-center" >✅ </div>
-                            <div class="max-w-[18%] w-full text-center" >✅</div>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Helpdesk                            </p>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅</div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅ </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full pl-14">Webhooks</p>
-                            <div class="max-w-[18%] w-full text-center">✅ </div>
-                            <div class="max-w-[18%] w-full text-center" >✅  </div>
-                            <div class="max-w-[18%] w-full text-center" >✅</div>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Webhooks</p>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅ </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅  </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full pl-14">Affiliate / referral tracking</p>
-                            <div class="max-w-[18%] w-full text-center">🚫  </div>
-                            <div class="max-w-[18%] w-full text-center" >🚫   </div>
-                            <div class="max-w-[18%] w-full text-center" >🚫 </div>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Affiliate / referral tracking</p>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫  </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫   </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫 </div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full pl-14">Zapier</p>
-                            <div class="max-w-[18%] w-full text-center">✅ </div>
-                            <div class="max-w-[18%] w-full text-center" >✅  </div>
-                            <div class="max-w-[18%] w-full text-center" >✅</div>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Zapier</p>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅ </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅  </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full pl-14">Make</p>
-                            <div class="max-w-[18%] w-full text-center">🚫 </div>
-                            <div class="max-w-[18%] w-full text-center" >✅  </div>
-                            <div class="max-w-[18%] w-full text-center" >✅</div>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Make</p>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫 </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅  </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full pl-14">Reseller white-label program</p>
-                            <div class="max-w-[18%] w-full text-center">🚫</div>
-                            <div class="max-w-[18%] w-full text-center" >🚫  </div>
-                            <div class="max-w-[18%] w-full text-center" >🚫</div>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Reseller white-label program</p>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫</div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full pl-14">API</p>
-                            <div class="max-w-[18%] w-full text-center">🚫</div>
-                            <div class="max-w-[18%] w-full text-center" >🚫  </div>
-                            <div class="max-w-[18%] w-full text-center" >✅</div>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">API</p>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫</div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
+                            <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         </div>
                         </div>
                         <hr class="border border-black max-w-[96%] m-auto mt-8">
                         <div class="max-w-[96%] m-auto mt-10">
                             <h3 class="text-[25px] font-medium pl-14">Payments</h3>
                             <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                <p class="max-w-[670px] w-full pl-14">No transaction ees                            </p>
-                                <div class="max-w-[18%] w-full text-center">✅</div>
-                                <div class="max-w-[18%] w-full text-center" >✅ </div>
-                                <div class="max-w-[18%] w-full text-center" >✅</div>
+                                <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">No transaction ees                            </p>
+                                <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅</div>
+                                <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅ </div>
+                                <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                             </div>
                             <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                <p class="max-w-[670px] w-full pl-14">Multi-currency support</p>
-                                <div class="max-w-[18%] w-full text-center">🚫 </div>
-                                <div class="max-w-[18%] w-full text-center" >🚫  </div>
-                                <div class="max-w-[18%] w-full text-center" >🚫</div>
+                                <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Multi-currency support</p>
+                                <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫 </div>
+                                <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
+                                <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫</div>
                             </div>
                             <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                <p class="max-w-[670px] w-full pl-14">Invoice generation</p>
-                                <div class="max-w-[18%] w-full text-center">✅ </div>
-                                <div class="max-w-[18%] w-full text-center" >✅  </div>
-                                <div class="max-w-[18%] w-full text-center" >✅</div>
+                                <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Invoice generation</p>
+                                <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅ </div>
+                                <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅  </div>
+                                <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                             </div>
                             </div>
                             <hr class="border border-black max-w-[96%] m-auto mt-8">
                             <div class="max-w-[96%] m-auto mt-10">
                                 <h3 class="text-[25px] font-medium pl-14">Support & services</h3>
                                 <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                    <p class="max-w-[670px] w-full pl-14">Email support</p>
-                                    <div class="max-w-[18%] w-full text-center">✅</div>
-                                    <div class="max-w-[18%] w-full text-center" >✅ </div>
-                                    <div class="max-w-[18%] w-full text-center" >✅</div>
+                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Email support</p>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅</div>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅ </div>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                                 </div>
                                 <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                    <p class="max-w-[670px] w-full pl-14">Priority support via Slack</p>
-                                    <div class="max-w-[18%] w-full text-center">🚫 </div>
-                                    <div class="max-w-[18%] w-full text-center" >🚫  </div>
-                                    <div class="max-w-[18%] w-full text-center" >🚫</div>
+                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Priority support via Slack</p>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫 </div>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫</div>
                                 </div>
                                 <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                    <p class="max-w-[670px] w-full pl-14">Uptime SLA</p>
-                                    <div class="max-w-[18%] w-full text-center">🚫 </div>
-                                    <div class="max-w-[18%] w-full text-center" >🚫  </div>
-                                    <div class="max-w-[18%] w-full text-center" >✅</div>
+                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Uptime SLA</p>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫 </div>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                                 </div>
                                 <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                    <p class="max-w-[670px] w-full pl-14">Invoice generation</p>
-                                    <div class="max-w-[18%] w-full text-center">🚫 </div>
-                                    <div class="max-w-[18%] w-full text-center" >🚫  </div>
-                                    <div class="max-w-[18%] w-full text-center text-[20px]" >Contact us</div>
+                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Invoice generation</p>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫 </div>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center text-[10px]" >Contact us</div>
                                 </div>
                                 </div>
             </div>
          </section>
-           <section class="py-10 pb-[92px] bg-[#F4F4F4] custom_family">
+           <section class="py-10 xl:pb-[92px] pb-[42px] bg-[#F4F4F4] custom_family">
             <div class="faqs container m-auto">
                 <div class="head text-center">
                 <h2 class="xl:text-5xl	lg:text-4xl md:text-2xl text-2xl text-[#00296B] text-center font-poppins font-bold leading-[30px] md:leading-[30px] lg:leading-[40px] xl:leading-[55px] mb-4 tracking-tight">{{question.faqs_title}}</h2>
             </div>
-                <div class="flex mt-20 max-w-[1210px] m-auto" id='Faqs'>
+                <div class="flex mt-20 max-w-[1210px] m-auto px-3 flex-wrap" id='Faqs'>
                     <div class="left_faqs max-[680px] w-full mt-7">
                       
                             <div v-if="question?.faqs_question" v-for="(faq, index) in question.faqs_question" :key="index">
     <button :data-id="faq.id"
       @click="handleClick(faq.id)"
-      class="faq-btn max-[680px] w-full text-left pl-5 py-4 text-2xl"
+      class="faq-btn max-[680px] w-full text-left pl-5 py-4 text-lg  xl:text-2xl"
       :class="{
         'bg-white shadow-[0_4px_4px_rgba(0,0,0,0.25)] rounded-l-lg active':activequestion === faq.id}">
       {{ faq.questions }}
@@ -292,7 +292,7 @@
     ></div>
   </div>
                 </div>
-                    <div class="right_faqs max-w-[567px] w-full relative">
+                    <div class="right_faqs max-w-[567px] w-full relative h-[300px]">
                           <div v-for="(faq, index) in question.faqs_answers" :key="index" class='h-full absolute'>
                            <div v-if="activequestion === faq.ids"  
                            class="faq-answer  bg-white h-full py-12 px-14 shadow-[0_4px_4px_rgba(0,0,0,0.25)] rounded-lg">

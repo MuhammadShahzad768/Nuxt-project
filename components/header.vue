@@ -31,7 +31,7 @@
 
             <a href="#" class="text-lg font-semibold">Free Trial</a>
             <a href="https://calendly.com/dspcrm-info/30min" target="_blank" class="border-2 border-white rounded-full px-5 py-3 text-lg font-semibold text-center hover:bg-white hover:text-[#00296B] transition-all">
-              Sign up
+              Free Trial
             </a>
           </nav>
         </div>

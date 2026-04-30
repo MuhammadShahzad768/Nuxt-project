@@ -3,7 +3,7 @@
     <div 
       v-for="(box, index) in props.Price_box" 
       :key="index"
-      class="price border-black border-2 py-16 px-12 rounded-xl max-w-[32.6%] w-full"
+      class="price border-black border-2 xl:py-16 py-10 px-4 xl:px-12 rounded-xl xl:max-w-[32.6%] xl:max-w-[100%] w-full"
     >
       <div class="head text-center flex flex-col space-y-2">
         <h3 class="text-4xl text-[var(--text-color)] font-bold tracking-tighter">
