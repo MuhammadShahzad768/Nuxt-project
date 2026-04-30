@@ -323,13 +323,16 @@ const strengthColor = computed(() => ['', '#ef4444', '#f59e0b', '#facc15', '#22c
 // ── Submit ────────────────────────────────────────────────────────────
 const handleRegistration = async () => {
   apiError.value = '';
+  successMsg.value = '';
   existenceErrors.value.workspace = '';
   existenceErrors.value.email = '';
 
-  Object.keys(touched.value).forEach(k => touched.value[k] = true);
+  Object.keys(touched.value).forEach((key) => {
+    touched.value[key] = true;
+  });
 
   if (
-    Object.values(errors.value).some(e => e) ||
+    Object.values(errors.value).some(error => error) ||
     existenceErrors.value.email ||
     existenceErrors.value.workspace
   ) {
@@ -353,19 +356,27 @@ const handleRegistration = async () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'
+        Accept: 'application/json'
       },
       body: formData
     });
 
-    const data = await res.json();
+    const responseText = await res.text();
+
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error('Invalid JSON Response:', responseText);
+      throw new Error('Server returned an invalid response. Please try again later.');
+    }
 
     if (!res.ok) {
-      const msg = data.errors
+      const msg = data?.errors
         ? Object.values(data.errors).flat()[0]
-        : (data.message || 'Error occurred.');
+        : data?.message || 'An error occurred.';
 
-      const msgLower = msg.toLowerCase();
+      const msgLower = String(msg).toLowerCase();
 
       if (msgLower.includes('domain')) {
         existenceErrors.value.workspace = msg;
@@ -374,21 +385,27 @@ const handleRegistration = async () => {
       } else {
         apiError.value = msg;
       }
-    } else {
-      successMsg.value = data.message || 'Workspace created successfully!';
 
-      setTimeout(() => {
-        router.push({
-          path: '/welcome',
-          query: {
-            email: form.value.email
-          }
-        });
-      }, 800);
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    apiError.value = 'Network error. Please try again.';
+
+    successMsg.value = data?.message || 'Workspace created successfully!';
+
+    setTimeout(() => {
+      router.push({
+        path: '/welcome',
+        query: {
+          email: form.value.email.trim().toLowerCase()
+        }
+      });
+    }, 800);
+
+  } catch (error) {
+    console.error('Registration Error:', error);
+    apiError.value =
+      error instanceof Error
+        ? error.message
+        : 'Network error. Please try again.';
   } finally {
     loading.value = false;
   }
