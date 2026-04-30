@@ -118,28 +118,28 @@
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
                         <p class="max-w-[670px] w-full pl-14">Client portal language editor</p>
-                        <div class="max-w-[18%] w-full text-center">✅  </div>
-                        <div class="max-w-[18%] w-full text-center " >✅</div>
-                        <div class="max-w-[18%] w-full text-center" >✅</div>
+                        <div class="max-w-[18%] w-full text-center">🚫    </div>
+                        <div class="max-w-[18%] w-full text-center " >🚫  </div>
+                        <div class="max-w-[18%] w-full text-center" >🚫  </div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
                         <p class="max-w-[670px] w-full pl-14">Client portal template editor</p>
                         <div class="max-w-[18%] w-full text-center">🚫  </div>
-                        <div class="max-w-[18%] w-full text-center " >✅</div>
-                        <div class="max-w-[18%] w-full text-center" >✅</div>
+                        <div class="max-w-[18%] w-full text-center " >🚫 </div>
+                        <div class="max-w-[18%] w-full text-center" >🚫 </div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full pl-14">Remove «Powered by»</p>
+                        <p class="max-w-[670px] w-full pl-14">Team members</p>
                         <div class="max-w-[18%] w-full text-center">🚫  </div>
                         <div class="max-w-[18%] w-full text-center " >🚫</div>
-                        <div class="max-w-[18%] w-full text-center" >✅</div>
+                        <div class="max-w-[18%] w-full text-center" >🚫 </div>
                     </div>
                 </div>
                 <hr class="border border-black max-w-[96%] m-auto mt-14">
                 <div class="max-w-[96%] m-auto mt-14">
                     <h3 class="text-[25px] font-medium pl-14">Team management</h3>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full pl-14">Remove «Powered by»
+                        <p class="max-w-[670px] w-full pl-14">Team members
                         </p>
                         <div class="max-w-[18%] w-full text-center">5  </div>
                         <div class="max-w-[18%] w-full text-center" >10  </div>
@@ -169,8 +169,8 @@
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
                             <p class="max-w-[670px] w-full pl-14">Client-side teams</p>
                             <div class="max-w-[18%] w-full text-center">🚫  </div>
-                            <div class="max-w-[18%] w-full text-center" >✅  </div>
-                            <div class="max-w-[18%] w-full text-center" >✅</div>
+                            <div class="max-w-[18%] w-full text-center" >🚫   </div>
+                            <div class="max-w-[18%] w-full text-center" >🚫 </div>
                         </div>
                         </div>
                         <hr class="border border-black max-w-[96%] m-auto mt-8">
@@ -190,9 +190,9 @@
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
                             <p class="max-w-[670px] w-full pl-14">Affiliate / referral tracking</p>
-                            <div class="max-w-[18%] w-full text-center">✅ </div>
-                            <div class="max-w-[18%] w-full text-center" >✅  </div>
-                            <div class="max-w-[18%] w-full text-center" >✅</div>
+                            <div class="max-w-[18%] w-full text-center">🚫  </div>
+                            <div class="max-w-[18%] w-full text-center" >🚫   </div>
+                            <div class="max-w-[18%] w-full text-center" >🚫 </div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
                             <p class="max-w-[670px] w-full pl-14">Zapier</p>
@@ -209,8 +209,8 @@
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
                             <p class="max-w-[670px] w-full pl-14">Reseller white-label program</p>
                             <div class="max-w-[18%] w-full text-center">🚫</div>
-                            <div class="max-w-[18%] w-full text-center" >✅  </div>
-                            <div class="max-w-[18%] w-full text-center" >✅</div>
+                            <div class="max-w-[18%] w-full text-center" >🚫  </div>
+                            <div class="max-w-[18%] w-full text-center" >🚫</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
                             <p class="max-w-[670px] w-full pl-14">API</p>
@@ -230,9 +230,9 @@
                             </div>
                             <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
                                 <p class="max-w-[670px] w-full pl-14">Multi-currency support</p>
-                                <div class="max-w-[18%] w-full text-center">✅ </div>
-                                <div class="max-w-[18%] w-full text-center" >✅  </div>
-                                <div class="max-w-[18%] w-full text-center" >✅</div>
+                                <div class="max-w-[18%] w-full text-center">🚫 </div>
+                                <div class="max-w-[18%] w-full text-center" >🚫  </div>
+                                <div class="max-w-[18%] w-full text-center" >🚫</div>
                             </div>
                             <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
                                 <p class="max-w-[670px] w-full pl-14">Invoice generation</p>
@@ -254,7 +254,7 @@
                                     <p class="max-w-[670px] w-full pl-14">Priority support via Slack</p>
                                     <div class="max-w-[18%] w-full text-center">🚫 </div>
                                     <div class="max-w-[18%] w-full text-center" >🚫  </div>
-                                    <div class="max-w-[18%] w-full text-center" >✅</div>
+                                    <div class="max-w-[18%] w-full text-center" >🚫</div>
                                 </div>
                                 <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
                                     <p class="max-w-[670px] w-full pl-14">Uptime SLA</p>
