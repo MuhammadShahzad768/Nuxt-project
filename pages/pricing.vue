@@ -129,7 +129,7 @@
                         <div class="max-w-[18%] w-full text-center" >🚫 </div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full pl-14">Team members</p>
+                        <p class="max-w-[670px] w-full pl-14">Remove «Powered by»</p>
                         <div class="max-w-[18%] w-full text-center">🚫  </div>
                         <div class="max-w-[18%] w-full text-center " >🚫</div>
                         <div class="max-w-[18%] w-full text-center" >🚫 </div>
