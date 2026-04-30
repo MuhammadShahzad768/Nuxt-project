@@ -50,7 +50,7 @@
         </div>
       </div>
       
-         <button class="hover:bg-[#00296B] hover:text-white transition-colors duration-200 m-auto text-center  bg-[#D9D9D9] text-[#00296B] font-medium tracking-tighter py-4 px-10 rounded-xl mt-12 gap-2 flex items-center"> {{ Tabs.compare_plan }}<i class="fa-solid fa-chevron-down" style='font-size:12px'></i></button>
+         <button @click="scrollToCompare" class="hover:bg-[#00296B] hover:text-white transition-colors duration-200 m-auto text-center  bg-[#D9D9D9] text-[#00296B] font-medium tracking-tighter py-4 px-10 rounded-xl mt-12 gap-2 flex items-center"> {{ Tabs.compare_plan }}<i class="fa-solid fa-chevron-down" style='font-size:12px'></i></button>
          <p class="text-center py-14 text-[#494949] pb-9 text-base">Trusted by thousands of agencies</p>
          <div class="agencies_logos flex max-w-[95%] m-auto gap-[50px]">
             <div class="images">
@@ -78,7 +78,7 @@
 
          </div>
          </section>
-  <section class="custom_family bg-[#F4F4F4]">
+  <section class="custom_family bg-[#F4F4F4]" id="Compare">
             <div class="container m-auto pt-14">
                 <div class="">
                     <div class="flex text-[25px] font-medium mb-3 w-[96%] m-auto text-center" >
@@ -306,7 +306,7 @@
                 </div>
             </div>
         </section>
-        <Comments v-if="CommentsData" slides_show="2" space_between="20" :CommentsData="CommentsData"/>
+        <Comments v-if="CommentsData" slides_show="1" space_between="20" :CommentsData="CommentsData"/>
         <Ready v-if="Last" :Last="Last"/>
         </div>
         </div>
@@ -321,7 +321,16 @@ import "aos/dist/aos.css";
 import Loader from "@/components/Sections/Loader.vue"
 // ✅ Emits
 const emit = defineEmits(["page-loaded"]);
+const scrollToCompare = () => {
+  const el = document.getElementById('Compare')
 
+  if (el) {
+    el.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    })
+  }
+}
 // 🔹 Reactive state
 const CommentsData = ref(null);
 const Last = ref(null);
