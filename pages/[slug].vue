@@ -186,7 +186,68 @@ const { data: pageData } = await useAsyncData(
 
     AOS.init({ duration: 1000, once: true })
   }
+/* =========================
+   4. Initialize Scripts
+========================= */
+function initFilters() {
+  const categoryItems = document.querySelectorAll('.toogle_sidebar li')
+  // "Type" filter set: expected markup: <div class="type_sidebar"> <li data-type="native|portal|all">
+  const typeItems = document.querySelectorAll('.type_sidebar li')
+  const toolBoxes = document.querySelectorAll('.tool_box')
 
+  if (!toolBoxes.length) return
+  if (!categoryItems.length && !typeItems.length) return
+
+  const applyFilters = () => {
+    const activeCategoryEl = document.querySelector('.toogle_sidebar li.active') as HTMLElement | null
+    const activeTypeEl = document.querySelector('.type_sidebar li.active') as HTMLElement | null
+
+    const activeCategory = (activeCategoryEl?.getAttribute('data-filter') || 'all').toLowerCase()
+    const activeType = (activeTypeEl?.getAttribute('data-type') || 'all').toLowerCase()
+
+    toolBoxes.forEach((box: any) => {
+      const category = box.getAttribute('data-category')?.toLowerCase() || ''
+      // If a box doesn't have data-type, it will only match when activeType === 'all'
+      const type = box.getAttribute('data-type')?.toLowerCase() || ''
+
+      const categoryMatch = activeCategory === 'all' || category === activeCategory
+      const typeMatch = activeType === 'all' || type === activeType
+
+      if (categoryMatch && typeMatch) {
+        box.classList.remove('hide')
+        box.classList.add('show')
+      } else {
+        box.classList.remove('show')
+        box.classList.add('hide')
+      }
+    })
+  }
+
+  categoryItems.forEach((item: any) => {
+    item.addEventListener('click', () => {
+      categoryItems.forEach((li: any) => li.classList.remove('active'))
+      item.classList.add('active')
+      applyFilters()
+    })
+  })
+
+  typeItems.forEach((item: any) => {
+    item.addEventListener('click', () => {
+      typeItems.forEach((li: any) => li.classList.remove('active'))
+      item.classList.add('active')
+      applyFilters()
+    })
+  })
+
+  // Ensure we always have active defaults, then apply once.
+  const activeCategoryEl = document.querySelector('.toogle_sidebar li.active') as HTMLElement | null
+  if (!activeCategoryEl && categoryItems[0]) categoryItems[0].classList.add('active')
+
+  const activeTypeEl = document.querySelector('.type_sidebar li.active') as HTMLElement | null
+  if (!activeTypeEl && typeItems[0]) typeItems[0].classList.add('active')
+
+  applyFilters()
+}
   /* =========================
     MOUNTED
   ========================= */
@@ -224,6 +285,7 @@ const { data: pageData } = await useAsyncData(
       })
 
       initializeScripts()
+      initFilters()
     })
   }, 300)
   })

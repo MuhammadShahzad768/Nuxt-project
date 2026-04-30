@@ -1,33 +1,75 @@
-<script setup lang="ts">
-import { ref, onMounted, nextTick, computed } from 'vue'
-import { useHead, useServerSeoMeta, useAsyncData, useRouter, useRoute, createError } from '#imports'
+  <script setup lang="ts">
+  import { ref, onMounted, nextTick, computed } from 'vue'
+  import {
+    useHead,
+    useServerSeoMeta,
+    useAsyncData,
+    useRouter,
+    useRoute,
+    createError,
+    navigateTo
+  } from '#imports'
 
-import AOS from 'aos'
-import 'aos/dist/aos.css'
+  import AOS from 'aos'
+  import 'aos/dist/aos.css'
 
-import Loader from "@/components/Sections/Loader.vue"
+  import Loader from "@/components/Sections/Loader.vue"
 
-import Swiper from 'swiper'
-import { Autoplay, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/pagination'
+  import Swiper from 'swiper'
+  import { Autoplay, Pagination } from 'swiper/modules'
+  import 'swiper/css'
+  import 'swiper/css/pagination'
 
-const router = useRouter()
-const route = useRoute()
-const showLoader = ref(true)
+  const router = useRouter()
+  const route = useRoute()
+  const showLoader = ref(true)
 
-/* =========================
-   1. FAQ State
-========================= */
-const activeQuestion = ref<string | null>(null)
+  /* =========================
+    🔥 HTML SANITIZER (MAIN FIX)
+  ========================= */
+  function sanitizeHtml(html: string): string {
+    if (!html) return html
 
-/* =========================
-   2. SEO + CSS holders
-========================= */
-let seoRaw: any = {}
-let dynamicCss = ''
+    // SSR-safe replacement
+    if (typeof window === 'undefined') {
+      return html.replace(/https:\/\/admin\.dspcrm\.com/g, '')
+    }
 
-/* =========================
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html')
+
+    /* Remove domain from links */
+    doc.querySelectorAll('a').forEach((link) => {
+      const href = link.getAttribute('href')
+      if (href?.includes('https://admin.dspcrm.com')) {
+        link.setAttribute(
+          'href',
+          href.replace('https://admin.dspcrm.com', '')
+        )
+      }
+    })
+
+    /* Remove domain from images */
+    doc.querySelectorAll('img').forEach((img) => {
+      const src = img.getAttribute('src')
+      if (src?.includes('https://admin.dspcrm.com')) {
+        img.setAttribute(
+          'src',
+          src.replace('https://admin.dspcrm.com', '')
+        )
+      }
+    })
+
+    return doc.body.innerHTML
+  }
+
+  /* =========================
+    SEO + CSS
+  ========================= */
+  let seoRaw: any = {}
+  let dynamicCss = ''
+
+  /* =========================
    3. Fetch Data
 ========================= */
 const { data: pageData } = await useAsyncData(
@@ -81,32 +123,31 @@ const { data: pageData } = await useAsyncData(
     watch: [() => route.params.slug]
   }
 )
+  /* =========================
+    SECTIONS
+  ========================= */
+  const apiSections = computed(() => {
+    if (!pageData.value) return {}
 
-/* =========================
-   4. Sections
-========================= */
-const apiSections = computed(() => {
-  if (!pageData.value) return {}
+    const excludeKeys = ['id', 'title', 'link', 'wp_id']
 
-  const excludeKeys = ['id', 'title', 'link', 'wp_id']
+    return Object.keys(pageData.value).reduce((acc, key) => {
+      const value = (pageData.value as any)[key]
+      if (typeof value === 'string' && !excludeKeys.includes(key)) {
+        acc[key] = value
+      }
+      return acc
+    }, {} as Record<string, string>)
+  })
 
-  return Object.keys(pageData.value).reduce((acc, key) => {
-    const value = (pageData.value as any)[key]
-    if (typeof value === 'string' && !excludeKeys.includes(key)) {
-      acc[key] = value
-    }
-    return acc
-  }, {} as Record<string, string>)
-})
+  /* =========================
+    PAGE CLASS
+  ========================= */
+  const wpClass = computed(() => {
+    return pageData.value?.wp_id ? `page-id-${pageData.value.wp_id}` : ''
+  })
 
-/* =========================
-   ✅ NEW: Page ID Class
-========================= */
-const wpClass = computed(() => {
-  return pageData.value?.wp_id ? `page-id-${pageData.value.wp_id}` : ''
-})
-
- /* =========================
+  /* =========================
     SEO
   ========================= */
   useServerSeoMeta({
@@ -126,52 +167,129 @@ const wpClass = computed(() => {
     } : {})
   })
 
-
-/* =========================
-   6. Swiper + AOS
-========================= */
-function initializeScripts() {
-  const selectors = ['.testimonialSwiper', '.mySwiper']
-
-  selectors.forEach(selector => {
-    document.querySelectorAll(selector).forEach((slider: any) => {
+  /* =========================
+    SCRIPTS
+  ========================= */
+  function initializeScripts() {
+    document.querySelectorAll('.testimonialSwiper, .mySwiper').forEach((slider: any) => {
       if (slider.swiper) return
 
       new Swiper(slider, {
         modules: [Autoplay, Pagination],
-        loop: slider.dataset.loop === 'true',
-        speed: Number(slider.dataset.speed) || 800,
-
+        loop: true,
         pagination: {
           el: slider.querySelector('.swiper-pagination'),
           clickable: true
-        },
-
-        breakpoints: {
-          320: { slidesPerView: 1, spaceBetween: 10 },
-          640: { slidesPerView: 1, spaceBetween: 15 },
-          1024: { slidesPerView: 1, spaceBetween: 20 },
-          1280: { slidesPerView: 1, spaceBetween: 32 }
         }
       })
     })
+
+    AOS.init({ duration: 1000, once: true })
+  }
+/* =========================
+   4. Initialize Scripts
+========================= */
+function initFilters() {
+  const categoryItems = document.querySelectorAll('.toogle_sidebar li')
+  // "Type" filter set: expected markup: <div class="type_sidebar"> <li data-type="native|portal|all">
+  const typeItems = document.querySelectorAll('.type_sidebar li')
+  const toolBoxes = document.querySelectorAll('.tool_box')
+
+  if (!toolBoxes.length) return
+  if (!categoryItems.length && !typeItems.length) return
+
+  const applyFilters = () => {
+    const activeCategoryEl = document.querySelector('.toogle_sidebar li.active') as HTMLElement | null
+    const activeTypeEl = document.querySelector('.type_sidebar li.active') as HTMLElement | null
+
+    const activeCategory = (activeCategoryEl?.getAttribute('data-filter') || 'all').toLowerCase()
+    const activeType = (activeTypeEl?.getAttribute('data-type') || 'all').toLowerCase()
+
+    toolBoxes.forEach((box: any) => {
+      const category = box.getAttribute('data-category')?.toLowerCase() || ''
+      // If a box doesn't have data-type, it will only match when activeType === 'all'
+      const type = box.getAttribute('data-type')?.toLowerCase() || ''
+
+      const categoryMatch = activeCategory === 'all' || category === activeCategory
+      const typeMatch = activeType === 'all' || type === activeType
+
+      if (categoryMatch && typeMatch) {
+        box.classList.remove('hide')
+        box.classList.add('show')
+      } else {
+        box.classList.remove('show')
+        box.classList.add('hide')
+      }
+    })
+  }
+
+  categoryItems.forEach((item: any) => {
+    item.addEventListener('click', () => {
+      categoryItems.forEach((li: any) => li.classList.remove('active'))
+      item.classList.add('active')
+      applyFilters()
+    })
   })
 
-  AOS.init({ duration: 1000, once: true, offset: 120 })
-}
+  typeItems.forEach((item: any) => {
+    item.addEventListener('click', () => {
+      typeItems.forEach((li: any) => li.classList.remove('active'))
+      item.classList.add('active')
+      applyFilters()
+    })
+  })
 
-/* =========================
-   7. Mounted
-========================= */
-onMounted(() => {
+  // Ensure we always have active defaults, then apply once.
+  const activeCategoryEl = document.querySelector('.toogle_sidebar li.active') as HTMLElement | null
+  if (!activeCategoryEl && categoryItems[0]) categoryItems[0].classList.add('active')
+
+  const activeTypeEl = document.querySelector('.type_sidebar li.active') as HTMLElement | null
+  if (!activeTypeEl && typeItems[0]) typeItems[0].classList.add('active')
+
+  applyFilters()
+}
+  /* =========================
+    MOUNTED
+  ========================= */
+  onMounted(() => {
+    document.addEventListener('click', (e: any) => {
+    const link = e.target.closest('a')
+    if (!link) return
+
+    const url = link.getAttribute('href')
+    if (!url) return
+
+    if (url.startsWith('/')) {
+      e.preventDefault()
+      navigateTo(url)
+    }
+  })
+
   setTimeout(() => {
     showLoader.value = false
+
     nextTick(() => {
+      const BASE_URL = 'https://admin.dspcrm.com'
+
+      const images = document.querySelectorAll('.success img')
+
+      images.forEach((img: HTMLImageElement) => {
+        let src = img.getAttribute('src') || img.src
+
+        if (src && !src.startsWith('http')) {
+          src = `${BASE_URL}${src}`
+          img.src = src // ✅ IMPORTANT: update actual image in DOM
+        }
+
+        console.log('Image URL:', src)
+      })
+
       initializeScripts()
+      initFilters()
     })
   }, 300)
-})
-</script>
+  })
+  </script>
 
 <template>
   <div>
