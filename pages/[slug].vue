@@ -70,65 +70,59 @@
   let dynamicCss = ''
 
   /* =========================
-    FETCH DATA
-  ========================= */
-  const { data: pageData } = await useAsyncData(
-    `page-content-${route.params.slug}`,
-    async () => {
-      try {
-        const wpPage: any = await $fetch(
-          'https://admin.dspcrm.com/wp-json/wp/v2/pages',
-          { params: { slug: route.params.slug } }
-        )
+   3. Fetch Data
+========================= */
+const { data: pageData } = await useAsyncData(
+  `page-content-${route.params.slug}`,
+  async () => {
+    try {
+      const wpPage: any = await $fetch(
+        'https://admin.dspcrm.com/wp-json/wp/v2/pages',
+        { params: { slug: route.params.slug } }
+      )
 
-        if (!wpPage || wpPage.length === 0) {
-          throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
-        }
-
-        const id = wpPage[0].id
-
-        const res = await fetch(`https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`)
-        const text = await res.text()
-
-        let customData: any = JSON.parse(text)
-
-        if (import.meta.server) {
-          seoRaw = customData?.seo_data || {}
-          dynamicCss = (customData?.Author_page_custom_css || '')
-            .replace(/<\/?style[^>]*>/gi, '')
-            .replace(/&gt;/g, '>')
-            .replace(/&lt;/g, '<')
-            .trim()
-        }
-
-        const { seo_data, Author_page_custom_css, ...rest } = customData
-
-        /* 🔥 APPLY SANITIZER HERE */
-        const cleanData: any = {}
-
-        Object.keys(rest).forEach((key) => {
-          let value = rest[key]
-
-          if (typeof value === 'string') {
-            value = sanitizeHtml(value)
-          }
-
-          cleanData[key] = value
-        })
-
-        return { ...cleanData, wp_id: id }
-
-      } catch (err) {
-        console.error('Fetch Error:', err)
-        throw err
+      if (!wpPage || wpPage.length === 0) {
+        throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
       }
-    },
-    {
-      server: true,
-      watch: [() => route.params.slug]
-    }
-  )
 
+      const id = wpPage[0].id
+
+      const res = await fetch(`https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`)
+      const text = await res.text()
+
+      let customData: any = null
+      try {
+        customData = JSON.parse(text)
+      } catch (err) {
+        console.error('Invalid JSON:', text)
+        throw createError({ statusCode: 500, statusMessage: 'Invalid API Response' })
+      }
+
+      if (import.meta.server) {
+        seoRaw = customData?.seo_data || {}
+        dynamicCss = (customData?.Author_page_custom_css || '')
+          .replace(/<\/?style[^>]*>/gi, '')
+          .replace(/&gt;/g, '>')
+          .replace(/&lt;/g, '<')
+          .replace(/\.([\w\d\-\[\]%]+)/g, (m: string) =>
+            m.replace(/\[/g, '\\[').replace(/\]/g, '\\]')
+          )
+          .trim()
+      }
+
+      const { seo_data, Author_page_custom_css, ...rest } = customData
+      return { ...rest, wp_id: id }
+
+    } catch (err) {
+      console.error('Fetch Error:', err)
+      throw err
+    }
+  },
+  {
+    server: true,
+    watch: [() => route.params.slug]
+  }
+)
   /* =========================
     SECTIONS
   ========================= */
