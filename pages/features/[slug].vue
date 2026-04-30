@@ -78,7 +78,9 @@ const { data: pageData } = await useAsyncData(
     try {
       const wpPage: any = await $fetch(
         'https://admin.dspcrm.com/wp-json/wp/v2/pages',
-        { params: { slug: route.params.slug } }
+        {params: {
+  slug: `features/${route.params.slug}`
+} }
       )
 
       if (!wpPage || wpPage.length === 0) {
