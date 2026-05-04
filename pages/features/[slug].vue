@@ -6,7 +6,8 @@ import {
   useRouter,
   useRoute,
   createError,
-  navigateTo
+  navigateTo,
+  useSeoMeta
 } from '#imports'
 
 import AOS from 'aos'
@@ -92,6 +93,7 @@ const { data: pageData } = await useAsyncData(
   },
   {
     server: true,
+    lazy: false,
     watch: [() => route.params.slug]
   }
 )
@@ -144,7 +146,7 @@ const customCss = computed(() =>
 )
 
 /* ============================================
-   SEO (DYNAMIC FROM HTML)
+   SEO (DYNAMIC FROM HTML) - SERVER SAFE
 ============================================ */
 function parseSeoHtml(html: string) {
   if (!html) return { title: '', meta: [] as any[] }
@@ -152,48 +154,68 @@ function parseSeoHtml(html: string) {
   let title = ''
   const meta: any[] = []
 
+  // Title extraction
   const titleMatch = html.match(/<title>(.*?)<\/title>/i)
   if (titleMatch) {
     title = titleMatch[1]
   }
 
+  // Meta tags extraction using regex (server-safe)
   const metaTags = html.match(/<meta[^>]+>/gi) || []
 
   metaTags.forEach((tag) => {
     const attrs: any = {}
 
-    const attrMatches = tag.match(/([\w:-]+)="([^"]*)"/g) || []
+    // Extract name/property
+    const nameMatch = tag.match(/(?:name|property)=["']([^"']+)["']/i)
+    if (nameMatch) {
+      const key = tag.includes('property=') ? 'property' : 'name'
+      attrs[key] = nameMatch[1]
+    }
 
-    attrMatches.forEach((attr) => {
-      const parts = attr.split('=')
-      const key = parts[0]
-      const value = parts[1].replace(/"/g, '')
-      attrs[key] = value
-    })
+    // Extract content
+    const contentMatch = tag.match(/content=["']([^"']*)["']/i)
+    if (contentMatch) {
+      attrs.content = contentMatch[1]
+    }
 
-    meta.push(attrs)
+    // Extract other attributes
+    const charsetMatch = tag.match(/charset=["']([^"']+)["']/i)
+    if (charsetMatch) {
+      attrs.charset = charsetMatch[1]
+    }
+
+    const httpEquivMatch = tag.match(/http-equiv=["']([^"']+)["']/i)
+    if (httpEquivMatch) {
+      attrs['http-equiv'] = httpEquivMatch[1]
+    }
+
+    // Only add if has meaningful content
+    if (Object.keys(attrs).length > 0) {
+      meta.push(attrs)
+    }
   })
 
   return { title, meta }
 }
 
-const rawSeo = computed(
-  () => pageData.value?.SEO?.description || ''
-)
+/* ============================================
+   SEO Setup
+============================================ */
+const seoData = computed(() => {
+  const rawSeo = pageData.value?.SEO?.description || ''
+  return parseSeoHtml(rawSeo)
+})
 
+// Use useHead for title and meta tags
 useHead(() => {
-  const parsed = parseSeoHtml(rawSeo.value)
-
+  const parsed = seoData.value
+  
   return {
-    title:
-      parsed.title ||
-      pageData.value?.title ||
-      'DSP CRM',
-
-    meta:
-      parsed.meta.length > 0
-        ? parsed.meta
-        : []
+    title: parsed.title || pageData.value?.title || 'DSP CRM',
+    meta: parsed.meta.length > 0 ? parsed.meta : [
+      { name: 'description', content: 'DSP CRM - Customer Relationship Management' }
+    ]
   }
 })
 
