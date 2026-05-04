@@ -6,8 +6,7 @@ import {
   useRouter,
   useRoute,
   createError,
-  navigateTo,
-  useSeoMeta
+  navigateTo
 } from '#imports'
 
 import AOS from 'aos'
@@ -66,29 +65,39 @@ function sanitizeHtml(html: string): string {
 const { data: pageData } = await useAsyncData(
   `page-content-${route.params.slug}`,
   async () => {
-    const wpPage: any = await $fetch(
-      'https://admin.dspcrm.com/wp-json/wp/v2/pages',
-      {
-        params: { slug: route.params.slug }
+    try {
+      const wpPage: any = await $fetch(
+        'https://admin.dspcrm.com/wp-json/wp/v2/pages',
+        {
+          params: { slug: route.params.slug }
+        }
+      )
+
+      console.log('WP Page Response:', wpPage) // Debug
+
+      if (!wpPage?.length) {
+        throw createError({
+          statusCode: 404,
+          statusMessage: 'Page Not Found'
+        })
       }
-    )
 
-    if (!wpPage?.length) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: 'Page Not Found'
-      })
-    }
+      const id = wpPage[0].id
 
-    const id = wpPage[0].id
+      const customData: any = await $fetch(
+        `https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`
+      )
 
-    const customData: any = await $fetch(
-      `https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`
-    )
+      console.log('Custom Data:', customData) // Debug
+      console.log('SEO Data:', customData?.SEO) // Debug
 
-    return {
-      ...customData,
-      wp_id: id
+      return {
+        ...customData,
+        wp_id: id
+      }
+    } catch (error) {
+      console.error('Fetch Error:', error)
+      throw error
     }
   },
   {
@@ -146,53 +155,55 @@ const customCss = computed(() =>
 )
 
 /* ============================================
-   SEO (DYNAMIC FROM HTML) - SERVER SAFE
+   SEO (SERVER-SAFE PARSER)
 ============================================ */
 function parseSeoHtml(html: string) {
-  if (!html) return { title: '', meta: [] as any[] }
+  if (!html) {
+    console.log('No SEO HTML received')
+    return { title: '', meta: [] as any[] }
+  }
+
+  console.log('Parsing SEO HTML:', html.substring(0, 200)) // Debug
 
   let title = ''
   const meta: any[] = []
 
   // Title extraction
-  const titleMatch = html.match(/<title>(.*?)<\/title>/i)
+  const titleMatch = html.match(/<title[^>]*>(.*?)<\/title>/i)
   if (titleMatch) {
-    title = titleMatch[1]
+    title = titleMatch[1].trim()
+    console.log('Extracted Title:', title)
   }
 
-  // Meta tags extraction using regex (server-safe)
+  // Meta tags extraction
   const metaTags = html.match(/<meta[^>]+>/gi) || []
+  console.log('Found meta tags:', metaTags.length)
 
   metaTags.forEach((tag) => {
     const attrs: any = {}
 
-    // Extract name/property
-    const nameMatch = tag.match(/(?:name|property)=["']([^"']+)["']/i)
+    // name or property
+    const nameMatch = tag.match(/\s(?:name|property)=["']([^"']+)["']/i)
     if (nameMatch) {
-      const key = tag.includes('property=') ? 'property' : 'name'
+      const key = tag.toLowerCase().includes('property=') ? 'property' : 'name'
       attrs[key] = nameMatch[1]
     }
 
-    // Extract content
-    const contentMatch = tag.match(/content=["']([^"']*)["']/i)
+    // content
+    const contentMatch = tag.match(/\scontent=["']([^"']*)["']/i)
     if (contentMatch) {
       attrs.content = contentMatch[1]
     }
 
-    // Extract other attributes
-    const charsetMatch = tag.match(/charset=["']([^"']+)["']/i)
+    // charset
+    const charsetMatch = tag.match(/\scharset=["']?([^"'\s>]+)["']?/i)
     if (charsetMatch) {
       attrs.charset = charsetMatch[1]
     }
 
-    const httpEquivMatch = tag.match(/http-equiv=["']([^"']+)["']/i)
-    if (httpEquivMatch) {
-      attrs['http-equiv'] = httpEquivMatch[1]
-    }
-
-    // Only add if has meaningful content
     if (Object.keys(attrs).length > 0) {
       meta.push(attrs)
+      console.log('Added meta:', attrs)
     }
   })
 
@@ -200,23 +211,36 @@ function parseSeoHtml(html: string) {
 }
 
 /* ============================================
-   SEO Setup
+   SEO COMPUTED
 ============================================ */
 const seoData = computed(() => {
   const rawSeo = pageData.value?.SEO?.description || ''
+  console.log('Raw SEO Data:', rawSeo ? 'exists' : 'missing')
   return parseSeoHtml(rawSeo)
 })
 
-// Use useHead for title and meta tags
+/* ============================================
+   USE HEAD
+============================================ */
 useHead(() => {
   const parsed = seoData.value
   
-  return {
+  console.log('useHead called with:', {
+    title: parsed.title,
+    metaCount: parsed.meta.length,
+    pageTitle: pageData.value?.title
+  })
+
+  const headConfig = {
     title: parsed.title || pageData.value?.title || 'DSP CRM',
     meta: parsed.meta.length > 0 ? parsed.meta : [
-      { name: 'description', content: 'DSP CRM - Customer Relationship Management' }
+      { name: 'description', content: 'Default DSP CRM Description' }
     ]
   }
+
+  console.log('Head Config:', headConfig)
+  
+  return headConfig
 })
 
 /* ============================================
@@ -306,6 +330,12 @@ function initFilters() {
    Mounted
 ============================================ */
 onMounted(() => {
+  // Check SEO in browser
+  console.log('OnMounted - Page Data:', pageData.value)
+  console.log('OnMounted - SEO:', pageData.value?.SEO)
+  console.log('Document Title:', document.title)
+  console.log('Meta Tags:', document.querySelectorAll('meta'))
+
   document.addEventListener('click', (e: any) => {
     const link = e.target.closest('a')
     if (!link) return
