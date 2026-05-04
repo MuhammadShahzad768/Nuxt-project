@@ -16,11 +16,11 @@ import Loader from "@/components/Sections/Loader.vue"
 const route = useRoute()
 const slug = route.params.slug as string
 
-// Fetch
+// ✅ Fetch with SSR enabled
 const { data, error, pending } = await useAsyncData(
   () => `post-${slug}`,
-  () =>
-    $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/blog-html/${slug}`)
+  () => $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/blog-html/${slug}`),
+  { server: true } // ensures SEO data is available at SSR
 )
 
 // 404 handling
@@ -29,37 +29,40 @@ if (error.value?.statusCode === 404) {
 }
 
 /* ============================================
-   SEO Injection
+   SEO Injection (Structured JSON preferred)
 ============================================ */
-const seoHtml = computed(() => data.value?.SEO?.description || '')
-
-const seoTitle = computed(() => {
-  const match = seoHtml.value.match(/<title>(.*?)<\/title>/i)
-  return match ? match[1] : data.value?.title || 'DSPCRM - Page'
-})
-
-const seoMeta = computed(() => {
-  const metaArray: any[] = []
-  const regex = /<meta\s+([^>]+)>/gi
-  let match
-  while ((match = regex.exec(seoHtml.value)) !== null) {
-    const attrs: Record<string, string> = {}
-    match[1].replace(/([\w:-]+)="([^"]*)"/g, (_, name, value) => {
-      attrs[name] = value
-      return ''
-    })
-    metaArray.push(attrs)
+useHead(() => {
+  if (!data.value) {
+    return {
+      title: 'Blog',
+      meta: [{ name: 'description', content: '' }]
+    }
   }
-  return metaArray
+
+  return {
+    // ✅ Prefer meta_title from API, fallback to post title
+    title: data.value.seo?.meta_title || data.value.title || 'DSPCRM - Page',
+
+    meta: [
+      {
+        name: 'description',
+        content: data.value.seo?.meta_description || ''
+      }
+    ],
+
+    // ✅ Inject custom CSS if provided
+    style: data.value.static_css
+      ? [
+          {
+            id: 'dynamic-css',
+            innerHTML: data.value.static_css
+          }
+        ]
+      : []
+  }
 })
 
-useHead(() => ({
-  title: seoTitle.value,
-  meta: seoMeta.value
-}))
-
-
-// SPA navigation for internal links
+// ✅ SPA navigation for internal links
 onMounted(() => {
   document.addEventListener('click', (e: any) => {
     const link = e.target.closest('a')
@@ -73,15 +76,5 @@ onMounted(() => {
       navigateTo(url)
     }
   })
-})
-watch(data, (newVal) => {
-  if (newVal?.title) {
-    useHead({
-      title: newVal.title,
-      meta: [
-        { name: 'description', content: newVal.seo?.meta_description || '' }
-      ]
-    })
-  }
 })
 </script>

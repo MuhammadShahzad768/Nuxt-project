@@ -313,6 +313,7 @@
 </template>
 <script setup>
 import { ref, onMounted, nextTick } from "vue";
+import { useHead } from '#imports'
 import Price_box from "@/components/Sections/Price_box.vue";
 import Comments from "@/components/Sections/Comment_Slides.vue";
 import Ready from "@/components/Sections/Ready_to_give.vue";
@@ -346,7 +347,18 @@ function handleClick(id) {
   setActiveQuestion(id);
   scrollToFaq();
 }
-
+useHead({
+  title: 'Plans & Pricing // DSPCRM',
+  meta: [
+    { name: 'description', content: 'Learn more about DSPCRM and our mission.' },
+    { name: 'keywords', content: 'DSPCRM, About Us, Company Info' },
+    { property: 'og:title', content: 'About Us - DSPCRM' },
+    { property: 'og:description', content: 'Discover who we are and what we do.' }
+  ],
+  link: [
+    { rel: 'canonical', href: 'https://dspcrm.com/pricing' }
+  ]
+})
 function setActiveQuestion(id) {
   activequestion.value = id;
 }
