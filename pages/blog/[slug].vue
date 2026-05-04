@@ -28,23 +28,36 @@ if (error.value?.statusCode === 404) {
   throw createError({ statusCode: 404, statusMessage: 'Post Not Found' })
 }
 
-// SEO + Static CSS
+/* ============================================
+   SEO Injection
+============================================ */
+const seoHtml = computed(() => data.value?.SEO?.description || '')
+
+const seoTitle = computed(() => {
+  const match = seoHtml.value.match(/<title>(.*?)<\/title>/i)
+  return match ? match[1] : data.value?.title || 'DSPCRM - Page'
+})
+
+const seoMeta = computed(() => {
+  const metaArray: any[] = []
+  const regex = /<meta\s+([^>]+)>/gi
+  let match
+  while ((match = regex.exec(seoHtml.value)) !== null) {
+    const attrs: Record<string, string> = {}
+    match[1].replace(/([\w:-]+)="([^"]*)"/g, (_, name, value) => {
+      attrs[name] = value
+      return ''
+    })
+    metaArray.push(attrs)
+  }
+  return metaArray
+})
+
 useHead(() => ({
-  title: data.value?.seo?.meta_title || 'Blog',
-
-  meta: [
-    { name: 'description', content: data.value?.seo?.meta_description || '' }
-  ],
-
-  style: data.value?.static_css
-    ? [
-        {
-          id: 'dynamic-css',
-          innerHTML: data.value.static_css
-        }
-      ]
-    : []
+  title: seoTitle.value,
+  meta: seoMeta.value
 }))
+
 
 // SPA navigation for internal links
 onMounted(() => {
@@ -60,5 +73,15 @@ onMounted(() => {
       navigateTo(url)
     }
   })
+})
+watch(data, (newVal) => {
+  if (newVal?.title) {
+    useHead({
+      title: newVal.title,
+      meta: [
+        { name: 'description', content: newVal.seo?.meta_description || '' }
+      ]
+    })
+  }
 })
 </script>
