@@ -101,6 +101,35 @@ const scrollTo = (id) => {
     })
   }
 }
+/* ============================================
+   SEO Injection
+============================================ */
+const seoHtml = computed(() => post.value?.SEO?.description || '')
+
+const seoTitle = computed(() => {
+  const match = seoHtml.value.match(/<title>(.*?)<\/title>/i)
+  return match ? match[1] : 'DSPCRM - Page'
+})
+
+const seoMeta = computed(() => {
+  const metaArray = []
+  const regex = /<meta\s+([^>]+)>/gi
+  let match
+  while ((match = regex.exec(seoHtml.value)) !== null) {
+    const attrs = {}
+    match[1].replace(/([\w:-]+)="([^"]*)"/g, (_, name, value) => {
+      attrs[name] = value
+      return ''
+    })
+    metaArray.push(attrs)
+  }
+  return metaArray
+})
+
+useHead({
+  title: seoTitle,
+  meta: seoMeta
+})
 
 /**
  * Scroll spy

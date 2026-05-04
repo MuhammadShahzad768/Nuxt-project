@@ -22,10 +22,10 @@ const route = useRoute()
 const showLoader = ref(true)
 
 /* ============================================
-   Fetch Data
+   Fetch Data (reactive for slug changes)
 ============================================ */
 const { data: pageData } = await useAsyncData(
-  `page-content-${route.params.slug}`,
+  () => `page-content-${route.params.slug}`,   // 👈 function form
   async () => {
     const wpPage: any = await $fetch(
       'https://admin.dspcrm.com/wp-json/wp/v2/pages',
@@ -40,10 +40,16 @@ const { data: pageData } = await useAsyncData(
     )
     return { ...customData, wp_id: id }
   },
-  { server: true, lazy: false }
+  {
+    server: true,
+    lazy: false,
+    watch: [() => route.params.slug]   // 👈 important for client navigation
+  }
 )
 
-
+/* ============================================
+   SEO Injection
+============================================ */
 const seoHtml = computed(() => pageData.value?.SEO?.description || '')
 
 const seoTitle = computed(() => {
@@ -57,7 +63,7 @@ const seoMeta = computed(() => {
   let match
   while ((match = regex.exec(seoHtml.value)) !== null) {
     const attrs: Record<string, string> = {}
-    match[1].replace(/(\w+)="([^"]*)"/g, (_, name, value) => {
+    match[1].replace(/([\w:-]+)="([^"]*)"/g, (_, name, value) => {
       attrs[name] = value
       return ''
     })
@@ -70,6 +76,7 @@ useHead({
   title: seoTitle,
   meta: seoMeta
 })
+
 /* ============================================
    HTML Sanitizer
 ============================================ */
@@ -153,53 +160,6 @@ function initializeScripts() {
   })
   AOS.init({ duration: 1000, once: true })
 }
-
-/* ============================================
-   Filters
-============================================ */
-function initFilters() {
-  const categoryItems = document.querySelectorAll('.toogle_sidebar li')
-  const typeItems = document.querySelectorAll('.type_sidebar li')
-  const toolBoxes = document.querySelectorAll('.tool_box')
-  if (!toolBoxes.length) return
-  const applyFilters = () => {
-    const activeCategory =
-      (document.querySelector('.toogle_sidebar li.active')?.getAttribute('data-filter') || 'all').toLowerCase()
-    const activeType =
-      (document.querySelector('.type_sidebar li.active')?.getAttribute('data-type') || 'all').toLowerCase()
-    toolBoxes.forEach((box: any) => {
-      const category = box.getAttribute('data-category')?.toLowerCase() || ''
-      const type = box.getAttribute('data-type')?.toLowerCase() || ''
-      const show =
-        (activeCategory === 'all' || category === activeCategory) &&
-        (activeType === 'all' || type === activeType)
-      box.classList.toggle('show', show)
-      box.classList.toggle('hide', !show)
-    })
-  }
-  categoryItems.forEach((item: any) => {
-    item.addEventListener('click', () => {
-      categoryItems.forEach((li: any) => li.classList.remove('active'))
-      item.classList.add('active')
-      applyFilters()
-    })
-  })
-  typeItems.forEach((item: any) => {
-    item.addEventListener('click', () => {
-      typeItems.forEach((li: any) => li.classList.remove('active'))
-      item.classList.add('active')
-      applyFilters()
-    })
-  })
-  if (!document.querySelector('.toogle_sidebar li.active') && categoryItems[0]) {
-    categoryItems[0].classList.add('active')
-  }
-  if (!document.querySelector('.type_sidebar li.active') && typeItems[0]) {
-    typeItems[0].classList.add('active')
-  }
-  applyFilters()
-}
-
 /* ============================================
    Mounted
 ============================================ */
@@ -230,12 +190,11 @@ onMounted(() => {
         document.head.appendChild(styleTag)
       }
       initializeScripts()
-      initFilters()
+     
     })
   }, 300)
 })
 </script>
-
 <template>
   <div>
     <Loader v-if="showLoader" />
