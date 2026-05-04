@@ -238,7 +238,7 @@ useHead(() => {
 })
 
 useSeoMeta({
-  title: () => seoInfo.value?.title || pageData.value?.title || 'DSP CRM',
+  title: () => seoInfo.value?.title ,
   description: () => seoInfo.value?.description || 'DSP CRM - Customer Relationship Management',
   ogTitle: () => seoInfo.value?.ogTitle || seoInfo.value?.title || pageData.value?.title || 'DSP CRM',
   ogDescription: () => seoInfo.value?.ogDescription || seoInfo.value?.description || 'DSP CRM',
