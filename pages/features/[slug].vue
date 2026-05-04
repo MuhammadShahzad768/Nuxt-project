@@ -2,7 +2,6 @@
 import { ref, computed, onMounted, nextTick } from 'vue'
 import {
   useHead,
-  useServerSeoMeta,
   useAsyncData,
   useRouter,
   useRoute,
@@ -69,9 +68,7 @@ const { data: pageData } = await useAsyncData(
     const wpPage: any = await $fetch(
       'https://admin.dspcrm.com/wp-json/wp/v2/pages',
       {
-        params: {
-          slug: route.params.slug
-        }
+        params: { slug: route.params.slug }
       }
     )
 
@@ -111,7 +108,8 @@ const apiSections = computed(() => {
     'link',
     'wp_id',
     'seo_data',
-    'Author_page_custom_css'
+    'Author_page_custom_css',
+    'SEO'
   ]
 
   return Object.keys(pageData.value).reduce((acc, key) => {
@@ -135,10 +133,8 @@ const wpClass = computed(() =>
 )
 
 /* ============================================
-   SEO
+   CUSTOM CSS
 ============================================ */
-const seoData = computed(() => pageData.value?.seo_data || {})
-
 const customCss = computed(() =>
   (pageData.value?.Author_page_custom_css || '')
     .replace(/<\/?style[^>]*>/gi, '')
@@ -147,87 +143,58 @@ const customCss = computed(() =>
     .trim()
 )
 
-useHead(() => ({
-  title:
-    seoData.value.meta_title ||
-    pageData.value?.title ||
-    'DSP CRM',
+/* ============================================
+   SEO (DYNAMIC FROM HTML)
+============================================ */
+function parseSeoHtml(html: string) {
+  if (!html) return { title: '', meta: [] as any[] }
 
-  meta: [
-    {
-      name: 'description',
-      content:
-        seoData.value.meta_description || ''
-    },
-    {
-      property: 'og:title',
-      content:
-        seoData.value.meta_title ||
-        pageData.value?.title ||
-        'DSP CRM'
-    },
-    {
-      property: 'og:description',
-      content:
-        seoData.value.meta_description || ''
-    },
-    {
-      name: 'twitter:title',
-      content:
-        seoData.value.meta_title ||
-        pageData.value?.title ||
-        'DSP CRM'
-    },
-    {
-      name: 'twitter:description',
-      content:
-        seoData.value.meta_description || ''
-    }
-  ],
+  let title = ''
+  const meta: any[] = []
 
-  link: [
-    {
-      rel: 'canonical',
-      href:
-        seoData.value.canonical_url ||
-        `https://dspcrm.com${route.path}`
-    }
-  ],
+  const titleMatch = html.match(/<title>(.*?)<\/title>/i)
+  if (titleMatch) {
+    title = titleMatch[1]
+  }
 
-  style: customCss.value
-    ? [
-        {
-          id: 'dynamic-page-css',
-          innerHTML: customCss.value
-        }
-      ]
-    : []
-}))
+  const metaTags = html.match(/<meta[^>]+>/gi) || []
 
-useServerSeoMeta({
-  title: () =>
-    seoData.value.meta_title ||
-    pageData.value?.title ||
-    'DSP CRM',
+  metaTags.forEach((tag) => {
+    const attrs: any = {}
 
-  description: () =>
-    seoData.value.meta_description || '',
+    const attrMatches = tag.match(/([\w:-]+)="([^"]*)"/g) || []
 
-  ogTitle: () =>
-    seoData.value.meta_title ||
-    pageData.value?.title ||
-    'DSP CRM',
+    attrMatches.forEach((attr) => {
+      const parts = attr.split('=')
+      const key = parts[0]
+      const value = parts[1].replace(/"/g, '')
+      attrs[key] = value
+    })
 
-  ogDescription: () =>
-    seoData.value.meta_description || '',
+    meta.push(attrs)
+  })
 
-  twitterTitle: () =>
-    seoData.value.meta_title ||
-    pageData.value?.title ||
-    'DSP CRM',
+  return { title, meta }
+}
 
-  twitterDescription: () =>
-    seoData.value.meta_description || ''
+const rawSeo = computed(
+  () => pageData.value?.SEO?.description || ''
+)
+
+useHead(() => {
+  const parsed = parseSeoHtml(rawSeo.value)
+
+  return {
+    title:
+      parsed.title ||
+      pageData.value?.title ||
+      'DSP CRM',
+
+    meta:
+      parsed.meta.length > 0
+        ? parsed.meta
+        : []
+  }
 })
 
 /* ============================================
@@ -242,13 +209,9 @@ function initializeScripts() {
       new Swiper(slider, {
         modules: [Autoplay, Pagination],
         loop: true,
-        autoplay: {
-          delay: 4000
-        },
+        autoplay: { delay: 4000 },
         pagination: {
-          el: slider.querySelector(
-            '.swiper-pagination'
-          ),
+          el: slider.querySelector('.swiper-pagination'),
           clickable: true
         }
       })
@@ -264,58 +227,26 @@ function initializeScripts() {
    Filters
 ============================================ */
 function initFilters() {
-  const categoryItems =
-    document.querySelectorAll(
-      '.toogle_sidebar li'
-    )
-
-  const typeItems =
-    document.querySelectorAll(
-      '.type_sidebar li'
-    )
-
-  const toolBoxes =
-    document.querySelectorAll('.tool_box')
+  const categoryItems = document.querySelectorAll('.toogle_sidebar li')
+  const typeItems = document.querySelectorAll('.type_sidebar li')
+  const toolBoxes = document.querySelectorAll('.tool_box')
 
   if (!toolBoxes.length) return
 
   const applyFilters = () => {
     const activeCategory =
-      (
-        document
-          .querySelector(
-            '.toogle_sidebar li.active'
-          )
-          ?.getAttribute('data-filter') ||
-        'all'
-      ).toLowerCase()
+      (document.querySelector('.toogle_sidebar li.active')?.getAttribute('data-filter') || 'all').toLowerCase()
 
     const activeType =
-      (
-        document
-          .querySelector(
-            '.type_sidebar li.active'
-          )
-          ?.getAttribute('data-type') ||
-        'all'
-      ).toLowerCase()
+      (document.querySelector('.type_sidebar li.active')?.getAttribute('data-type') || 'all').toLowerCase()
 
     toolBoxes.forEach((box: any) => {
-      const category =
-        box
-          .getAttribute('data-category')
-          ?.toLowerCase() || ''
-
-      const type =
-        box
-          .getAttribute('data-type')
-          ?.toLowerCase() || ''
+      const category = box.getAttribute('data-category')?.toLowerCase() || ''
+      const type = box.getAttribute('data-type')?.toLowerCase() || ''
 
       const show =
-        (activeCategory === 'all' ||
-          category === activeCategory) &&
-        (activeType === 'all' ||
-          type === activeType)
+        (activeCategory === 'all' || category === activeCategory) &&
+        (activeType === 'all' || type === activeType)
 
       box.classList.toggle('show', show)
       box.classList.toggle('hide', !show)
@@ -324,10 +255,7 @@ function initFilters() {
 
   categoryItems.forEach((item: any) => {
     item.addEventListener('click', () => {
-      categoryItems.forEach((li: any) =>
-        li.classList.remove('active')
-      )
-
+      categoryItems.forEach((li: any) => li.classList.remove('active'))
       item.classList.add('active')
       applyFilters()
     })
@@ -335,30 +263,17 @@ function initFilters() {
 
   typeItems.forEach((item: any) => {
     item.addEventListener('click', () => {
-      typeItems.forEach((li: any) =>
-        li.classList.remove('active')
-      )
-
+      typeItems.forEach((li: any) => li.classList.remove('active'))
       item.classList.add('active')
       applyFilters()
     })
   })
 
-  if (
-    !document.querySelector(
-      '.toogle_sidebar li.active'
-    ) &&
-    categoryItems[0]
-  ) {
+  if (!document.querySelector('.toogle_sidebar li.active') && categoryItems[0]) {
     categoryItems[0].classList.add('active')
   }
 
-  if (
-    !document.querySelector(
-      '.type_sidebar li.active'
-    ) &&
-    typeItems[0]
-  ) {
+  if (!document.querySelector('.type_sidebar li.active') && typeItems[0]) {
     typeItems[0].classList.add('active')
   }
 
@@ -386,25 +301,14 @@ onMounted(() => {
     showLoader.value = false
 
     nextTick(() => {
-      const BASE_URL =
-        'https://admin.dspcrm.com'
+      const BASE_URL = 'https://admin.dspcrm.com'
 
-      document
-        .querySelectorAll('.success img')
-        .forEach(
-          (img: HTMLImageElement) => {
-            let src =
-              img.getAttribute('src') ||
-              img.src
-
-            if (
-              src &&
-              !src.startsWith('http')
-            ) {
-              img.src = `${BASE_URL}${src}`
-            }
-          }
-        )
+      document.querySelectorAll('.success img').forEach((img: HTMLImageElement) => {
+        let src = img.getAttribute('src') || img.src
+        if (src && !src.startsWith('http')) {
+          img.src = `${BASE_URL}${src}`
+        }
+      })
 
       initializeScripts()
       initFilters()
