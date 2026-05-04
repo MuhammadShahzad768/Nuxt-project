@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, nextTick } from 'vue'
 import {
   useHead,
+  useSeoMeta,
   useAsyncData,
   useRouter,
   useRoute,
@@ -62,48 +63,37 @@ function sanitizeHtml(html: string): string {
 /* ============================================
    Fetch Data
 ============================================ */
-const { data: pageData } = await useAsyncData(
+const { data: pageData, pending } = await useAsyncData(
   `page-content-${route.params.slug}`,
   async () => {
-    try {
-      const wpPage: any = await $fetch(
-        'https://admin.dspcrm.com/wp-json/wp/v2/pages',
-        {
-          params: { slug: route.params.slug }
-        }
-      )
-
-      console.log('WP Page Response:', wpPage) // Debug
-
-      if (!wpPage?.length) {
-        throw createError({
-          statusCode: 404,
-          statusMessage: 'Page Not Found'
-        })
+    const wpPage: any = await $fetch(
+      'https://admin.dspcrm.com/wp-json/wp/v2/pages',
+      {
+        params: { slug: route.params.slug }
       }
+    )
 
-      const id = wpPage[0].id
+    if (!wpPage?.length) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Page Not Found'
+      })
+    }
 
-      const customData: any = await $fetch(
-        `https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`
-      )
+    const id = wpPage[0].id
 
-      console.log('Custom Data:', customData) // Debug
-      console.log('SEO Data:', customData?.SEO) // Debug
+    const customData: any = await $fetch(
+      `https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`
+    )
 
-      return {
-        ...customData,
-        wp_id: id
-      }
-    } catch (error) {
-      console.error('Fetch Error:', error)
-      throw error
+    return {
+      ...customData,
+      wp_id: id
     }
   },
   {
     server: true,
-    lazy: false,
-    watch: [() => route.params.slug]
+    lazy: false
   }
 )
 
@@ -155,92 +145,108 @@ const customCss = computed(() =>
 )
 
 /* ============================================
-   SEO (SERVER-SAFE PARSER)
+   SEO PARSER (Regex-based for SSR)
 ============================================ */
-function parseSeoHtml(html: string) {
-  if (!html) {
-    console.log('No SEO HTML received')
-    return { title: '', meta: [] as any[] }
+function extractSeoData(html: string) {
+  if (!html) return null
+
+  const data: any = {
+    title: '',
+    description: '',
+    ogTitle: '',
+    ogDescription: '',
+    ogImage: '',
+    twitterCard: '',
+    twitterTitle: '',
+    twitterDescription: '',
+    twitterImage: '',
+    keywords: ''
   }
 
-  console.log('Parsing SEO HTML:', html.substring(0, 200)) // Debug
-
-  let title = ''
-  const meta: any[] = []
-
-  // Title extraction
+  // Extract title
   const titleMatch = html.match(/<title[^>]*>(.*?)<\/title>/i)
   if (titleMatch) {
-    title = titleMatch[1].trim()
-    console.log('Extracted Title:', title)
+    data.title = titleMatch[1].trim()
   }
 
-  // Meta tags extraction
-  const metaTags = html.match(/<meta[^>]+>/gi) || []
-  console.log('Found meta tags:', metaTags.length)
+  // Extract meta description
+  const descMatch = html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']*)["']/i)
+  if (descMatch) {
+    data.description = descMatch[1]
+  }
 
-  metaTags.forEach((tag) => {
-    const attrs: any = {}
+  // Extract keywords
+  const keywordsMatch = html.match(/<meta[^>]*name=["']keywords["'][^>]*content=["']([^"']*)["']/i)
+  if (keywordsMatch) {
+    data.keywords = keywordsMatch[1]
+  }
 
-    // name or property
-    const nameMatch = tag.match(/\s(?:name|property)=["']([^"']+)["']/i)
-    if (nameMatch) {
-      const key = tag.toLowerCase().includes('property=') ? 'property' : 'name'
-      attrs[key] = nameMatch[1]
-    }
+  // Extract OG tags
+  const ogTitleMatch = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']*)["']/i)
+  if (ogTitleMatch) {
+    data.ogTitle = ogTitleMatch[1]
+  }
 
-    // content
-    const contentMatch = tag.match(/\scontent=["']([^"']*)["']/i)
-    if (contentMatch) {
-      attrs.content = contentMatch[1]
-    }
+  const ogDescMatch = html.match(/<meta[^>]*property=["']og:description["'][^>]*content=["']([^"']*)["']/i)
+  if (ogDescMatch) {
+    data.ogDescription = ogDescMatch[1]
+  }
 
-    // charset
-    const charsetMatch = tag.match(/\scharset=["']?([^"'\s>]+)["']?/i)
-    if (charsetMatch) {
-      attrs.charset = charsetMatch[1]
-    }
+  const ogImageMatch = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']*)["']/i)
+  if (ogImageMatch) {
+    data.ogImage = ogImageMatch[1]
+  }
 
-    if (Object.keys(attrs).length > 0) {
-      meta.push(attrs)
-      console.log('Added meta:', attrs)
-    }
-  })
+  // Extract Twitter tags
+  const twitterCardMatch = html.match(/<meta[^>]*name=["']twitter:card["'][^>]*content=["']([^"']*)["']/i)
+  if (twitterCardMatch) {
+    data.twitterCard = twitterCardMatch[1]
+  }
 
-  return { title, meta }
+  const twitterTitleMatch = html.match(/<meta[^>]*name=["']twitter:title["'][^>]*content=["']([^"']*)["']/i)
+  if (twitterTitleMatch) {
+    data.twitterTitle = twitterTitleMatch[1]
+  }
+
+  const twitterDescMatch = html.match(/<meta[^>]*name=["']twitter:description["'][^>]*content=["']([^"']*)["']/i)
+  if (twitterDescMatch) {
+    data.twitterDescription = twitterDescMatch[1]
+  }
+
+  const twitterImageMatch = html.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']*)["']/i)
+  if (twitterImageMatch) {
+    data.twitterImage = twitterImageMatch[1]
+  }
+
+  return data
 }
 
 /* ============================================
-   SEO COMPUTED
+   SEO SETUP - Using useSeoMeta (More Reliable)
 ============================================ */
-const seoData = computed(() => {
-  const rawSeo = pageData.value?.SEO?.description || ''
-  console.log('Raw SEO Data:', rawSeo ? 'exists' : 'missing')
-  return parseSeoHtml(rawSeo)
+const seoHtml = computed(() => pageData.value?.SEO?.description || '')
+const seoInfo = computed(() => extractSeoData(seoHtml.value))
+
+// Use both useHead and useSeoMeta for maximum compatibility
+useHead(() => {
+  return {
+    title: seoInfo.value?.title || pageData.value?.title || 'DSP CRM',
+    htmlAttrs: {
+      lang: 'en'
+    }
+  }
 })
 
-/* ============================================
-   USE HEAD
-============================================ */
-useHead(() => {
-  const parsed = seoData.value
-  
-  console.log('useHead called with:', {
-    title: parsed.title,
-    metaCount: parsed.meta.length,
-    pageTitle: pageData.value?.title
-  })
-
-  const headConfig = {
-    title: parsed.title || pageData.value?.title || 'DSP CRM',
-    meta: parsed.meta.length > 0 ? parsed.meta : [
-      { name: 'description', content: 'Default DSP CRM Description' }
-    ]
-  }
-
-  console.log('Head Config:', headConfig)
-  
-  return headConfig
+useSeoMeta({
+  title: () => seoInfo.value?.title || pageData.value?.title || 'DSP CRM',
+  description: () => seoInfo.value?.description || 'DSP CRM - Customer Relationship Management',
+  ogTitle: () => seoInfo.value?.ogTitle || seoInfo.value?.title || pageData.value?.title || 'DSP CRM',
+  ogDescription: () => seoInfo.value?.ogDescription || seoInfo.value?.description || 'DSP CRM',
+  ogImage: () => seoInfo.value?.ogImage || '',
+  twitterCard: () => seoInfo.value?.twitterCard || 'summary_large_image',
+  twitterTitle: () => seoInfo.value?.twitterTitle || seoInfo.value?.title || pageData.value?.title || 'DSP CRM',
+  twitterDescription: () => seoInfo.value?.twitterDescription || seoInfo.value?.description || 'DSP CRM',
+  twitterImage: () => seoInfo.value?.twitterImage || seoInfo.value?.ogImage || ''
 })
 
 /* ============================================
@@ -330,12 +336,6 @@ function initFilters() {
    Mounted
 ============================================ */
 onMounted(() => {
-  // Check SEO in browser
-  console.log('OnMounted - Page Data:', pageData.value)
-  console.log('OnMounted - SEO:', pageData.value?.SEO)
-  console.log('Document Title:', document.title)
-  console.log('Meta Tags:', document.querySelectorAll('meta'))
-
   document.addEventListener('click', (e: any) => {
     const link = e.target.closest('a')
     if (!link) return
