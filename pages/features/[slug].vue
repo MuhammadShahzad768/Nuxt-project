@@ -11,9 +11,7 @@ import {
 
 import AOS from 'aos'
 import 'aos/dist/aos.css'
-
 import Loader from '@/components/Sections/Loader.vue'
-
 import Swiper from 'swiper'
 import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'
@@ -33,31 +31,21 @@ const { data: pageData } = await useAsyncData(
       'https://admin.dspcrm.com/wp-json/wp/v2/pages',
       { params: { slug: route.params.slug } }
     )
-
     if (!wpPage?.length) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: 'Page Not Found'
-      })
+      throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
     }
-
     const id = wpPage[0].id
-
     const customData: any = await $fetch(
       `https://admin.dspcrm.com/wp-json/custom/v1/page-${id}`
     )
-
     return { ...customData, wp_id: id }
   },
   { server: true, lazy: false }
 )
 
-/* ============================================
-   SEO Injection (SSR safe)
-============================================ */
+
 const seoHtml = computed(() => pageData.value?.SEO?.description || '')
 
-// Regex based extraction (no DOMParser needed)
 const seoTitle = computed(() => {
   const match = seoHtml.value.match(/<title>(.*?)<\/title>/i)
   return match ? match[1] : 'DSPCRM - Page'
@@ -82,7 +70,6 @@ useHead({
   title: seoTitle,
   meta: seoMeta
 })
-
 /* ============================================
    HTML Sanitizer
 ============================================ */
