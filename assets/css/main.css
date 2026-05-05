@@ -292,3 +292,14 @@ li {
 .content li::before{
   content: none;
 }
+/*Founder*/
+ .blog_box{ max-width:32%; } .mt-[100px]{ margin-top:150px; } .min-height-title{ min-height:60px; } .min-height-description{ min-height:50px; }
+
+.founder img{
+ width:70px;
+ height:70px;
+}
+.soical img{
+   width:20px;
+ height:20px;
+}

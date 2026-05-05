@@ -276,7 +276,7 @@
                 <div class="head text-center">
                 <h2 class="xl:text-5xl	lg:text-4xl md:text-2xl text-2xl text-[#00296B] text-center font-poppins font-bold leading-[30px] md:leading-[30px] lg:leading-[40px] xl:leading-[55px] mb-4 tracking-tight">{{question.faqs_title}}</h2>
             </div>
-                <div class="flex mt-20 max-w-[1210px] m-auto px-3 flex-wrap" id='Faqs'>
+                <div class="flex mt-20 max-w-[1210px] m-auto px-3 flex-wrap lg:flex-nowrap " id='Faqs'>
                     <div class="left_faqs max-[680px] w-full mt-7">
                       
                             <div v-if="question?.faqs_question" v-for="(faq, index) in question.faqs_question" :key="index">
