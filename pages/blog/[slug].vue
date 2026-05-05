@@ -10,71 +10,48 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute, useAsyncData, useHead, navigateTo } from '#imports'
-import Loader from "@/components/Sections/Loader.vue"
+import { useRoute, useAsyncData, useHead, createError } from '#imports'
 
 const route = useRoute()
 const slug = route.params.slug as string
 
-// ✅ Fetch with SSR enabled
 const { data, error, pending } = await useAsyncData(
   () => `post-${slug}`,
   () => $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/blog-html/${slug}`),
-  { server: true } // ensures SEO data is available at SSR
+  { server: true }
 )
 
-// 404 handling
 if (error.value?.statusCode === 404) {
   throw createError({ statusCode: 404, statusMessage: 'Post Not Found' })
 }
 
 /* ============================================
-   SEO Injection (Structured JSON preferred)
+   Parse raw SEO HTML string → JSON
 ============================================ */
-useHead(() => {
-  if (!data.value) {
-    return {
-      title: 'Blog',
-      meta: [{ name: 'description', content: '' }]
-    }
-  }
+function parseSeoString(seoString: string) {
+  if (!seoString) return { title: 'DSPCRM - Page', meta: [] }
+
+  const titleMatch = seoString.match(/<title>(.*?)<\/title>/i)
+  const metaDescMatch = seoString.match(/<meta\s+name=["']description["']\s+content=["'](.*?)["']\s*\/?>/i)
 
   return {
-    // ✅ Prefer meta_title from API, fallback to post title
-    title: data.value.seo?.meta_title || data.value.title || 'DSPCRM - Page',
-
-    meta: [
-      {
-        name: 'description',
-        content: data.value.seo?.meta_description || ''
-      }
-    ],
-
-    // ✅ Inject custom CSS if provided
-    style: data.value.static_css
-      ? [
-          {
-            id: 'dynamic-css',
-            innerHTML: data.value.static_css
-          }
-        ]
+    title: titleMatch ? titleMatch[1] : 'DSPCRM - Page',
+    meta: metaDescMatch
+      ? [{ name: 'description', content: metaDescMatch[1] }]
       : []
   }
-})
+}
 
-// ✅ SPA navigation for internal links
-onMounted(() => {
-  document.addEventListener('click', (e: any) => {
-    const link = e.target.closest('a')
-    if (!link) return
+/* ============================================
+   Inject into <head> (SSR-safe)
+============================================ */
+useHead(() => {
+  const seoString = data.value?.SEO?.description || ''
+  const parsed = parseSeoString(seoString)
 
-    const url = link.getAttribute('href')
-    if (!url) return
-
-    if (url.startsWith('/') && !url.startsWith('//')) {
-      e.preventDefault()
-      navigateTo(url)
-    }
-  })
+  return {
+    title: parsed.title,
+    meta: parsed.meta
+  }
 })
 </script>
