@@ -286,6 +286,11 @@ onMounted(() => {
     line-height: 110%;
 }
 @media screen and (min-width:320px) and (max-width:768px){
+  :deep(.tool_box.show) {
+
+  max-width: 100%;
+    width: 100%;
+}
 :deep(.page-id-659 .left_right) {
      padding-top: 20px;
     padding-bottom: 20px;
