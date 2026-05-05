@@ -30,7 +30,7 @@ footer .logo{
 .clients_box:hover{
   background-color: white;
 }
-:deep(.local-seo_button){
+.local-seo_button{
 margin-top:30px;
 }
 
