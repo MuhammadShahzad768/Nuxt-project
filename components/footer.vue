@@ -51,28 +51,34 @@
             </svg>
             <hr style="width: 60px;height: 2px;border-top-width: 2px;border-color: #A5A7B8;" >
             </div>
-          <p
-            v-for="(item, index) in Contact"
-            :key="`contact-${index}`"
-            class="flex wow skewIn text-[15px] max-w-[220px] text-[#5E6282] font-poppins font-medium mt-3 mb-1"
-            :class="{ animated: visibleItems[index] }"
-            :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
-          >
-            <svg v-if="index === 10" xmlns="http://www.w3.org/2000/svg" class="mt-[4px] h-10 w-10 mr-2 text-[#00296b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
+          <a
+  v-for="(item, index) in Contact"
+  :key="`contact-${index}`"
+  :href="getLink(item.name)"
+  target="_blank"
+  class="flex wow skewIn text-[15px] max-w-[220px] text-[#5E6282] font-poppins font-medium mt-3 mb-1"
+  :class="{ animated: visibleItems[index] }"
+  :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
+>
+  <!-- SVG same as your code -->
+  
+  <svg v-if="index === 10" xmlns="http://www.w3.org/2000/svg" class="mt-[4px] h-10 w-10 mr-2 text-[#00296b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
 
-            <svg v-else-if="index === 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-[4px] h-5 w-5 mr-2 text-[#00296b]">
-              <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8"/>
-              <rect x="3" y="6" width="18" height="12" rx="2" ry="2"/>
-            </svg>
+  <svg v-else-if="index === 1" xmlns="http://www.w3.org/2000/svg" class="mt-[4px] h-5 w-5 mr-2 text-[#00296b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8"/>
+    <rect x="3" y="6" width="18" height="12" rx="2" ry="2"/>
+  </svg>
 
-            <svg v-else-if="index === 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-[4px] h-5 w-5 mr-2 text-[#00296b]">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67 A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91 a16 16 0 0 0 6 6l1.27-1.27 a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 A2 2 0 0 1 22 16.92z"/>
-            </svg>
-            {{ item.name }}
-          </p>
+  <svg v-else-if="index === 2" xmlns="http://www.w3.org/2000/svg" class="mt-[4px] h-5 w-5 mr-2 text-[#00296b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67 A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91 a16 16 0 0 0 6 6l1.27-1.27 a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 A2 2 0 0 1 22 16.92z"/>
+  </svg>
+
+  {{ item.name }}
+</a>
         </div>
 
         <div class="icons mt-5">
@@ -233,12 +239,11 @@ export default {
       ProductTitle: "",
       SupportTitle: "",
       custom_html: "",
-      SoicalName: [],
+      SocialName: [], // ✅ corrected spelling
       visibleItems: [],
     };
   },
 
-  // ✅ Watch for route changes to refresh data
   watch: {
     $route: {
       handler: "fetchData",
@@ -291,7 +296,7 @@ export default {
         };
         const normalize = (str) => str?.toLowerCase().replace(/\s+/g, "").replace("-", "");
 
-        this.SoicalName = data.soical_icons?.icons_and_links?.map((item) => {
+        this.SocialName = data.soical_icons?.icons_and_links?.map((item) => {
           const key = normalize(item.icons_name);
           return {
             href: item.icon_url?.url || "#",
@@ -321,8 +326,7 @@ export default {
               const elements = Array.from(this.$refs.listItems || []);
               const index = elements.indexOf(entry.target);
               if (index !== -1) {
-                // Use $set if using Vue 2, or direct assignment for Vue 3
-                this.visibleItems[index] = true;
+                this.visibleItems[index] = true; // ✅ Vue 3 direct assignment
               }
               this.observer.unobserve(entry.target);
             }
@@ -334,6 +338,22 @@ export default {
       if (this.$refs.listItems) {
         Array.from(this.$refs.listItems).forEach((el) => this.observer.observe(el));
       }
+    },
+
+    getLink(value) {
+      // 📧 Email check
+      if (value.includes("@")) {
+        return `mailto:${value}`;
+      }
+
+      // 📞 Phone check (numbers only)
+      const phone = value.replace(/\D/g, "");
+      if (phone.length >= 10) {
+        return `https://wa.me/${phone}`; // WhatsApp link
+      }
+
+      // 📍 Default
+      return "#";
     },
   },
 
