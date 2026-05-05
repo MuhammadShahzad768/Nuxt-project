@@ -226,9 +226,7 @@ onMounted(() => {
 :deep(.content-img-section) {
   padding-top: 150px !important;
 }
-:deep(.local-seo_button){
-margin-top:30px;
-}
+
 .wp-content {
   width: 100%;
   min-height: 80vh;
