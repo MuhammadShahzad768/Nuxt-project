@@ -43,7 +43,7 @@
       
       <!-- Yearly Plans -->
       <div  v-if="activeTab === 'yearly'" class="tab-content  m-auto tracking-tighter mt-16">
-        <div class="flex mt-16 gap-[.8%] max-w-[95%] m-auto justify-center">
+        <div class="flex flex-wrap mt-16 gap-5 xl:gap-[.8%] max-w-[95%] m-auto justify-center">
               <Price_box
       :Price_box="Tabs.price_boxes_yearly" :activeTab="activeTab" />
     
@@ -65,6 +65,24 @@
     :allowTouchMove="false"    
     :free-mode="true"        
     :free-mode-momentum="false"
+    :breakpoints="{
+    320: {
+      slidesPerView: 2,
+      spaceBetween: 15
+    },
+    640: {
+      slidesPerView: 3,
+      spaceBetween: 20
+    },
+    1024: {
+      slidesPerView: 5,
+      spaceBetween: 25
+    },
+    1280: {
+      slidesPerView: 6,
+      spaceBetween: 30
+    }
+  }"
     class="agencies_logos max-w-[95%] m-auto"
   >
     <SwiperSlide v-for="(logo, i) in logos" :key="i">

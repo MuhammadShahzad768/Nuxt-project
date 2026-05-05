@@ -263,6 +263,8 @@ onMounted(() => {
   opacity: 1;
   transform: scale(1);
   position: relative;
+  max-width: 31.5%;
+    width: 100%;
 }
 .wp-content {
   width: 100%;
