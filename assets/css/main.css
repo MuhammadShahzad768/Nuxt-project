@@ -21,6 +21,9 @@ footer .logo{
 .-top-10{
       top: -5.5rem;
 }
+.testimonial-section .-top-10{
+      top: -3.5rem;
+}
 .group:hover .svg-color-change {
     filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }
@@ -31,9 +34,15 @@ footer .logo{
   background-color: white;
 }
 .local-seo_button{
-margin-top:30px;
+padding-bottom:30px;
 }
-
+.stand_out_outer .local-seo_button{
+padding-bottom:50px;
+padding-top:0;
+}
+.testimonial-section {
+  padding-top: 30px;
+}
 .custom_family{
     font-family: "Inter", sans-serif;
   }  
