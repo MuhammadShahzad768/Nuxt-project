@@ -52,29 +52,27 @@
       
          <button @click="scrollToCompare" class="hover:bg-[#00296B] hover:text-white transition-colors duration-200 m-auto text-center  bg-[#D9D9D9] text-[#00296B] font-medium tracking-tighter py-4 px-10 rounded-xl mt-12 gap-2 flex items-center"> {{ Tabs.compare_plan }}<i class="fa-solid fa-chevron-down" style='font-size:12px'></i></button>
          <p class="text-center py-14 text-[#494949] pb-9 text-base">Trusted by thousands of agencies</p>
-         <div class="agencies_logos flex max-w-[95%] m-auto gap-[50px]">
-            <div class="images">
-            <img src="http://admin.dspcrm.com/wp-content/uploads/2025/08/amw.png" alt="">
-        </div>
-        <div class="images">
-            <img src="http://admin.dspcrm.com/wp-content/uploads/2026/02/get-me-links.png" alt="">
-        </div>
-        <div class="images">
-            <img src="http://admin.dspcrm.com/wp-content/uploads/2026/02/loganix.svg" alt="">
-        </div>
-        <div class="images">
-            <img src="http://admin.dspcrm.com/wp-content/uploads/2025/09/wordagents.svg" alt="">
-        </div>
-        <div class="images">
-            <img src="http://admin.dspcrm.com/wp-content/uploads/2026/02/ranked.svg" alt="">
-        </div>
-        <div class="images">
-            <img src="http://admin.dspcrm.com/wp-content/uploads/2026/02/seobros.svg" alt="">
-        </div>
-        <div class="images">
-            <img src="http://admin.dspcrm.com/wp-content/uploads/2026/02/wpspeedfix.svg" alt="">
-        </div>
-         </div>
+          <Swiper
+    :modules="[Autoplay]"
+    :slides-per-view="5"
+    :space-between="25"
+    :loop="true"
+    :autoplay="{
+      delay: 0,                // no pause
+      disableOnInteraction: false
+    }"
+    :speed="4000"            
+    :allowTouchMove="false"    
+    :free-mode="true"        
+    :free-mode-momentum="false"
+    class="agencies_logos max-w-[95%] m-auto"
+  >
+    <SwiperSlide v-for="(logo, i) in logos" :key="i">
+      <div class="images flex justify-center">
+        <img :src="logo" alt="Agency logo" class="max-h-[80px]" />
+      </div>
+    </SwiperSlide>
+  </Swiper>
 
          </div>
          </section>
@@ -83,9 +81,9 @@
                 <div class="">
                     <div class="flex xl:text-[25px]  justify-end text-[15px] font-medium mb-3 w-[96%] m-auto text-center" >
                         <div class="xl:max-w-[670px] max-w-[110px]  w-full"></div>
-                        <div class="max-w-[15%] w-full">Basic</div>
-                        <div class="max-w-[15%] w-full">Pro</div>
-                        <div class="max-w-[15%] w-full">Plus</div>
+                        <div class="max-w-[18%] w-full">Basic</div>
+                        <div class="max-w-[18%] w-full">Pro</div>
+                        <div class="max-w-[18%] w-full">Plus</div>
                     </div>
                 </div>
                 <hr class="border border-black max-w-[96%] m-auto">
@@ -93,43 +91,43 @@
                     <h3 class="text-[25px] font-medium pl-14">Personalization</h3>
                     
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-6 bg-white">
-                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px] text-[13px]">Custom client portal branding</p>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Custom client portal branding</p>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅  </div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Custom client portal domain</p>
-                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅  </div>
-                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >✅</div>
-                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
-                    </div>
-                    <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Custom email domain</p>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Custom client portal domain</p>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅  </div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >✅</div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Client portal menu editor</p>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Custom email domain</p>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅  </div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >✅</div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Client portal language editor</p>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Client portal menu editor</p>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >✅</div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
+                    </div>
+                    <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Client portal language editor</p>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫    </div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >🚫  </div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Client portal template editor</p>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Client portal template editor</p>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫  </div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >🚫 </div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫 </div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Remove «Powered by»</p>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Remove «Powered by»</p>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫  </div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center " >🚫</div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫 </div>
@@ -139,35 +137,31 @@
                 <div class="max-w-[96%] m-auto mt-14">
                     <h3 class="text-[25px] font-medium pl-14">Team management</h3>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Team members
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Team members
                         </p>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">5  </div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >10  </div>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >50+</div>
                     </div>
                     <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Additional team members</p>
+                        <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Additional team members</p>
                         <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫  </div>
-                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" style="
-    font-size: 10px;
-">$20 / seat / month  </div>
-                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" style="
-    font-size: 10px;
-">Contact us </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center text-[10px] xl:text-[18px]" >$20 / seat / month  </div>
+                        <div class="xl:max-w-[18%] max-w-[15%] w-full text-center text-[10px] xl:text-[18px]" >Contact us </div>
                     </div>
                     </div>
                     <hr class="border border-black max-w-[96%] m-auto mt-8">
                     <div class="max-w-[96%] m-auto mt-10">
                         <h3 class="text-[25px] font-medium pl-14">Client management</h3>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Unlimited clients
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Unlimited clients
                             </p>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅</div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅ </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Client-side teams</p>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Client-side teams</p>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫  </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫   </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫 </div>
@@ -177,43 +171,43 @@
                     <div class="max-w-[96%] m-auto mt-10">
                         <h3 class="text-[25px] font-medium pl-14">Modules</h3>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Helpdesk                            </p>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Helpdesk                            </p>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅</div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅ </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Webhooks</p>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Webhooks</p>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅ </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅  </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Affiliate / referral tracking</p>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Affiliate / referral tracking</p>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫  </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫   </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫 </div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Zapier</p>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Zapier</p>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅ </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅  </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Make</p>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Make</p>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫 </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅  </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Reseller white-label program</p>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Reseller white-label program</p>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫</div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫</div>
                         </div>
                         <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">API</p>
+                            <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">API</p>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫</div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
                             <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
@@ -223,19 +217,19 @@
                         <div class="max-w-[96%] m-auto mt-10">
                             <h3 class="text-[25px] font-medium pl-14">Payments</h3>
                             <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">No transaction ees                            </p>
+                                <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">No transaction ees                            </p>
                                 <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅</div>
                                 <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅ </div>
                                 <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                             </div>
                             <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Multi-currency support</p>
+                                <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Multi-currency support</p>
                                 <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫 </div>
                                 <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
                                 <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫</div>
                             </div>
                             <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Invoice generation</p>
+                                <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Invoice generation</p>
                                 <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅ </div>
                                 <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅  </div>
                                 <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
@@ -245,28 +239,28 @@
                             <div class="max-w-[96%] m-auto mt-10">
                                 <h3 class="text-[25px] font-medium pl-14">Support & services</h3>
                                 <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Email support</p>
+                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Email support</p>
                                     <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">✅</div>
                                     <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅ </div>
                                     <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                                 </div>
                                 <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Priority support via Slack</p>
+                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Priority support via Slack</p>
                                     <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫 </div>
                                     <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
                                     <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫</div>
                                 </div>
                                 <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Uptime SLA</p>
+                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Uptime SLA</p>
                                     <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫 </div>
                                     <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
                                     <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >✅</div>
                                 </div>
                                 <div class="lines flex text-[25px] py-6  rounded-lg mt-2">
-                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 text-[13px]">Invoice generation</p>
+                                    <p class="max-w-[670px] w-full xl:pl-14 pl-4 xl:text-[18px] text-[13px]">Invoice generation</p>
                                     <div class="xl:max-w-[18%] max-w-[15%] w-full text-center">🚫 </div>
                                     <div class="xl:max-w-[18%] max-w-[15%] w-full text-center" >🚫  </div>
-                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center text-[10px]" >Contact us</div>
+                                    <div class="xl:max-w-[18%] max-w-[15%] w-full text-center text-[10px] xl:text-[18px]" >Contact us</div>
                                 </div>
                                 </div>
             </div>
@@ -320,6 +314,21 @@ import Ready from "@/components/Sections/Ready_to_give.vue";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Loader from "@/components/Sections/Loader.vue"
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+
+const logos = [
+  'http://admin.dspcrm.com/wp-content/uploads/2025/08/amw.png',
+  'http://admin.dspcrm.com/wp-content/uploads/2026/02/get-me-links.png',
+  'http://admin.dspcrm.com/wp-content/uploads/2026/02/loganix.svg',
+  'http://admin.dspcrm.com/wp-content/uploads/2025/09/wordagents.svg',
+  'http://admin.dspcrm.com/wp-content/uploads/2026/02/ranked.svg',
+  'http://admin.dspcrm.com/wp-content/uploads/2026/02/seobros.svg',
+  'http://admin.dspcrm.com/wp-content/uploads/2026/02/wpspeedfix.svg',
+]
 // ✅ Emits
 const emit = defineEmits(["page-loaded"]);
 const scrollToCompare = () => {
@@ -348,7 +357,7 @@ function handleClick(id) {
   scrollToFaq();
 }
 useHead({
-  title: 'Plans & Pricing // DSPCRM',
+  title: 'Plans & Pricing',
   meta: [
     { name: 'description', content: 'Learn more about DSPCRM and our mission.' },
     { name: 'keywords', content: 'DSPCRM, About Us, Company Info' },
@@ -449,5 +458,11 @@ onMounted(async () => {
 .mySwiper {
     width: 880px;
     height: 380px;
+}
+.swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+.agencies_logos  .swiper-wrapper{
+  padding-top:0;
 }
 </style>

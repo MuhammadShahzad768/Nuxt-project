@@ -8,6 +8,11 @@
     max-width: 240px;
     /* height: 60px; */
 }
+header {
+    background-image: url(http://admin.dspcrm.com/wp-content/uploads/2025/10/shape-bottom-1.png);
+    background-position: top;
+    background-size: cover;
+}
 a.mega-menu-link:not(:last-child) {
     pointer-events: none;
 

@@ -201,10 +201,10 @@
               </div>
               <span class="text-[13px] leading-[1.5] text-[#494949]">
                 I agree to the
-                 <router-link  to="/Terms"  class="text-[#00296B] no-underline transition-colors duration-150 hover:underline"> Terms of Service</router-link>
+                 <router-link  to="/Terms"  class="text-[#00296B] no-underline transition-colors duration-150 hover:underline" target="_blank"> Terms of Service</router-link>
                
                 and
-                 <router-link  to="/Privacy-Policy" class="text-[#00296B] no-underline transition-colors duration-150 hover:underline">  Privacy Policy</router-link>
+                 <router-link  to="/Privacy-Policy" class="text-[#00296B] no-underline transition-colors duration-150 hover:underline" target="_blank">  Privacy Policy</router-link>
                 
               </span>
             </label>
@@ -232,19 +232,6 @@
             </span>
           </button>
         </form>
-
-        <!-- Footer -->
-        <!-- <div class="mt-6 flex flex-col gap-3">
-          <p class="text-[13.5px] text-[#aaa]">Already have a workspace?</p>
-          <NuxtLink
-            to="/login"
-            class="inline-flex items-center gap-[6px] text-[13.5px] text-[#00296B]
-                   no-underline transition-colors duration-150 hover:underline"
-          >
-            <i class="fa-solid fa-arrow-left text-sm"></i> Return
-          </NuxtLink>
-        </div> -->
-
       </div>
     </div>
   </div>
