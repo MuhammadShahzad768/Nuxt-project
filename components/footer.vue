@@ -82,22 +82,31 @@
         </div>
 
         <div class="icons mt-5">
-          <div class="inline-flex items-center space-x-4">
-            <div class="flex items-center space-x-3">
-              <a
-                v-for="(item, index) in SoicalName"
-                :key="index"
-                :href="item.href"
-                target="_blank"
-                rel="noopener"
-                class=" group w-9 h-9 rounded-full bg-white shadow flex items-center justify-center transition-all duration-500 opacity-0 translate-y-3 hover:scale-110 hover:bg-[#00296B]"
-                :class="{ 'opacity-100 translate-y-0': visibleItems[index] }"
-              >
-                <i :class="['fa-brands', `fa-${item.icon[1]}`, 'text-[#00296B] w-4 h-4 transition-colors duration-300 group-hover:text-white']"></i>
-              </a>
-            </div>
-          </div>
-        </div>
+  <div class="inline-flex items-center space-x-4">
+    <div class="flex items-center space-x-3">
+      <a
+        v-for="(item, index) in staticSocialIcons"
+        :key="`social-${index}`"
+        :href="item.href"
+        target="_blank"
+        rel="noopener"
+        class="group w-9 h-9 rounded-full bg-white shadow flex items-center justify-center transition-all duration-500 hover:scale-110 hover:bg-[#00296B] opacity-100 translate-y-0"
+        :style="{ transitionDelay: (index * 0.1) + 's' }"
+      >
+        <i 
+          :class="[
+            'fa-brands', 
+            `fa-${item.icon}`, 
+            'text-[#00296B] transition-colors duration-300 group-hover:text-white'
+          ]"
+          style="font-size: 16px;"
+        ></i>
+      </a>
+    </div>
+  </div>
+</div>
+     
+
       </div>
 
       <div class="lg:max-w-[18%] md:max-w-[33%] w-full mb-10 lg:mb-0 md:mb-5">
@@ -221,7 +230,24 @@
 </template>
 
 <script>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faFacebookF,
+  faTwitter,
+  faInstagram,
+  faLinkedinIn,
+  faYoutube,
+  faTiktok,
+} from "@fortawesome/free-brands-svg-icons";
+
+library.add(faFacebookF, faTwitter, faInstagram, faLinkedinIn, faYoutube, faTiktok);
+
 export default {
+  components: {
+    FontAwesomeIcon,
+  },
+
   data() {
     return {
       observer: null,
@@ -241,6 +267,12 @@ export default {
       custom_html: "",
       SocialName: [], // ✅ corrected spelling
       visibleItems: [],
+        staticSocialIcons: [
+      { href: 'https://www.facebook.com/digitalserviceprovidercrm', icon: 'facebook-f' },
+      { href: 'https://www.linkedin.com/company/dsp-crm', icon: 'linkedin-in' },
+      { href: 'https://www.instagram.com/dspcrm/', icon: 'instagram' },
+      { href: 'https://www.youtube.com/@dspcrm/', icon: 'youtube' },
+    ],
     };
   },
 
@@ -285,7 +317,7 @@ export default {
             ? data.html_section.section
             : data.html_section || "";
 
-        // Normalize Social Icons
+        // ✅ FIXED: Correct spelling "social_icons"
         const faIconMap = {
           facebook: "facebook-f",
           twitter: "twitter",
@@ -296,7 +328,7 @@ export default {
         };
         const normalize = (str) => str?.toLowerCase().replace(/\s+/g, "").replace("-", "");
 
-        this.SocialName = data.soical_icons?.icons_and_links?.map((item) => {
+        this.SocialName = data.social_icons?.icons_and_links?.map((item) => {
           const key = normalize(item.icons_name);
           return {
             href: item.icon_url?.url || "#",
@@ -326,7 +358,7 @@ export default {
               const elements = Array.from(this.$refs.listItems || []);
               const index = elements.indexOf(entry.target);
               if (index !== -1) {
-                this.visibleItems[index] = true; // ✅ Vue 3 direct assignment
+                this.visibleItems[index] = true;
               }
               this.observer.unobserve(entry.target);
             }
@@ -341,18 +373,13 @@ export default {
     },
 
     getLink(value) {
-      // 📧 Email check
       if (value.includes("@")) {
         return `mailto:${value}`;
       }
-
-      // 📞 Phone check (numbers only)
       const phone = value.replace(/\D/g, "");
       if (phone.length >= 10) {
-        return `https://wa.me/${phone}`; // WhatsApp link
+        return `https://wa.me/${phone}`;
       }
-
-      // 📍 Default
       return "#";
     },
   },
