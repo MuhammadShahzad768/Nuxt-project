@@ -73,7 +73,7 @@
 
       <!-- Bottom Logos -->
       <div class="xl:mt-16 md:mt-24 mt-5">
-        <div class="flex flex-wrap items-center gap-x-10 gap-y-8 md:gap-x-16">
+        <div class="flex flex-wrap items-center gap-x-10 gap-y-8 md:gap-x-16 md:justify-center">
           <img 
   v-for="(l, i) in Logos" 
   :key="i" 

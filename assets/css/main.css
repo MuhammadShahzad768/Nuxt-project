@@ -259,13 +259,13 @@ li {
     overflow-x: hidden;
   }
   .mobile{
-    height: 100vh;
+    height: 80vh;
     width: 100%;
     margin: auto;
   }
   .digital_boxes img {
     position: absolute;
-    top: 30%;
+    top: 40%;
     max-width: 400px;
     left: 50%;
     max-height: 400px;
@@ -285,7 +285,7 @@ li {
 .digital_boxes {
   border-left: 1.4px solid black;
   border-right: 1.4px solid black;
-  padding-bottom: 80px;
+  padding-bottom: 0px;
 }
 .inner_box{
   border-top: 1.4px solid black;

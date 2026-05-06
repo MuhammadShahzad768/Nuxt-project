@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-[#F4F4F4] pt-10 xl:px-8 px-4 custom_family">
+  <section class="bg-[#F4F4F4] pt-10 xl:px-8 px-4 md:px-6 custom_family">
     <div class="container max-w-screen-xl m-auto">
       <div class="bg-blue-900 text-white py-12 xl:px-5 px-0 rounded-lg">
         <div class="container mx-auto px-4 text-center">
@@ -28,8 +28,8 @@
             :breakpoints="{
               300: {slidesPerView: 3},
               640: { slidesPerView: 3 },
-              768: { slidesPerView: 4 },
-              1024: { slidesPerView: 6 },
+              768: { slidesPerView: 6 },
+              1024: { slidesPerView: 8 },
               1280: { slidesPerView: 12 }
             }"
             class="xl:mt-8 mt-0"

@@ -1,6 +1,6 @@
 <template>
  <section class="bg-[#FAFAFA] py-14 custom_family overflow-hidden" :data-id="Services?.section_display"  :class="{ hidden: !Services?.section_display }">
-      <div class="container max-w-screen-xl m-auto xl:px-8 px-4">
+      <div class="container max-w-screen-xl m-auto xl:px-8 px-4 md:px-6">
         <div class="head text-center">
         <h2 class="xl:text-[45px]	text-[20px] text-[var(--text-color)] text-center  font-medium  leading-[20px]  lg:leading-[40px] xl:leading-[55px] mb-4 tracking-tight" >{{ServicesTitle}}<br><span data-aos="fade-up" class="font-bold">{{ServicesTitleBold}}</span></h2>
        <p class="mt-4 text-base md:text-lg text-[var(--text-custom)] max-w-4xl mx-auto">{{ServicesDescription}}</p>
@@ -11,30 +11,30 @@
       <!-- Left text, right image -->
       <div class="max-w-[970px] bg-[#E5E8F1]  mobile" data-aos="fade-right">
         <div class='inner_box py-8  pl-[0%] xl:w-full w-[90%] m-auto xl:pl-[19%] group-hover:bg-[#00296B]'>
-        <h3 class="text-[#00296B] xl:text-left text-center text-[20px] xl:text-[30px] group-hover:text-white font-semibold">
+        <h3 class="text-[#00296B] xl:text-left text-center text-[20px] xl:text-[30px] group-hover:text-white font-semibold md:text-left">
           {{ service.service_agencies_box_title }}
         </h3>
-        <p class="max-w-[330px] xl:text-left text-center mt-[10px] text-[var(--text-custom)] group-hover:text-white text-lg">
+        <p class="xl:ml-0 md:m-auto max-w-[330px] xl:text-left text-center mt-[10px] text-[var(--text-custom)] group-hover:text-white text-lg md:text-left md:ml-0">
           {{ service.service_agencies_box_description }}
         </p>
         </div>
       </div>
-      <img :src="service.service_agencies_boxes_images.url" alt="" data-aos="fade-left" class="absolute right-0 h-[300px] w-[600px]" />
+      <img :src="service.service_agencies_boxes_images.url" alt="" data-aos="fade-left" class="absolute right-0 xl:h-[300px] xl:w-[600px] md:w-[350px] md:h-[300px]" />
     </template>
 
     <template v-else>
       <!-- Right text, left image -->
       <div class="max-w-[970px] bg-[#E5E8F1]  ml-auto mobile" data-aos="fade-left">
-      <div class='group-hover:bg-[#00296B] inner_box py-8 xl:pl-[45%] pl-[0] xl:w-full w-[90%] m-auto'>
-        <h3 class="text-[#00296B] xl:text-left text-center text-[20px] xl:text-[30px] font-semibold group-hover:text-white transition-colors duration-500 ease-in-out">
+      <div class='group-hover:bg-[#00296B] inner_box py-8 xl:pl-[45%] pl-[0] xl:w-full w-[90%] m-auto md:w-[50%] md:mr-0 md:ml-auto'>
+        <h3 class="text-[#00296B] xl:text-left text-center text-[20px] xl:text-[30px] font-semibold group-hover:text-white transition-colors duration-500 ease-in-out md:text-left">
           {{ service.service_agencies_box_title }}
         </h3>
-        <p class="max-w-[350px] xl:text-left text-center  mt-[10px] text-[var(--text-custom)] text-xl group-hover:text-white transition-colors duration-500 ease-in-out">
+        <p class="xl:ml-0 md:m-auto max-w-[350px] xl:text-left text-center  mt-[10px] text-[var(--text-custom)] text-xl group-hover:text-white transition-colors duration-500 ease-in-out md:text-left md:ml-0">
           {{ service.service_agencies_box_description }}
         </p>
         </div>
       </div>
-      <img :src="service.service_agencies_boxes_images.url" alt="" data-aos="fade-right" class="absolute top-[-50%] left-0 h-[300px] w-[600px]" />
+      <img :src="service.service_agencies_boxes_images.url" alt="" data-aos="fade-right" class="absolute top-[-50%] left-0 xl:h-[300px] xl:w-[600px] md:w-[350px] md:h-[300px]" />
     </template>
   </div>
      

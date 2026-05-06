@@ -1,6 +1,6 @@
 <template>
  <section class="bg-[#FAFAFA] xl:py-14 py-0  bg-top custom_family xl:pt-[300px] pt-[40px] pb-[40px]" :data-id="clients?.section_display"  :class="{ hidden: !clients?.section_display }">
-      <div class="container max-w-screen-xl m-auto xl:px-8 px-4 custom_family">
+      <div class="container max-w-screen-xl m-auto xl:px-8 px-4 md:px-6 custom_family">
         <div class="head ">
           <div class="flex items-center flex-col">
             <div class="flex flex-col xl:max-w-[52%] w-full">
@@ -14,7 +14,7 @@
         <div class=" flex mt-8 xl:mt-16 flex-wrap gap-[2%] gap-y-[20px] xl:gap-y-[30px] overflow-hidden">
    <div 
    v-for="(client, index) in clientsBoxes" :key="index"
-  class=" w-full group  max-w-[100%] xl:max-w-[31%]  box-border bg-white  overflow-hidden border border-[#999999] rounded-3xl"
+  class=" w-full group  max-w-[100%] xl:max-w-[31%] md:max-w-[49%]  box-border bg-white  overflow-hidden border border-[#999999] rounded-3xl"
   :data-aos="getAosEffect(index)"
 >
 <div class='clients_box pl-6 pr-6 pt-8 pb-4'>
