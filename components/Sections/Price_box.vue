@@ -23,7 +23,10 @@
         </p>
       </div>
 <NuxtLink 
-  :to="`/trial?plan=${box.slug}`" @click="saveTab"
+  :to="`/trial?plan=${box.slug}`"
+  @click="saveTab"
+  target="_blank"
+  rel="noopener noreferrer"
   class="hover:bg-[#00296B] hover:text-white transition-colors duration-200 my-4 border-[var(--border-custom-color)] px-3 py-3 w-full rounded-lg border-2 text-center text-lg text-[var(--text-color)] tracking-tighter block"
 >
   {{ box.box_button_text }}
