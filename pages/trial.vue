@@ -237,20 +237,19 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useReCaptcha } from 'vue-recaptcha-v3'
+<script setup>
 
-const route = useRoute()
-const router = useRouter()
-const API_URL = 'https://dspcrm.app/api/v1/register-workspace'
+const route = useRoute();
+const router = useRouter();
+import { ref, onMounted, computed } from 'vue'
+const API_URL = 'https://dspcrm.app/api/v1/register-workspace';
 
-// ── State ───────────────────────────────────────────────
-const loading = ref(false)
-const successMsg = ref('')
-const apiError = ref('')
-const showPassword = ref(false)
+// ── Form & State ──────────────────────────────────────────────────────
+const loading = ref(false);
+const successMsg = ref('');
+const apiError = ref('');
+const showPassword = ref(false);
+const currentSlide = ref(0);
 
 const form = ref({
   name: '',
@@ -260,59 +259,76 @@ const form = ref({
   agreed: false,
   plan_slug: route.query.plan || 'basic',
   billing_cycle: route.query.cycle || 'monthly'
-})
+});
 
-const touched = ref({ name: false, email: false, password: false, workspace: false, agreed: false })
-const existenceErrors = ref({ email: '', workspace: '' })
+// ── Validation Logic ──────────────────────────────────────────────────
+const touched = ref({ name: false, email: false, password: false, workspace: false, agreed: false });
+const pending = ref({ email: false, workspace: false });
+const existenceErrors = ref({ email: '', workspace: '' });
 
-// ── Validation ──────────────────────────────────────────
 const rules = {
-  name: (v: string) => v.trim().length >= 2 ? '' : 'Name is required (min 2 chars).',
-  email: (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Please enter a valid email.',
-  password: (v: string) => v.length >= 8 ? '' : 'Password must be at least 8 characters.',
-  workspace: (v: string) => /^[a-z0-9-]+$/.test(v) ? '' : 'Use only lowercase, numbers, and hyphens.',
-  agreed: (v: boolean) => v ? '' : 'You must accept the terms.'
-}
+  name:      (v) => v.trim().length >= 2 ? '' : 'Name is required (min 2 chars).',
+  email:     (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Please enter a valid email.',
+  password:  (v) => v.length >= 8 ? '' : 'Password must be at least 8 characters.',
+  workspace: (v) => /^[a-z0-9-]+$/.test(v) ? '' : 'Use only lowercase, numbers, and hyphens.',
+  agreed:    (v) => v ? '' : 'You must accept the terms.'
+};
 
 const errors = computed(() => ({
-  name: touched.value.name ? rules.name(form.value.name) : '',
-  email: touched.value.email ? rules.email(form.value.email) : '',
-  password: touched.value.password ? rules.password(form.value.password) : '',
+  name:      touched.value.name      ? rules.name(form.value.name)           : '',
+  email:     touched.value.email     ? rules.email(form.value.email)         : '',
+  password:  touched.value.password  ? rules.password(form.value.password)   : '',
   workspace: touched.value.workspace ? rules.workspace(form.value.workspace) : '',
-  agreed: touched.value.agreed ? rules.agreed(form.value.agreed) : ''
-}))
+  agreed:    touched.value.agreed    ? rules.agreed(form.value.agreed)       : ''
+}));
 
-// ── Registration Handler ────────────────────────────────
+const touch = (field) => touched.value[field] = true;
+
+// ── Async Existence Checks ────────────────────────────────────────────
+const onEmailBlur = async () => {
+  touch('email');
+
+};
+
+const onWorkspaceBlur = async () => {
+};
+
+// ── Password Strength ─────────────────────────────────────────────────
+const passwordStrength = computed(() => {
+  const v = form.value.password;
+  if (!v) return 0;
+  let s = 0;
+  if (v.length >= 8)           s++;
+  if (/[A-Z]/.test(v))        s++;
+  if (/[0-9]/.test(v))        s++;
+  if (/[^A-Za-z0-9]/.test(v)) s++;
+  return s;
+});
+const strengthLabel = computed(() => ['', 'Weak', 'Fair', 'Good', 'Strong'][passwordStrength.value]);
+const strengthColor = computed(() => ['', '#ef4444', '#f59e0b', '#facc15', '#22c55e'][passwordStrength.value]);
+
+// ── Submit ────────────────────────────────────────────────────────────
 const handleRegistration = async () => {
-  apiError.value = ''
-  successMsg.value = ''
-  existenceErrors.value.workspace = ''
-  existenceErrors.value.email = ''
+  apiError.value = '';
+  successMsg.value = '';
+  existenceErrors.value.workspace = '';
+  existenceErrors.value.email = '';
 
   Object.keys(touched.value).forEach((key) => {
-    touched.value[key] = true
-  })
+    touched.value[key] = true;
+  });
 
   if (
     Object.values(errors.value).some(error => error) ||
     existenceErrors.value.email ||
     existenceErrors.value.workspace
   ) {
-    return
+    return;
   }
 
-  loading.value = true
+  loading.value = true;
 
   try {
-    // ✅ Call useReCaptcha inside handler
-    const recaptcha = useReCaptcha()
-    if (!recaptcha) {
-      apiError.value = 'reCAPTCHA not initialized yet'
-      return
-    }
-
-    const token = await recaptcha.executeRecaptcha('registration')
-
     const formData = new URLSearchParams({
       domain_name: form.value.workspace.trim().toLowerCase(),
       name: form.value.name.trim(),
@@ -320,9 +336,8 @@ const handleRegistration = async () => {
       password: form.value.password,
       password_confirmation: form.value.password,
       plan_slug: form.value.plan_slug,
-      billing_cycle: form.value.billing_cycle,
-      recaptcha_token: token // 🔥 attach token
-    })
+      billing_cycle: form.value.billing_cycle
+    });
 
     const res = await fetch(API_URL, {
       method: 'POST',
@@ -331,44 +346,68 @@ const handleRegistration = async () => {
         Accept: 'application/json'
       },
       body: formData
-    })
+    });
 
-    const responseText = await res.text()
-    let data
+    const responseText = await res.text();
+
+    let data;
     try {
-      data = JSON.parse(responseText)
-    } catch {
-      throw new Error('Server returned an invalid response. Please try again later.')
+      data = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error('Invalid JSON Response:', responseText);
+      throw new Error('Server returned an invalid response. Please try again later.');
     }
 
     if (!res.ok) {
       const msg = data?.errors
         ? Object.values(data.errors).flat()[0]
-        : data?.message || 'An error occurred.'
+        : data?.message || 'An error occurred.';
 
-      if (String(msg).toLowerCase().includes('domain')) {
-        existenceErrors.value.workspace = msg
-      } else if (String(msg).toLowerCase().includes('email')) {
-        existenceErrors.value.email = msg
+      const msgLower = String(msg).toLowerCase();
+
+      if (msgLower.includes('domain')) {
+        existenceErrors.value.workspace = msg;
+      } else if (msgLower.includes('email')) {
+        existenceErrors.value.email = msg;
       } else {
-        apiError.value = msg
+        apiError.value = msg;
       }
-      return
+
+      return;
     }
 
-    successMsg.value = data?.message || 'Workspace created successfully!'
+    successMsg.value = data?.message || 'Workspace created successfully!';
+
     setTimeout(() => {
       router.push({
         path: '/welcome',
-        query: { email: form.value.email.trim().toLowerCase() }
-      })
-    }, 800)
+        query: {
+          email: form.value.email.trim().toLowerCase()
+        }
+      });
+    }, 800);
 
-  } catch (error: any) {
-    apiError.value = error instanceof Error ? error.message : 'Network error. Please try again.'
+  } catch (error) {
+    console.error('Registration Error:', error);
+    apiError.value =
+      error instanceof Error
+        ? error.message
+        : 'Network error. Please try again.';
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
-</script>
+};
+const cycle = ref('monthly')
 
+onMounted(() => {
+  const savedCycle = localStorage.getItem('cycle')
+  form.value.billing_cycle = route.query.cycle || savedCycle || 'monthly'
+  form.value.plan_slug = route.query.plan || form.value.plan_slug
+})
+
+// ── Slides ────────────────────────────────────────────────────────────
+const slides = [
+  { quote: '"Instead of starting from scratch I rely on Wayfront for years of testing and experience."', author: 'Kenny Schumacher', role: 'Appraisal Saver', initials: 'KS' },
+  { quote: '"The fastest way to scale your agency without the technical headaches."', author: 'Sarah Jenkins', role: 'Founder, ScaleUp', initials: 'SJ' }
+];
+</script>
