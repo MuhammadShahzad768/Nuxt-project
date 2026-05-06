@@ -212,7 +212,11 @@
               <i class="fa-solid fa-circle-exclamation text-[10px]"></i> {{ errors.agreed }}
             </p>
           </div>
-
+ <!-- reCAPTCHA widget -->
+          <div class="g-recaptcha" :data-sitekey="siteKey"></div>
+          <p v-if="recaptchaError" class="flex items-center gap-[5px] text-[12px] leading-[1.4] text-[#f07070]">
+            <i class="fa-solid fa-circle-exclamation text-[10px]"></i> {{ recaptchaError }}
+          </p>
           <!-- Submit -->
           <button
             type="submit"
@@ -238,7 +242,7 @@
 </template>
 
 <script setup>
-
+import { useRoute, useRouter } from 'vue-router'
 const route = useRoute();
 const router = useRouter();
 import { ref, onMounted, computed } from 'vue'
@@ -248,6 +252,10 @@ const API_URL = 'https://dspcrm.app/api/v1/register-workspace';
 const loading = ref(false);
 const successMsg = ref('');
 const apiError = ref('');
+const recaptchaError = ref(null)
+
+// Replace with your real site key from Google reCAPTCHA admin
+const siteKey = '6LdxH9wsAAAAANz_8vXAZb1bhGfydDiils69ChEC'
 const showPassword = ref(false);
 const currentSlide = ref(0);
 
@@ -309,6 +317,21 @@ const strengthColor = computed(() => ['', '#ef4444', '#f59e0b', '#facc15', '#22c
 
 // ── Submit ────────────────────────────────────────────────────────────
 const handleRegistration = async () => {
+  recaptchaError.value = null
+  apiError.value = '';
+  successMsg.value = '';
+   
+
+  // 1. reCAPTCHA ٹوکن حاصل کرنے کا صحیح طریقہ
+  let token = '';
+  if (window.grecaptcha) {
+    token = window.grecaptcha.getResponse();
+  }
+
+  if (!token) {
+    recaptchaError.value = 'Please verify the reCAPTCHA before submitting.'
+    return
+  }
   apiError.value = '';
   successMsg.value = '';
   existenceErrors.value.workspace = '';
@@ -336,7 +359,8 @@ const handleRegistration = async () => {
       password: form.value.password,
       password_confirmation: form.value.password,
       plan_slug: form.value.plan_slug,
-      billing_cycle: form.value.billing_cycle
+      billing_cycle: form.value.billing_cycle,
+      recaptcha_token: token // include token if you want backend validation later
     });
 
     const res = await fetch(API_URL, {
@@ -400,6 +424,13 @@ const handleRegistration = async () => {
 const cycle = ref('monthly')
 
 onMounted(() => {
+   if (!document.querySelector('script[src*="recaptcha/api.js"]')) {
+    const script = document.createElement('script')
+    script.src = 'https://www.google.com/recaptcha/api.js'
+    script.async = true
+    script.defer = true
+    document.head.appendChild(script)
+  }
   const savedCycle = localStorage.getItem('cycle')
   form.value.billing_cycle = route.query.cycle || savedCycle || 'monthly'
   form.value.plan_slug = route.query.plan || form.value.plan_slug

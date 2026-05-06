@@ -8,7 +8,6 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     'nuxt-gtag',
-    
   ],
 
   gtag: {
@@ -53,6 +52,11 @@ export default defineNuxtConfig({
       ],
 
       script: [
+         {
+          src: "https://www.google.com/recaptcha/api.js",
+          async: true,
+          defer: true
+        },
         {
           src: 'https://www.googletagmanager.com/gtag/js?id=G-XWL8VTL6T8',
           async: true
