@@ -11,10 +11,10 @@
       <!-- Left text, right image -->
       <div class="max-w-[970px] bg-[#E5E8F1]  mobile" data-aos="fade-right">
         <div class='inner_box py-8  pl-[0%] xl:w-full w-[90%] m-auto xl:pl-[19%] group-hover:bg-[#00296B]'>
-        <h3 class="text-[#00296B] xl:text-left text-center text-[20px] xl:text-[30px] group-hover:text-white font-semibold md:text-left">
+        <h3 class="text-[#00296B] xl:text-left text-center text-[20px] xl:text-[30px] group-hover:text-white font-semibold md:text-center lg:text-left">
           {{ service.service_agencies_box_title }}
         </h3>
-        <p class="xl:ml-0 md:m-auto max-w-[330px] xl:text-left text-center mt-[10px] text-[var(--text-custom)] group-hover:text-white text-lg md:text-left md:ml-0">
+        <p class="xl:ml-0 md:m-auto max-w-[330px] xl:text-left text-center mt-[10px] text-[var(--text-custom)] group-hover:text-white text-lg md:text-center lg:text-left md:m-auto lg:ml-0">
           {{ service.service_agencies_box_description }}
         </p>
         </div>
@@ -25,11 +25,11 @@
     <template v-else>
       <!-- Right text, left image -->
       <div class="max-w-[970px] bg-[#E5E8F1]  ml-auto mobile" data-aos="fade-left">
-      <div class='group-hover:bg-[#00296B] inner_box py-8 xl:pl-[45%] pl-[0] xl:w-full w-[90%] m-auto md:w-[50%] md:mr-0 md:ml-auto'>
-        <h3 class="text-[#00296B] xl:text-left text-center text-[20px] xl:text-[30px] font-semibold group-hover:text-white transition-colors duration-500 ease-in-out md:text-left">
+      <div class='group-hover:bg-[#00296B] inner_box py-8 xl:pl-[45%] pl-[0] xl:w-full w-[90%] m-auto lg:w-[50%] md:mr-0 md:ml-auto'>
+        <h3 class="text-[#00296B] xl:text-left text-center text-[20px] xl:text-[30px] font-semibold group-hover:text-white transition-colors duration-500 ease-in-out  md:text-center lg:text-left">
           {{ service.service_agencies_box_title }}
         </h3>
-        <p class="xl:ml-0 md:m-auto max-w-[350px] xl:text-left text-center  mt-[10px] text-[var(--text-custom)] text-xl group-hover:text-white transition-colors duration-500 ease-in-out md:text-left md:ml-0">
+        <p class="xl:ml-0 md:m-auto max-w-[350px] xl:text-left text-center  mt-[10px] text-[var(--text-custom)] text-xl group-hover:text-white transition-colors duration-500 ease-in-out md:text-center lg:text-left  md:m-auto lg:ml-0">
           {{ service.service_agencies_box_description }}
         </p>
         </div>
