@@ -255,7 +255,7 @@ const apiError = ref('');
 const recaptchaError = ref(null)
 
 // Replace with your real site key from Google reCAPTCHA admin
-const siteKey = '6LerMdwsAAAAALxqsT3vqA9A7ZpSLiSVqe1Hec2J'
+const siteKey = '6LfpgNwsAAAAAEXdahuBBPJRz-V29m-ZiA6zcEqU'
 const showPassword = ref(false);
 const currentSlide = ref(0);
 
