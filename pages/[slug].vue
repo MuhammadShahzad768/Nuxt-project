@@ -250,6 +250,9 @@ onMounted(() => {
 }
 :deep(.tool_box) {
   transition: all 0.4s ease;
+  max-width:292px;
+  width:100%;
+  border:2.17px solid #fff
 }
 
 :deep(.tool_box.hide) {
