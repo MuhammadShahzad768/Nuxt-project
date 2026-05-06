@@ -259,13 +259,6 @@ onMounted(() => {
   position: absolute;
 }
 
-:deep(.tool_box.show) {
-  opacity: 1;
-  transform: scale(1);
-  position: relative;
-  max-width: 31.5%;
-    width: 100%;
-}
 .wp-content {
   width: 100%;
   min-height: 80vh;
@@ -286,11 +279,7 @@ onMounted(() => {
     line-height: 110%;
 }
 @media screen and (min-width:320px) and (max-width:768px){
-  :deep(.tool_box.show) {
 
-  max-width: 100%;
-    width: 100%;
-}
 :deep(.page-id-659 .left_right) {
      padding-top: 20px;
     padding-bottom: 20px;
