@@ -47,8 +47,7 @@ const token = ref(null)
 const error = ref(null)
 
 // Replace with your real site key from Google reCAPTCHA admin
-const siteKey = 'dsdsChEC'
-
+const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 const onSubmit = () => {
   const value = document.querySelector('[name="g-recaptcha-response"]')?.value
 
