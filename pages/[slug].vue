@@ -176,6 +176,19 @@ function initFilters() {
       const allHidden = Array.from(boxes).every(box => box.classList.contains('hide'))
       heading.style.display = allHidden ? 'none' : ''
       container.setAttribute("style", allHidden ? "display:none" : "") // optional: hide container too
+    
+     if (allHidden) {
+      heading.classList.add('hide')
+      heading.classList.remove('mt-16') // remove margin classes
+      container.classList.add('hide')
+    } else {
+      heading.classList.remove('hide')
+      container.classList.remove('hide')
+      // optional: restore margin classes if needed
+      if (!heading.classList.contains('mb-6') && !heading.classList.contains('mt-16')) {
+        heading.classList.add('mb-6') // or whichever margin you want as default
+      }
+    }
     })
   }
 

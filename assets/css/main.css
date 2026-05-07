@@ -345,4 +345,11 @@ li {
   .toogle_sidebar{
         margin-top: 55px;
   }
+  .tool_box.show{
+max-width: 32%;
+
+  }
+  :deep(.toc-aside){
+    display: none;
+  }
 }

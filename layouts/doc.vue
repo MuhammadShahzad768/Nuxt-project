@@ -10,7 +10,7 @@ import Sidebar from '~/components/Sections/Sidebar.vue';
   <div class="layout-wrapper">
     <Testing/>
 
-    <div class="flex min-h-screen lg:px-20">
+    <div class="flex min-h-screen lg:px-20 flex-wrap">
         <Sidebar/>
       <slot /> 
     </div>
