@@ -156,7 +156,8 @@ function initFilters() {
       (document.querySelector('.toogle_sidebar li.active')?.getAttribute('data-filter') || 'all').toLowerCase()
     const activeType =
       (document.querySelector('.type_sidebar li.active')?.getAttribute('data-type') || 'all').toLowerCase()
-    toolBoxes.forEach((box: any) => {
+
+    toolBoxes.forEach((box: HTMLElement) => {
       const category = box.getAttribute('data-category')?.toLowerCase() || ''
       const type = box.getAttribute('data-type')?.toLowerCase() || ''
       const show =
@@ -165,24 +166,38 @@ function initFilters() {
       box.classList.toggle('show', show)
       box.classList.toggle('hide', !show)
     })
+
+    // 🔑 Hide headings if all their boxes are hidden
+    const headings = document.querySelectorAll('.content_side h2')
+    headings.forEach((heading: HTMLElement) => {
+      const container = heading.nextElementSibling // the div with tool_box children
+      if (!container) return
+      const boxes = container.querySelectorAll('.tool_box')
+      const allHidden = Array.from(boxes).every(box => box.classList.contains('hide'))
+      heading.style.display = allHidden ? 'none' : ''
+      container.setAttribute("style", allHidden ? "display:none" : "") // optional: hide container too
+    })
   }
 
-  categoryItems.forEach((item: any) => {
+  categoryItems.forEach((item: HTMLElement) => {
     item.addEventListener('click', () => {
-      categoryItems.forEach((li: any) => li.classList.remove('active'))
+      categoryItems.forEach(li => li.classList.remove('active'))
       item.classList.add('active')
       applyFilters()
     })
   })
-  typeItems.forEach((item: any) => {
+
+  typeItems.forEach((item: HTMLElement) => {
     item.addEventListener('click', () => {
-      typeItems.forEach((li: any) => li.classList.remove('active'))
+      typeItems.forEach(li => li.classList.remove('active'))
       item.classList.add('active')
       applyFilters()
     })
   })
+
   applyFilters()
 }
+
 
 /* =========================
   MOUNTED
@@ -248,6 +263,7 @@ onMounted(() => {
 .fade-leave-to {
   opacity: 0;
 }
+
 :deep(.tool_box) {
   transition: all 0.4s ease;
   max-width:292px;
