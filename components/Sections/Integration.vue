@@ -42,7 +42,7 @@
               <img
                 :src="logo.integrate_logo?.url"
                 :alt="logo.integrate_logo?.alt || 'Integration Logo'"
-                class="h-12 object-contain"
+                class="h-12 object-contain m-auto"
               />
             </SwiperSlide>
           </Swiper>
