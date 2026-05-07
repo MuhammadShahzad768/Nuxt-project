@@ -55,3 +55,8 @@ useHead(() => {
   }
 })
 </script>
+<style>
+.blog_sidebar{
+  max-width:300px;
+}
+</style>

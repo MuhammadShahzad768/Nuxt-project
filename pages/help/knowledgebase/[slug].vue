@@ -2,7 +2,7 @@
   <div class="flex ">
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 min-w-0 py-7 px-5 sm:px-8 ">
+    <main class="flex-1 min-w-0 py-7 px-5 md:px-0 sm:px-8 lg:max-w-[560px] md:max-w-[350px]">
       
       <div 
         v-if="post" 
@@ -16,7 +16,7 @@
     </main>
 
     <!-- TOC SIDEBAR -->
-    <aside class="hidden md:block sticky top-0 pt-[20px] h-screen overflow-y-auto border-l border-gray-200 py-[18px] px-4 toc-aside" v-if="toc.length > 0">
+    <aside class=" md:hidden sticky top-0 pt-[20px] h-screen overflow-y-auto border-l border-gray-200 py-[18px] px-4 toc-aside lg:hidden xl:block" v-if="toc.length > 0">
 
      <div class="toc-wrap" >
         <p class="toc-title">On this page</p>
@@ -240,9 +240,9 @@ onUnmounted(() => {
 </script>
 
 <style>
+
 .flex.min-h-screen.lg\:px-20 {
   position: relative;
-  padding:0 40px;
   margin-top: 150px;
   max-width: 1400px;
   margin-left: auto;

@@ -279,7 +279,7 @@ onMounted(() => {
 
 :deep(.tool_box) {
   transition: all 0.4s ease;
-  max-width:292px;
+  max-width:31.4%;
   width:100%;
   border:2.17px solid #fff
 }
@@ -311,7 +311,9 @@ onMounted(() => {
     line-height: 110%;
 }
 @media screen and (min-width:320px) and (max-width:768px){
-
+:deep(.tool_box) {
+  max-width:100%;
+}
 :deep(.page-id-659 .left_right) {
      padding-top: 20px;
     padding-bottom: 20px;
@@ -329,6 +331,16 @@ onMounted(() => {
 }
 :deep(.page-id-1154 .reday) {
     padding-top: 0;
+}
+}
+@media screen and (min-width:1024px) and (max-width:1200px) {
+  :deep(h1),:deep(h2){
+font-size:35px !important;
+line-height:40px !important;
+
+}
+:deep(.tool_box) {
+  max-width:45%;
 }
 }
 </style>

@@ -13,7 +13,7 @@
         <p class="animate-pulse text-gray-400">Fetching latest insights...</p>
       </div>
 
-      <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-6">
         <div v-for="post in latestPosts" :key="post.id" 
              @click="navigateTo('/blog/' + post.slug)"
              class="bg-white blog_box rounded-[20px] overflow-hidden p-[15px] shadow-[0_0_20px_-11px_black] transition-all duration-300 cursor-pointer h-full flex flex-col hover:-translate-y-1 hover:shadow-lg group">

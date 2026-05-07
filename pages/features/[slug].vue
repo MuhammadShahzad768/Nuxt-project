@@ -237,4 +237,10 @@ onMounted(() => {
   height: 0;
   overflow: hidden;
 }
+@media screen and (min-width:768px) and (max-width:1024px){
+:deep(.upper_boxes){
+max-width:48%;
+}
+
+}
 </style>

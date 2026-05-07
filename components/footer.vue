@@ -18,7 +18,7 @@
     <section class="max-w-screen-xl md:px-10 px-5 flex m-auto md:mt-8 flex-wrap">
       <div v-html="custom_html"></div>
 
-      <div class="lg:max-w-[20%] md:max-w-[33%] sm:max-w-[90%] w-full mb-10 md:mb-0">
+      <div class="lg:max-w-[25%] xl:max-w-[20%]  md:max-w-[33%] sm:max-w-[90%] w-full mb-10 md:mb-0">
         
 <div class="lg:max-w-[90%] md:max-w-[33%] w-full mb-10 lg:mb-0 md:mb-5 ">
         <h3 class="text-[#080809] mb-2 font-poppins font-bold text-xl">Company</h3>
@@ -136,7 +136,7 @@
 
       </div>
 
-      <div class="lg:max-w-[18%] md:max-w-[33%] w-full mb-10 lg:mb-0 md:mb-5">
+      <div class="lg:max-w-[25%] xl:max-w-[18%] md:max-w-[33%] w-full mb-10 lg:mb-0 md:mb-5">
         <h3 class="text-[#080809] mb-2 font-poppins font-bold text-xl">{{ featuresTitle }}</h3>
         <ul class="space-y-2 text-[#5E6282] font-poppins font-medium text-[14px] list-disc pl-5 cursor-pointer">
             <li
@@ -147,14 +147,14 @@
               :class="{ animated: visibleItems[index] }"
               :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
             >
-             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0">{{ item.name }}</router-link>
+             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0 lg:pl-2">{{ item.name }}</router-link>
               <span v-else>{{ item.name }}</span>
               <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
             </li>
           </ul>
       </div>
 
-      <div class="lg:max-w-[25%] md:max-w-[33%] w-full mb-10 lg:mb-0 md:mb-5">
+      <div class="lg:max-w-[25%] xl:max-w-[25%] md:max-w-[33%] w-full mb-10 lg:mb-0 md:mb-5">
         <div>
           <h3 class="text-[#080809] mb-2 font-poppins font-bold text-xl">{{ featuresTitle2 }}</h3>
           <ul class="space-y-2 text-[#5E6282] font-poppins font-medium text-[14px] list-disc pl-5 cursor-pointer">
@@ -166,7 +166,7 @@
               :class="{ animated: visibleItems[index] }"
               :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
             >
-             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0">{{ item.name }}</router-link>
+             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0 lg:pl-2">{{ item.name }}</router-link>
               <span v-else>{{ item.name }}</span>
               <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
             </li>
@@ -184,7 +184,7 @@
               :class="{ animated: visibleItems[index] }"
               :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
             >
-             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0">{{ item.name }}</router-link>
+             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0 lg:pl-2">{{ item.name }}</router-link>
               <span v-else>{{ item.name }}</span>
               <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
             </li>
@@ -192,7 +192,7 @@
         </div>
       </div>
 
-      <div class="lg:max-w-[21%] md:max-w-[33%] w-full mb-10 lg:mb-0 md:mb-5">
+      <div class="lg:max-w-[25%] xl:max-w-[21%] md:max-w-[33%] w-full mb-10 lg:mb-0 md:mb-5">
         <h3 class="text-[#080809] mb-2 font-poppins font-bold text-xl">{{ ProductTitle }}</h3>
         <ul class="space-y-2 text-[#5E6282] font-poppins font-medium text-[14px] list-disc pl-5 cursor-pointer">
           <li
@@ -203,14 +203,14 @@
               :class="{ animated: visibleItems[index] }"
               :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"
             >
-             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0">{{ item.name }}</router-link>
+             <router-link v-if="item.links" :to="item.links" class="pl-8 xl:pl-0 lg:pl-2">{{ item.name }}</router-link>
               <span v-else>{{ item.name }}</span>
               <span v-if="item.badge && item.badge.url"><img :src="item.badge.url" /></span>
             </li>
         </ul>
       </div>
 
-      <div class="lg:max-w-[16%] md:max-w-[33%] w-full">
+      <div class="lg:max-w-[24%] xl:max-w-[16%] md:max-w-[33%] w-full">
         <h3 class="text-[#080809] mb-2 font-poppins font-bold text-xl">{{ SupportTitle }}</h3>
         <ul class="space-y-2 text-[#5E6282] font-poppins font-medium text-[14px] list-disc pl-5 cursor-pointer">
           <li
@@ -224,7 +224,7 @@
             <router-link
         v-if="item.links"
         :to="item.links"
-        class="pl-8 xl:pl-0"
+        class="pl-8 xl:pl-0 lg:pl-2"
       >
         {{ item.name }}
       </router-link>

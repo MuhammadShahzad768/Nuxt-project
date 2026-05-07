@@ -47,7 +47,7 @@ export default defineNuxtConfig({
         // fallback only (will be overridden)
         {
           name: 'description',
-          content: 'DSP CRM default description'
+          content: 'DSP CRM defaultd description'
         }
       ],
 
