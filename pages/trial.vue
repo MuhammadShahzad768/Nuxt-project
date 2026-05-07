@@ -2,7 +2,7 @@
   <div class="flex min-h-screen bg-white custom_family">
 
     <!-- ── CENTERED FORM PANEL ── -->
-    <div class="flex flex-1 items-center justify-center bg-white px-6 pb-12 md:px-9 mt-[150px]">
+    <div class="flex m-auto items-center justify-center bg-white px-6 pb-12 md:px-9 mt-[150px] max-w-[-webkit-fill-available]">
       <div class="w-full max-w-[560px]">
 
         <h1 class="mb-[14px]  text-[clamp(34px,4vw,45px)]
@@ -30,7 +30,7 @@
         <form @submit.prevent="handleRegistration" class="flex flex-col gap-[18px]">
 
           <!-- Name -->
-          <div class="flex flex-col gap-[6px]">
+          <div class="flex flex-col gap-[6px] ">
             <label class="text-[13.5px] font-semibold tracking-[0.01em] text-[#00296B]">Your name</label>
             <input
               v-model="form.name"
