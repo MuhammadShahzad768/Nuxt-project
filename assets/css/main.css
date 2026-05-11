@@ -269,7 +269,15 @@ ul {
   max-height: 0;
   opacity: 0;
 }
-
+.toogle_sidebar li{
+list-style: disc;
+    list-style-position: inside;
+    padding-left: 0;
+}
+li.cursor-pointer.active {
+    color: #00296B;
+    font-weight: 500;
+}
 @media screen and (max-width:1024px) {
   
 .tool_box.show{
