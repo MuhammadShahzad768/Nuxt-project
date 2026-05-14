@@ -3,9 +3,9 @@
     <main class=" lg:pt-0 mt-[140px]">
       <div class="mx-auto max-w-3xl px-4 pb-8">
         <nav class="flex items-center text-sm text-slate-600">
-          <a href="https://wayfront.com/" class="hover:text-blue-600" target="_blank" rel="noopener noreferrer">Home</a>
+          <a href="" class="hover:text-blue-600" target="_blank" rel="noopener noreferrer">Home</a>
           <Chevron class="mx-2 size-4" />
-          <a href="https://wayfront.com/tools" class="hover:text-blue-600" target="_blank" rel="noopener noreferrer">Tools</a>
+          <a href="/tools" class="hover:text-blue-600" target="_blank" rel="noopener noreferrer">Tools</a>
           <Chevron class="mx-2 size-4" />
           <span>Growth Ceiling Calculator</span>
         </nav>
