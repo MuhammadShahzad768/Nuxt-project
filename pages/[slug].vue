@@ -142,74 +142,7 @@ function initializeScripts() {
   AOS.init({ duration: 1000, once: true })
 }
 
-/* =========================
-  FILTERS
-========================= */
-function initFilters() {
-  const categoryItems = document.querySelectorAll('.toogle_sidebar li')
-  const typeItems = document.querySelectorAll('.type_sidebar li')
-  const toolBoxes = document.querySelectorAll('.tool_box')
-  if (!toolBoxes.length) return
 
-  const applyFilters = () => {
-    const activeCategory =
-      (document.querySelector('.toogle_sidebar li.active')?.getAttribute('data-filter') || 'all').toLowerCase()
-    const activeType =
-      (document.querySelector('.type_sidebar li.active')?.getAttribute('data-type') || 'all').toLowerCase()
-
-    toolBoxes.forEach((box: HTMLElement) => {
-      const category = box.getAttribute('data-category')?.toLowerCase() || ''
-      const type = box.getAttribute('data-type')?.toLowerCase() || ''
-      const show =
-        (activeCategory === 'all' || category === activeCategory) &&
-        (activeType === 'all' || type === activeType)
-      box.classList.toggle('show', show)
-      box.classList.toggle('hide', !show)
-    })
-
-    // 🔑 Hide headings if all their boxes are hidden
-    const headings = document.querySelectorAll('.content_side h2')
-    headings.forEach((heading: HTMLElement) => {
-      const container = heading.nextElementSibling // the div with tool_box children
-      if (!container) return
-      const boxes = container.querySelectorAll('.tool_box')
-      const allHidden = Array.from(boxes).every(box => box.classList.contains('hide'))
-      heading.style.display = allHidden ? 'none' : ''
-      container.setAttribute("style", allHidden ? "display:none" : "") // optional: hide container too
-    
-     if (allHidden) {
-      heading.classList.add('hide')
-      heading.classList.remove('mt-16') // remove margin classes
-      container.classList.add('hide')
-    } else {
-      heading.classList.remove('hide')
-      container.classList.remove('hide')
-      // optional: restore margin classes if needed
-      if (!heading.classList.contains('mb-6') && !heading.classList.contains('mt-16')) {
-        heading.classList.add('mb-6') // or whichever margin you want as default
-      }
-    }
-    })
-  }
-
-  categoryItems.forEach((item: HTMLElement) => {
-    item.addEventListener('click', () => {
-      categoryItems.forEach(li => li.classList.remove('active'))
-      item.classList.add('active')
-      applyFilters()
-    })
-  })
-
-  typeItems.forEach((item: HTMLElement) => {
-    item.addEventListener('click', () => {
-      typeItems.forEach(li => li.classList.remove('active'))
-      item.classList.add('active')
-      applyFilters()
-    })
-  })
-
-  applyFilters()
-}
 //Calculator
 const initCalculator = () => {
   console.log('🔥 Initializing calculator...');
@@ -465,6 +398,74 @@ const initCalculator = () => {
 
   console.log('✅ Calculator ready and waiting for click!');
 };
+/* =========================
+  FILTERS
+========================= */
+function initFilters() {
+  const categoryItems = document.querySelectorAll('.toogle_sidebar li')
+  const typeItems = document.querySelectorAll('.type_sidebar li')
+  const toolBoxes = document.querySelectorAll('.tool_box')
+  if (!toolBoxes.length) return
+
+  const applyFilters = () => {
+    const activeCategory =
+      (document.querySelector('.toogle_sidebar li.active')?.getAttribute('data-filter') || 'all').toLowerCase()
+    const activeType =
+      (document.querySelector('.type_sidebar li.active')?.getAttribute('data-type') || 'all').toLowerCase()
+
+    toolBoxes.forEach((box: HTMLElement) => {
+      const category = box.getAttribute('data-category')?.toLowerCase() || ''
+      const type = box.getAttribute('data-type')?.toLowerCase() || ''
+      const show =
+        (activeCategory === 'all' || category === activeCategory) &&
+        (activeType === 'all' || type === activeType)
+      box.classList.toggle('show', show)
+      box.classList.toggle('hide', !show)
+    })
+
+    // 🔑 Hide headings if all their boxes are hidden
+    const headings = document.querySelectorAll('.content_side h2')
+    headings.forEach((heading: HTMLElement) => {
+      const container = heading.nextElementSibling // the div with tool_box children
+      if (!container) return
+      const boxes = container.querySelectorAll('.tool_box')
+      const allHidden = Array.from(boxes).every(box => box.classList.contains('hide'))
+      heading.style.display = allHidden ? 'none' : ''
+      container.setAttribute("style", allHidden ? "display:none" : "") // optional: hide container too
+    
+     if (allHidden) {
+      heading.classList.add('hide')
+      heading.classList.remove('mt-16') // remove margin classes
+      container.classList.add('hide')
+    } else {
+      heading.classList.remove('hide')
+      container.classList.remove('hide')
+      // optional: restore margin classes if needed
+      if (!heading.classList.contains('mb-6') && !heading.classList.contains('mt-16')) {
+        heading.classList.add('mb-6') // or whichever margin you want as default
+      }
+    }
+    })
+  }
+
+  categoryItems.forEach((item: HTMLElement) => {
+    item.addEventListener('click', () => {
+      categoryItems.forEach(li => li.classList.remove('active'))
+      item.classList.add('active')
+      applyFilters()
+    })
+  })
+
+  typeItems.forEach((item: HTMLElement) => {
+    item.addEventListener('click', () => {
+      typeItems.forEach(li => li.classList.remove('active'))
+      item.classList.add('active')
+      applyFilters()
+    })
+  })
+
+  applyFilters()
+}
 /* =========================
   MOUNTED
 ========================= */
