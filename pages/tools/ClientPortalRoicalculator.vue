@@ -1,11 +1,14 @@
 <template>
-  <div class="min-h-screen bg-stone-100 font-sans text-stone-950 antialiased mt-[150px]">
-    <div class="h-20 lg:h-24" />
-    <main class="pt-10 lg:pt-0">
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
       <section class="mx-auto max-w-5xl px-5 pb-16">
         <!-- Your Agency -->
+           <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Client Portal ROI <br>Calculator for Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600">See what a portal could save your agency in time, cash flow, and client retention.</p>
+      </div>
         <div class="mb-8 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-          <h2 class="mb-6 text-xl font-semibold text-stone-800">Your Agency</h2>
+          <h2 class="mb-6 text-xl font-bold text-[#233267]">Your Agency</h2>
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             <div>
               <label for="team-size" class="mb-2 block text-sm font-semibold">Team size</label>
@@ -15,7 +18,7 @@
                 type="number"
                 min="1"
                 max="200"
-                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 @input="autoSelectPlan"
               />
             </div>
@@ -27,7 +30,7 @@
                 type="number"
                 min="1"
                 max="500"
-                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
               />
             </div>
             <div>
@@ -39,7 +42,7 @@
                   v-model.number="form.avgClientValue"
                   type="number"
                   min="500"
-                  class="w-full rounded-lg border border-stone-300 py-2 pl-7 pr-3 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 py-2 pl-7 pr-3 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -53,12 +56,12 @@
                   type="number"
                   min="15"
                   max="300"
-                  class="w-full rounded-lg border border-stone-300 py-2 pl-7 pr-3 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 py-2 pl-7 pr-3 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
               </div>
               <p class="mt-1 text-xs text-stone-500">
                 Include salary, benefits, overhead.
-                <a href="" class="text-orange-600 hover:underline" target="_blank" rel="noopener noreferrer">Not sure?</a>
+                <a href="" class="text-[#233267] font-semibold hover:underline" target="_blank" rel="noopener noreferrer">Not sure?</a>
               </p>
             </div>
           </div>
@@ -66,14 +69,14 @@
 
         <!-- Current situation -->
         <div class="mb-8 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-          <h2 class="mb-6 text-xl font-semibold text-stone-800">Your Current Situation</h2>
+          <h2 class="mb-6 text-xl font-bold text-[#233267]">Your Current Situation</h2>
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <label for="status-updates" class="mb-2 block text-sm font-semibold">How often do clients ask for status updates?</label>
               <select
                 id="status-updates"
                 v-model="form.statusUpdates"
-                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
               >
                 <option value="multiple-daily">Multiple times daily</option>
                 <option value="daily">Daily</option>
@@ -86,7 +89,7 @@
               <select
                 id="support-questions"
                 v-model="form.supportQuestions"
-                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
               >
                 <option value="constantly">Constantly — it's a huge time sink</option>
                 <option value="often">Often — several per week</option>
@@ -99,7 +102,7 @@
               <select
                 id="payment-speed"
                 v-model="form.paymentSpeed"
-                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 @change="handlePaymentSpeedChange"
               >
                 <option value="under-30">Under 30 days</option>
@@ -118,7 +121,7 @@
                 v-model.number="form.clientsLost"
                 type="number"
                 min="0"
-                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
               />
             </div>
           </div>
@@ -126,14 +129,14 @@
 
         <!-- Portal costs -->
         <div class="mb-8 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-          <h2 class="mb-6 text-xl font-semibold text-stone-800">Portal Costs</h2>
+          <h2 class="mb-6 text-xl font-bold text-[#233267]">Portal Costs</h2>
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <label for="spp-plan" class="mb-2 block text-sm font-semibold">Which plan fits your team?</label>
               <select
                 id="spp-plan"
                 v-model="form.plan"
-                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 @change="handlePlanChange"
               >
                 <option value="129">Basic ($129/mo) - Up to 5</option>
@@ -152,7 +155,7 @@
                   v-model.number="form.customPlanCost"
                   type="number"
                   min="100"
-                  class="w-full rounded-lg border border-stone-300 py-2 pl-7 pr-3 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 py-2 pl-7 pr-3 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -164,7 +167,7 @@
                 type="number"
                 min="5"
                 max="100"
-                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
               />
               <p class="mt-1 text-xs text-stone-500">
                 Most agencies spend 10-20 hours on initial setup, branding, and team training.
@@ -176,7 +179,7 @@
         <div class="mb-12 text-center">
           <button
             type="button"
-            class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+            class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#fff] hover:text-[#233267] hover:border-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267] focus:ring-offset-[#233267]"
             @click="calculateROI"
           >
             Calculate ROI
@@ -186,7 +189,7 @@
         <!-- Results -->
         <div v-show="showResults" ref="resultsEl" class="mb-16">
           <div class="mb-8 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-            <h2 class="mb-6 text-center text-2xl font-bold text-stone-800">Your Estimated Client Portal ROI</h2>
+            <h2 class="mb-6 text-center text-2xl font-bold text-[#233267]">Your Estimated Client Portal ROI</h2>
 
             <div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               <div class="rounded-xl border border-stone-200 bg-stone-50 p-5 text-center shadow-sm">
@@ -221,18 +224,18 @@
                 </h3>
                 <div class="space-y-2 text-sm">
                   <div class="flex justify-between">
-                    <span class="text-stone-600">Hours recovered</span>
+                    <span class="text-[#233267]">Hours recovered</span>
                     <span class="font-medium">{{ formatNumber(r.hoursLow) }} - {{ formatNumber(r.hoursHigh) }} hrs/year</span>
                   </div>
                   <div class="flex justify-between">
-                    <span class="text-stone-600">Value at your rate</span>
+                    <span class="text-[#233267]">Value at your rate</span>
                     <span class="font-medium text-orange-600">{{ formatCurrency(r.timeLow) }} - {{ formatCurrency(r.timeHigh) }}</span>
                   </div>
                 </div>
               </div>
 
               <div class="rounded-xl border border-stone-200 bg-stone-50 p-5 shadow-sm">
-                <h3 class="mb-4 flex items-center text-lg font-semibold text-stone-800">
+                <h3 class="mb-4 flex items-center text-lg font-semibold text-[#233267]">
                   <svg class="mr-2 size-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
@@ -251,7 +254,7 @@
               </div>
 
               <div v-if="form.clientsLost > 0" class="rounded-xl border border-stone-200 bg-stone-50 p-5 shadow-sm">
-                <h3 class="mb-4 flex items-center text-lg font-semibold text-stone-800">
+                <h3 class="mb-4 flex items-center text-lg font-semibold text-[#233267]">
                   <svg class="mr-2 size-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
@@ -286,7 +289,7 @@
               </div>
 
               <div class="rounded-xl border border-stone-200 bg-stone-50 p-5 shadow-sm">
-                <h3 class="mb-4 flex items-center text-lg font-semibold text-stone-800">
+                <h3 class="mb-4 flex items-center text-lg font-semibold text-[#233267]">
                   <svg class="mr-2 size-5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                   </svg>
@@ -337,7 +340,7 @@
             <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <button
                 type="button"
-                class="inline-flex items-center rounded-lg border border-orange-200 bg-white px-6 py-3 font-semibold text-stone-800 shadow-sm transition hover:-translate-y-px hover:shadow-md"
+                class="inline-flex items-center rounded-lg border border-[#233267] bg-white px-6 py-3 font-semibold text-[#233267] shadow-sm transition hover:-translate-y-px hover:shadow-md"
                 @click="copyShareLink"
               >
                 <svg class="mr-2 size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -360,14 +363,12 @@
           </div>
         </div>
       </section>
-    </main>
-
     <!-- Toast -->
     <Teleport to="body">
       <Transition name="fade">
         <div
           v-if="toast"
-          class="fixed right-4 top-4 z-50 flex items-center gap-2 rounded-full bg-orange-600 px-5 py-3 font-medium text-white shadow-lg"
+          class="fixed right-4 top-4 z-50 flex items-center gap-2 rounded-full bg-[#233267] px-5 py-3 font-medium text-white shadow-lg"
         >
           <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -380,6 +381,9 @@
 </template>
 
 <script setup lang="ts">
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
+
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 
 const route = useRoute()

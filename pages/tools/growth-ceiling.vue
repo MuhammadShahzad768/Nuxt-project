@@ -1,29 +1,18 @@
 <template>
-  <div class="min-h-screen bg-stone-100 font-sans text-stone-950 antialiased pt-[140px]">
-    <main class=" lg:pt-0 mt-[140px]">
-      <div class="mx-auto max-w-3xl px-4 pb-8">
-        <nav class="flex items-center text-sm text-slate-600">
-          <a href="" class="hover:text-blue-600" target="_blank" rel="noopener noreferrer">Home</a>
-          <Chevron class="mx-2 size-4" />
-          <a href="/tools" class="hover:text-blue-600" target="_blank" rel="noopener noreferrer">Tools</a>
-          <Chevron class="mx-2 size-4" />
-          <span>Growth Ceiling Calculator</span>
-        </nav>
-      </div>
-
-      <article>
-        <header class="mx-auto mb-12 max-w-3xl px-4 text-center md:mb-20">
-          <h1 class="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">Growth Ceiling Calculator for Agencies</h1>
-          <p class="mt-3 text-lg text-slate-600 md:text-xl">
-            Discover your maximum achievable MRR based on your acquisition and churn rates. Find the equilibrium point where new revenue equals churned revenue.
-          </p>
-        </header>
-
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
+     
+    
         <div class="mx-auto max-w-7xl px-5 pb-16">
+           <breadcrumb/>
+      <div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Growth Ceiling<br> Calculator for Agencies</h1>
+        <p class="mt-4 text-lg text-neutral-600">Discover your maximum achievable MRR based on your acquisition and churn rates. Find the equilibrium point where new revenue equals churned revenue.
+</p>
+      </div>
           <div class="flex w-full flex-col gap-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm lg:flex-row">
             <div class="w-full p-6 lg:w-3/5 lg:p-8">
               <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <h2 class="text-xl font-bold text-slate-800">MRR Growth Projection</h2>
+                <h2 class="text-xl font-bold text-[#233267]">MRR Growth Projection</h2>
                 <div class="flex items-center rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2">
                   <span class="mr-2 text-sm text-slate-600">Ceiling:</span>
                   <span class="font-semibold text-indigo-700">{{ ceilingPill }}</span>
@@ -49,7 +38,7 @@
                         v-model="newMrrRaw"
                         type="number"
                         min="100"
-                        class="w-full rounded-md border border-slate-300 py-2 pl-7 pr-3 [appearance:textfield] focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        class="w-full rounded-md border border-slate-300 py-2 pl-7 pr-3 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none [appearance:textfield]  [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                       />
                     </div>
                     <p class="mt-1 text-xs text-slate-500">Average new revenue added monthly</p>
@@ -63,7 +52,7 @@
                         min="0.1"
                         max="50"
                         step="0.1"
-                        class="w-full rounded-md border border-slate-300 px-3 py-2 pr-8 [appearance:textfield] focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        class="w-full rounded-md border border-slate-300 px-3 py-2 pr-8 [appearance:textfield] focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                       />
                       <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500">%</span>
                     </div>
@@ -77,7 +66,7 @@
                         v-model="currentMrrRaw"
                         type="number"
                         min="0"
-                        class="w-full rounded-md border border-slate-300 py-2 pl-7 pr-3 [appearance:textfield] focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        class="w-full rounded-md border border-slate-300 py-2 pl-7 pr-3 [appearance:textfield] focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                       />
                     </div>
                     <p class="mt-1 text-xs text-slate-500">Your starting point for projection</p>
@@ -87,7 +76,7 @@
             </div>
 
             <div class="w-full border-t border-slate-200 p-6 lg:mt-0 lg:w-2/5 lg:border-l lg:border-t-0 lg:p-8">
-              <h2 class="mb-6 text-xl font-bold text-slate-800">Growth Analysis</h2>
+              <h2 class="mb-6 text-xl font-bold text-[#233267]">Growth Analysis</h2>
 
               <div class="mb-6 grid grid-cols-1 gap-4">
                 <div class="rounded-xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-white p-5">
@@ -159,7 +148,7 @@
 
               <button
                 type="button"
-                class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+                class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                 @click="syncChart"
               >
                 Calculate Growth Ceiling
@@ -167,14 +156,14 @@
             </div>
           </div>
         </div>
-      </article>
-    </main>
   </div>
 </template>
 
 <script setup lang="ts">
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
 import { computed, h, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import type { ApexOptions } from 'apexcharts'
+definePageMeta({ layout: 'tools' })
 
 const chartEl = ref<HTMLElement | null>(null)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,9 +1,13 @@
 <template>
-  <div class="bg-cream-100 min-h-screen p-6 md:p-8 mt-[150px]">
+  <div class="min-h-screen p-6 md:p-8 mt-[80px] custom_family">
     <div class="mx-auto max-w-6xl">
+      <breadcrumb/>
+      <div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Pricing Model Decision Matrix for agencies</h1>
+        <p class="mt-4 text-lg text-neutral-600">Determine the optimal pricing strategy based on your specific business priorities.</p></div>
       <!-- Business Priorities Input -->
       <div class="mb-8 rounded-xl border p-5 sm:p-6 bg-white">
-        <h2 class="mb-5 border-b border-stone-100 pb-2 text-xl font-semibold text-stone-800">
+        <h2 class="mb-5 border-b border-stone-100 pb-2 text-xl font-bold text-[#233267]">
           Your Business Priorities
         </h2>
         <p class="mb-4 text-sm text-stone-700">
@@ -16,25 +20,25 @@
           <table class="w-full border-collapse">
             <thead>
               <tr class="bg-white">
-                <th class="border-b border-stone-100/70 p-4 text-left whitespace-nowrap">
+                <th class="border-b border-stone-100/70 p-4 text-left whitespace-nowrap text-[#233267]">
                   Business Factor
                 </th>
-                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap">
+                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap text-[#233267]">
                   Importance (1-5)
                 </th>
-                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap">
+                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap text-[#233267]">
                   Time &amp; Overhead
                 </th>
-                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap">
+                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap text-[#233267]">
                   Project-Based
                 </th>
-                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap">
+                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap text-[#233267]">
                   Subscription
                 </th>
-                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap">
+                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap text-[#233267]">
                   Retainer
                 </th>
-                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap">
+                <th class="border-b border-stone-100/70 p-4 whitespace-nowrap text-[#233267]">
                   Value-Based
                 </th>
               </tr>
@@ -44,8 +48,9 @@
                 <td class="px-2 py-1 text-left">{{ factor.name }}</td>
                 <td class="px-2 py-1 text-center">
                   <select 
+                 
                     v-model.number="importanceRatings[index]" 
-                    class="w-16 border border-stone-300 rounded px-2 py-1"
+                    class="w-16 border border-[#233267] rounded px-2 py-1 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     @change="updateCalculations"
                   >
                     <option v-for="i in 5" :key="i" :value="i">{{ i }}</option>
@@ -53,41 +58,41 @@
                 </td>
                 <td class="px-2 py-1 text-center">
                   <span 
-                    :class="factor.compatibility.timeOverhead >= 4 ? 'font-semibold text-accent' : ''"
+                    :class="factor.compatibility.timeOverhead >= 4 ? 'font-bold text-[#233267]' : ''"
                   >
                     {{ factor.compatibility.timeOverhead }}
                   </span>
                 </td>
                 <td class="px-2 py-1 text-center">
                   <span 
-                    :class="factor.compatibility.projectBased >= 4 ? 'font-semibold text-accent' : ''"
+                    :class="factor.compatibility.projectBased >= 4 ? 'font-bold text-[#233267]' : ''"
                   >
                     {{ factor.compatibility.projectBased }}
                   </span>
                 </td>
                 <td class="px-2 py-1 text-center">
                   <span 
-                    :class="factor.compatibility.subscription >= 4 ? 'font-semibold text-accent' : ''"
+                    :class="factor.compatibility.subscription >= 4 ? 'font-bold text-[#233267]' : ''"
                   >
                     {{ factor.compatibility.subscription }}
                   </span>
                 </td>
                 <td class="px-2 py-1 text-center">
                   <span 
-                    :class="factor.compatibility.retainer >= 4 ? 'font-semibold text-accent' : ''"
+                    :class="factor.compatibility.retainer >= 4 ? 'font-bold text-[#233267]' : ''"
                   >
                     {{ factor.compatibility.retainer }}
                   </span>
                 </td>
                 <td class="px-2 py-1 text-center">
                   <span 
-                    :class="factor.compatibility.valueBased >= 4 ? 'font-semibold text-accent' : ''"
+                    :class="factor.compatibility.valueBased >= 4 ? 'font-bold text-[#233267]' : ''"
                   >
                     {{ factor.compatibility.valueBased }}
                   </span>
                 </td>
               </tr>
-              <tr class="font-semibold bg-white border-t-2 border-stone-200">
+              <tr class="font-semibold bg-white border-t-2 border-stone-200 text-[#233267]">
                 <td class="py-2 px-2">TOTAL SCORE</td>
                 <td></td>
                 <td class="text-center">{{ totals.timeOverhead }}</td>
@@ -113,14 +118,14 @@
       <!-- Results Section -->
       <div 
         v-if="recommendedModel" 
-        class="border-accent mb-8 rounded-xl border-l-4 bg-amber-50 p-5 shadow-lg sm:p-6"
+        class="border-[#233267] mb-8 rounded-xl border-l-4 bg-[#fff] p-5 shadow-lg sm:p-6"
       >
-        <h2 class="mb-4 text-xl font-semibold text-stone-800">
+        <h2 class="mb-4 text-xl font-bold text-[#233267]">
           Recommended Pricing Model
         </h2>
         <p class="mb-4 text-lg">
           Based on your priorities, the
-          <span class="text-accent font-bold">{{ modelInfo[recommendedModel].name }}</span>
+          <span class="text-[#233267] font-bold">{{ modelInfo[recommendedModel].name }}</span>
           pricing model might be the best fit for your business.
         </p>
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -145,8 +150,8 @@
         </div>
         <div class="mt-6">
           <a 
-            :href="modelInfo[recommendedModel].learnMoreUrl" 
-            class="btn-primary inline-block px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition"
+          
+            class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
           >
             Learn more about {{ modelInfo[recommendedModel].name }} pricing
           </a>
@@ -155,7 +160,7 @@
 
       <!-- Comparison Chart -->
       <div class="mb-8 rounded-xl border p-5 sm:p-6 bg-white">
-        <h2 class="mb-5 border-b border-stone-100 pb-2 text-xl font-semibold text-stone-800">
+        <h2 class="mb-5 border-b border-stone-100 pb-2 text-xl font-semibold text-[#233267]">
           Model Comparison
         </h2>
         <div class="h-72">
@@ -167,8 +172,10 @@
 </template>
 
 <script setup>
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { Chart, registerables } from 'chart.js'
+definePageMeta({ layout: 'tools' })
 
 // Register Chart.js components
 Chart.register(...registerables)
@@ -489,7 +496,7 @@ select {
 }
 
 select:focus {
-  outline: 2px solid #d97706;
+  outline: 2px solid#233267;
   outline-offset: 2px;
 }
 </style>

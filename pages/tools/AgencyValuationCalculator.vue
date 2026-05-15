@@ -1,22 +1,27 @@
 <template>
-  <div class="min-h-screen  py-12 mt-[150px]">
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
     <div class="mx-auto max-w-4xl px-5">
+      <breadcrumb/>
+      <div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Agency Valuation Calculator for Service Providers</h1>
+        <p class="mt-4 text-lg text-neutral-600">Calculate your agency's estimated market value and get actionable recommendations to increase your business worth</p></div>
+      
       <!-- Financial Information Section -->
-      <div class="mb-6 rounded-xl border border-stone-700 bg-stone-800 p-6">
-        <h2 class="mb-4 text-xl font-semibold text-stone-100">
+      <div class="mb-6 rounded-xl border border-[#233267] bg-[#fff] p-6">
+        <h2 class="mb-4 text-xl font-bold text-[#233267]">
           Financial Information
         </h2>
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
-            <label for="annual-revenue" class="mb-1 block text-sm font-semibold text-stone-200">
+            <label for="annual-revenue" class="mb-1 block text-sm font-semibold ">
               Annual Revenue ($)
             </label>
             <input
               id="annual-revenue"
               v-model.number="formData.annualRevenue"
               type="number"
-              class="w-full rounded-lg border border-stone-600 bg-stone-700 px-4 py-2 text-stone-100 focus:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-500"
+              class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
               min="0"
               step="1000"
             >
@@ -26,14 +31,14 @@
           </div>
 
           <div>
-            <label for="annual-profit" class="mb-1 block text-sm font-semibold text-stone-200">
+            <label for="annual-profit" class="mb-1 block text-sm font-semibold ">
               Annual Profit ($)
             </label>
             <input
               id="annual-profit"
               v-model.number="formData.annualProfit"
               type="number"
-              class="w-full rounded-lg border border-stone-600 bg-stone-700 px-4 py-2 text-stone-100 focus:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-500"
+              class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
               min="0"
               step="1000"
             >
@@ -43,14 +48,14 @@
           </div>
 
           <div>
-            <label for="recurring-revenue" class="mb-1 block text-sm font-semibold text-stone-200">
+            <label for="recurring-revenue" class="mb-1 block text-sm font-semibold ">
               Recurring Revenue (%)
             </label>
             <input
               id="recurring-revenue"
               v-model.number="formData.recurringRevenue"
               type="number"
-              class="w-full rounded-lg border border-stone-600 bg-stone-700 px-4 py-2 text-stone-100 focus:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-500"
+              class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
               min="0"
               max="100"
               step="5"
@@ -61,14 +66,14 @@
           </div>
 
           <div>
-            <label for="top-client-revenue" class="mb-1 block text-sm font-semibold text-stone-200">
+            <label for="top-client-revenue" class="mb-1 block text-sm font-semibold ">
               Top Client Revenue (%)
             </label>
             <input
               id="top-client-revenue"
               v-model.number="formData.topClientRevenue"
               type="number"
-              class="w-full rounded-lg border border-stone-600 bg-stone-700 px-4 py-2 text-stone-100 focus:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-500"
+              class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
               min="0"
               max="100"
               step="1"
@@ -81,20 +86,20 @@
       </div>
 
       <!-- Business Profile Section -->
-      <div class="mb-6 rounded-xl border border-stone-700 bg-stone-800 p-6">
-        <h2 class="mb-4 text-xl font-semibold text-stone-100">
+      <div class="mb-6 rounded-xl border border-[#233267] bg-[#fff] p-6">
+        <h2 class="mb-4 text-xl font-semibold text-[#233267]">
           Business Profile
         </h2>
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
-            <label for="primary-service" class="mb-1 block text-sm font-semibold text-stone-200">
+            <label for="primary-service" class="mb-1 block text-sm font-semibold ">
               Primary Service
             </label>
             <select
               id="primary-service"
               v-model="formData.primaryService"
-              class="w-full rounded-lg border border-stone-600 bg-stone-700 px-4 py-2 text-stone-100 focus:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-500"
+              class="w-full rounded-md border border-neutral-300 bg-white py-2 pl-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
             >
               <option value="seo_marketing">SEO & Digital Marketing</option>
               <option value="web_development">Web Development</option>
@@ -110,13 +115,13 @@
           </div>
 
           <div>
-            <label for="owner-dependency" class="mb-1 block text-sm font-semibold text-stone-200">
+            <label for="owner-dependency" class="mb-1 block text-sm font-semibold ">
               Owner Dependency
             </label>
             <select
               id="owner-dependency"
               v-model="formData.ownerDependency"
-              class="w-full rounded-lg border border-stone-600 bg-stone-700 px-4 py-2 text-stone-100 focus:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-500"
+              class="w-full rounded-md border border-neutral-300 bg-white py-2 pl-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
             >
               <option value="low">Business runs without me</option>
               <option value="medium">I'm involved but not essential</option>
@@ -128,13 +133,13 @@
           </div>
 
           <div>
-            <label for="years-in-business" class="mb-1 block text-sm font-semibold text-stone-200">
+            <label for="years-in-business" class="mb-1 block text-sm font-semibold ">
               Years in Business
             </label>
             <select
               id="years-in-business"
               v-model="formData.yearsInBusiness"
-              class="w-full rounded-lg border border-stone-600 bg-stone-700 px-4 py-2 text-stone-100 focus:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-500"
+              class="w-full rounded-md border border-neutral-300 bg-white py-2 pl-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
             >
               <option value="0-2">0-2 years</option>
               <option value="3-5">3-5 years</option>
@@ -147,13 +152,13 @@
           </div>
 
           <div>
-            <label for="team-size" class="mb-1 block text-sm font-semibold text-stone-200">
+            <label for="team-size" class="mb-1 block text-sm font-semibold ">
               Team Size
             </label>
             <select
               id="team-size"
               v-model="formData.teamSize"
-              class="w-full rounded-lg border border-stone-600 bg-stone-700 px-4 py-2 text-stone-100 focus:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-500"
+              class="w-full rounded-md border border-neutral-300 bg-white py-2 pl-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
             >
               <option value="solo">Just me</option>
               <option value="small">2-5 people</option>
@@ -171,15 +176,15 @@
       <div class="mb-8 flex justify-center">
         <button
           @click="calculateValuation"
-          class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#fff] hover:text-[#233267] hover:border-[#233267] focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-stone-900"
+          class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#fff] hover:text-[#233267] hover:border-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]  focus:ring-offset-[#233267]"
         >
           Calculate Agency Value
         </button>
       </div>
 
       <!-- Results Section -->
-      <div v-if="showResults" class="mb-6 rounded-xl border border-stone-700 bg-stone-800 p-6">
-        <h2 class="mb-6 text-center text-2xl font-semibold text-stone-100">
+      <div v-if="showResults" class="mb-6 rounded-xl border border-[#233267] bg-[#fff] p-6">
+        <h2 class="mb-6 text-center text-2xl font-bold text-[#233267]">
           Your Agency Valuation
         </h2>
 
@@ -246,11 +251,11 @@
         </div>
 
         <!-- Analysis Text -->
-        <div class="rounded-xl border border-stone-700 bg-stone-900 p-6">
-          <h3 class="mb-4 text-lg font-semibold text-stone-100">
+        <div class="rounded-xl border border-[#233267] bg-[#DFDFDF] p-6">
+          <h3 class="mb-4 text-lg font-semibold text-[#233267]">
             Valuation Analysis
           </h3>
-          <p class="leading-relaxed text-stone-300">
+          <p class="leading-relaxed ">
             {{ results.analysisText }}
           </p>
         </div>
@@ -259,7 +264,7 @@
         <div class="mt-8 flex justify-center">
           <button
             @click="generateRecommendations"
-            class="rounded-lg bg-[#233267] px-8 py-3 text-lg font-medium text-white transition-colors hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-stone-900"
+            class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
           >
             Get Improvement Recommendations
           </button>
@@ -268,18 +273,18 @@
 
       <!-- Recommendations Section -->
       <div v-if="showRecommendations" class="mb-6">
-        <h2 class="mb-4 text-center text-2xl font-semibold text-stone-100">
+        <h2 class="mb-4 text-center text-2xl font-bold text-[#233267]">
           Increase Your Agency's Valuation
         </h2>
-        <p class="mb-6 pb-8 text-center text-stone-400">
+        <p class="mb-6 pb-8 text-center">
           Actionable recommendations to improve your business worth and reduce acquisition risk
         </p>
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <!-- Risk Reduction -->
-          <div class="transform overflow-hidden rounded-xl border border-stone-700 bg-stone-800 transition-transform hover:scale-105">
-            <div class="border-b border-stone-700 bg-stone-900 p-6">
-              <h3 class="text-center text-lg font-bold text-stone-100">
+          <div class="transform overflow-hidden rounded-xl border border-stone-700 bg-[#fff] transition-transform hover:scale-105">
+            <div class="border-b border-[#233267] bg-[#fff] p-6">
+              <h3 class="text-center text-lg font-bold text-[#233267]">
                 Risk Reduction
               </h3>
             </div>
@@ -289,16 +294,16 @@
                   <svg class="mr-2 size-5 shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                   </svg>
-                  <span class="text-stone-300">{{ rec }}</span>
+                  <span class="">{{ rec }}</span>
                 </li>
               </ul>
             </div>
           </div>
 
           <!-- Growth Opportunities -->
-          <div class="transform overflow-hidden rounded-xl border border-stone-700 bg-stone-800 transition-transform hover:scale-105">
-            <div class="border-b border-stone-700 bg-stone-900 p-6">
-              <h3 class="text-center text-lg font-bold text-stone-100">
+          <div class="transform overflow-hidden rounded-xl border border-stone-700 bg-[#fff] transition-transform hover:scale-105">
+            <div class="border-b border-stone-700 bg-[#fff] p-6">
+              <h3 class="text-center text-lg font-bold text-[#233267]">
                 Growth Opportunities
               </h3>
             </div>
@@ -308,7 +313,7 @@
                   <svg class="mr-2 size-5 shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                   </svg>
-                  <span class="text-stone-300">{{ rec }}</span>
+                  <span class="">{{ rec }}</span>
                 </li>
               </ul>
             </div>
@@ -320,7 +325,9 @@
 </template>
 
 <script setup>
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
 import { ref, computed } from 'vue'
+definePageMeta({ layout: 'tools' })
 
 // Form data with default values
 const formData = ref({

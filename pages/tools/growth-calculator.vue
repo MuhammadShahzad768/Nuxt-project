@@ -1,31 +1,18 @@
 <template>
-  <div class="min-h-screen bg-stone-100 font-sans text-stone-950 antialiased mt-[120px]">
-    <div class="h-20 lg:h-24" />
-    <main class="pt-10 lg:pt-0">
-      <section>
-        <div class="mx-auto max-w-3xl px-4 pb-8">
-          <nav class="flex items-center justify-center text-sm text-stone-600">
-            <a href="" class="hover:text-rose-600" target="_blank" rel="noopener noreferrer">Home</a>
-            <Chevron class="mx-2 size-4" />
-            <a href="/tools" class="hover:text-rose-600" target="_blank" rel="noopener noreferrer">Tools</a>
-            <Chevron class="mx-2 size-4" />
-            <span>Growth Calculator</span>
-          </nav>
-        </div>
-
-        <header class="mx-auto mb-12 max-w-3xl px-4 text-center md:mb-20">
-          <h1 class="text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">Growth Calculator for Agencies</h1>
-          <p class="mt-3 text-lg text-stone-600 md:text-xl">
-            Simulate different growth scenarios for your agency and visualize the impact of customer acquisition, churn, and pricing on your MRR.
-          </p>
-        </header>
-
-        <div class="mx-auto max-w-7xl px-5 pb-16">
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
+    
+      <div class="mx-auto max-w-7xl px-5">
+         <breadcrumb/>
+      <div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Growth Calculator 
+          <br> for Agencies</h1>
+        <p class="mt-4 text-lg text-neutral-600">Simulate different growth scenarios for your agency and visualize the impact of customer acquisition, churn, and pricing on your MRR.</p>
+      </div>
           <div class="flex w-full flex-col gap-6 overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm lg:flex-row">
             <!-- Left -->
             <div class="w-full p-6 lg:w-3/5 lg:p-8">
               <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <h2 class="text-xl font-bold text-stone-800">Growth Projections</h2>
+                <h2 class="text-xl font-bold text-[#233267]">Growth Projections</h2>
                 <div class="flex flex-wrap gap-3 sm:space-x-4">
                   <div class="flex items-center rounded-xl border border-blue-200 bg-blue-50 px-4 py-2">
                     <span class="mr-2">①</span>
@@ -50,7 +37,7 @@
                   </h2>
                   <div class="grid grid-cols-2 gap-4">
                     <div>
-                      <label class="mb-1 block text-xs font-semibold">Current Customers</label>
+                      <label class="mb-1 block text-xs font-semibold">Current <br> Customers</label>
                       <input
                         v-model.number="s1.currentCustomers"
                         type="number"
@@ -100,7 +87,7 @@
                   </h2>
                   <div class="grid grid-cols-2 gap-4">
                     <div>
-                      <label class="mb-1 block text-xs font-semibold">Current Customers</label>
+                      <label class="mb-1 block text-xs font-semibold">Current <br> Customers</label>
                       <input
                         v-model.number="s2.currentCustomers"
                         type="number"
@@ -147,7 +134,7 @@
 
             <!-- Right -->
             <div class="w-full border-t border-stone-200 p-6 lg:mt-0 lg:w-2/5 lg:border-l lg:border-t-0 lg:p-8">
-              <h2 class="mb-6 text-xl font-bold text-stone-800">Growth Analysis</h2>
+              <h2 class="mb-6 text-xl font-bold text-[#233267]">Growth Analysis</h2>
 
               <div class="mb-6 space-y-4">
                 <div class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
@@ -175,7 +162,7 @@
                 </div>
 
                 <div class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
-                  <h3 class="mb-1 text-lg font-semibold text-stone-800">Key Insights</h3>
+                  <h3 class="mb-1 text-lg font-bold text-[#233267]">Key Insights</h3>
                   <ul class="mt-2 space-y-2 text-sm text-stone-600">
                     <li v-for="(t, i) in keyInsights" :key="i" class="flex items-start">
                       <Question class="mr-2 size-5 shrink-0 text-stone-700" />
@@ -185,10 +172,10 @@
                 </div>
 
                 <div class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
-                  <h3 class="mb-1 text-lg font-semibold text-stone-800">Recommended Actions</h3>
+                  <h3 class="mb-1 text-lg font-bold text-[#233267]">Recommended Actions</h3>
                   <ul class="mt-2 space-y-2 text-sm text-stone-600">
                     <li v-for="(t, i) in recommendedActions" :key="i" class="flex items-start">
-                      <Check class="mr-2 size-5 shrink-0 text-orange-600" />
+                      <Check class="mr-2 size-5 shrink-0 text-[#233267]" />
                       <span>{{ t }}</span>
                     </li>
                   </ul>
@@ -197,7 +184,7 @@
 
               <button
                 type="button"
-                class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+                class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                 @click="pushChartUpdate"
               >
                 Calculate Growth Projections
@@ -205,14 +192,14 @@
             </div>
           </div>
         </div>
-      </section>
-    </main>
   </div>
 </template>
 
 <script setup lang="ts">
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
 import { computed, h, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import type { ApexOptions } from 'apexcharts'
+definePageMeta({ layout: 'tools' })
 
 const chartEl = ref<HTMLElement | null>(null)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

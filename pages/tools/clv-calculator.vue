@@ -1,11 +1,14 @@
 <template>
-  <div class="flex min-h-screen flex-col bg-stone-100 font-sans text-stone-950 antialiased mt-[150px] pt-[50px]">
-    <main class="pt-10 lg:pt-0">
-      <section data-theme="light">
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
+   <breadcrumb/>
+      <div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Client Lifetime Value Calculator for Agencies</h1>
+        <p class="mt-4 text-lg text-neutral-600">Determine the true value of your clients over the entire relationship</p>
+      </div>
         <div class="mx-auto max-w-7xl px-5">
           <div class="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-              <h2 class="mb-4 text-xl font-semibold">Client Revenue Information</h2>
+              <h2 class="mb-4 text-xl font-bold text-[#233267]">Client Revenue Information</h2>
 
               <div class="space-y-4">
                 <div>
@@ -13,7 +16,7 @@
                   <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <label
                       class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm"
-                      :class="clientType === 'retainer' ? 'ring-2 ring-indigo-500' : ''"
+                      :class="clientType === 'retainer' ? 'ring-2 ring-[#233267]' : ''"
                     >
                       <input v-model="clientType" type="radio" value="retainer" class="peer sr-only" />
                       <span class="flex flex-1">
@@ -61,14 +64,14 @@
                         </span>
                       </span>
                       <span
-                        class="pointer-events-none absolute -inset-px rounded-lg border border-indigo-500 opacity-0 peer-checked:opacity-100"
+                        class="pointer-events-none absolute -inset-px rounded-lg border border-[#233267] opacity-0 peer-checked:opacity-100"
                         aria-hidden="true"
                       />
                     </label>
 
                     <label
                       class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm"
-                      :class="clientType === 'project' ? 'ring-2 ring-indigo-500' : ''"
+                      :class="clientType === 'project' ? 'ring-2 ring-[#233267]' : ''"
                     >
                       <input v-model="clientType" type="radio" value="project" class="peer sr-only" />
                       <span class="flex flex-1">
@@ -91,14 +94,14 @@
                         </span>
                       </span>
                       <span
-                        class="pointer-events-none absolute -inset-px rounded-lg border border-indigo-500 opacity-0 peer-checked:opacity-100"
+                        class="pointer-events-none absolute -inset-px rounded-lg border border-[#233267] opacity-0 peer-checked:opacity-100"
                         aria-hidden="true"
                       />
                     </label>
 
                     <label
                       class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm"
-                      :class="clientType === 'hybrid' ? 'ring-2 ring-indigo-500' : ''"
+                      :class="clientType === 'hybrid' ? 'ring-2 ring-[#233267]' : ''"
                     >
                       <input v-model="clientType" type="radio" value="hybrid" class="peer sr-only" />
                       <span class="flex flex-1">
@@ -134,7 +137,7 @@
                     id="monthly-retainer"
                     v-model.number="monthlyRetainer"
                     type="number"
-                    class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                   />
                 </div>
 
@@ -145,7 +148,7 @@
                       id="avg-project-value"
                       v-model.number="avgProjectValue"
                       type="number"
-                      class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     />
                   </div>
                   <div class="mt-3">
@@ -156,7 +159,7 @@
                       type="number"
                       min="0"
                       step="0.5"
-                      class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -168,7 +171,7 @@
                       id="hybrid-retainer"
                       v-model.number="hybridRetainer"
                       type="number"
-                      class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     />
                   </div>
                   <div class="mt-3">
@@ -177,7 +180,7 @@
                       id="hybrid-project-value"
                       v-model.number="hybridProjectValue"
                       type="number"
-                      class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     />
                   </div>
                   <div class="mt-3">
@@ -188,7 +191,7 @@
                       type="number"
                       min="0"
                       step="0.5"
-                      class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -200,7 +203,7 @@
                     v-model.number="relationshipLength"
                     type="number"
                     min="1"
-                    class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                   />
                 </div>
 
@@ -210,14 +213,14 @@
                     id="upsell-value"
                     v-model.number="upsellValue"
                     type="number"
-                    class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                   />
                 </div>
               </div>
             </div>
 
             <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-              <h2 class="mb-4 text-xl font-semibold">Service &amp; Acquisition Costs</h2>
+              <h2 class="mb-4 text-xl font-bold text-[#233267]">Service &amp; Acquisition Costs</h2>
 
               <div class="space-y-4">
                 <div>
@@ -228,7 +231,7 @@
                     type="number"
                     min="0"
                     max="100"
-                    class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                   />
                   <p class="mt-1 text-xs text-stone-600">Or enter specific costs below</p>
                 </div>
@@ -240,7 +243,7 @@
                     v-model.number="serviceDeliveryCosts"
                     type="number"
                     placeholder="Enter to override profit margin"
-                    class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                   />
                 </div>
 
@@ -250,7 +253,7 @@
                     id="acquisition-cost"
                     v-model.number="acquisitionCost"
                     type="number"
-                    class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                   />
                 </div>
 
@@ -260,7 +263,7 @@
                     id="onboarding-cost"
                     v-model.number="onboardingCost"
                     type="number"
-                    class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                   />
                 </div>
 
@@ -272,7 +275,7 @@
                     type="number"
                     min="0"
                     max="100"
-                    class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                   />
                 </div>
               </div>
@@ -280,7 +283,7 @@
           </div>
 
           <div class="mb-8 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-            <h2 class="mb-4 text-xl font-semibold">Additional Value Factors</h2>
+            <h2 class="mb-4 text-xl font-bold text-[#233267]">Additional Value Factors</h2>
 
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
@@ -291,7 +294,7 @@
                   type="number"
                   min="0"
                   max="100"
-                  class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
               </div>
 
@@ -301,7 +304,7 @@
                   id="referral-value"
                   v-model.number="referralValue"
                   type="number"
-                  class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
               </div>
 
@@ -313,7 +316,7 @@
                   type="number"
                   min="0"
                   max="100"
-                  class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
               </div>
 
@@ -325,7 +328,7 @@
                   type="number"
                   min="0"
                   max="100"
-                  class="w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  class="w-full rounded-md border border-neutral-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-600">For time value of money calculations</p>
               </div>
@@ -335,7 +338,7 @@
           <div class="mb-8 flex justify-center py-8">
             <button
               type="button"
-              class="rounded-lg bg-indigo-600 px-6 py-3 font-semibold text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#fff] hover:text-[#233267] hover:border-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]  focus:ring-offset-[#233267]"
               @click="onCalculate"
             >
               Calculate Client Lifetime Value
@@ -376,7 +379,7 @@
 
             <div class="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
               <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-                <h3 class="mb-4 text-lg font-semibold">Revenue &amp; Cost Breakdown</h3>
+                <h3 class="mb-4 text-xl font-bold text-[#233267]">Revenue &amp; Cost Breakdown</h3>
                 <div class="h-64">
                   <canvas ref="revenueCostCanvas" />
                 </div>
@@ -401,7 +404,7 @@
               </div>
 
               <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-                <h3 class="mb-4 text-lg font-semibold">Value Over Time</h3>
+                <h3 class="mb-4 text-lg font-bold text-[#233267]">Value Over Time</h3>
                 <div class="h-64">
                   <canvas ref="valueProjectionCanvas" />
                 </div>
@@ -427,7 +430,7 @@
             </div>
 
             <div class="mb-8 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-              <h3 class="mb-4 text-lg font-semibold">Strategic Insights</h3>
+              <h3 class="mb-4 text-lg font-bold text-[#233267]">Strategic Insights</h3>
               <div class="space-y-4">
                 <div
                   v-for="(insight, idx) in insights"
@@ -446,7 +449,7 @@
             </div>
 
             <div class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-              <h3 class="mb-4 text-lg font-semibold">Impact of Variable Changes</h3>
+              <h3 class="mb-4 text-lg font-bold text-[#233267]">Impact of Variable Changes</h3>
               <div class="h-80">
                 <canvas ref="sensitivityCanvas" />
               </div>
@@ -456,14 +459,15 @@
             </div>
           </div>
         </div>
-      </section>
-    </main>
+   
   </div>
 </template>
 
 <script setup lang="ts">
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
 import { nextTick, ref } from 'vue'
 import Chart from 'chart.js/auto'
+definePageMeta({ layout: 'tools' })
 
 type ClientType = 'retainer' | 'project' | 'hybrid'
 type InsightType = 'critical' | 'warning' | 'positive' | 'info'
