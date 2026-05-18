@@ -18,6 +18,49 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: true,
       failOnError: false
+    },
+    // ✅ ADD: Compression
+    compressPublicAssets: true,
+    // ✅ ADD: Route rules for caching
+    routeRules: {
+      '/_nuxt/**': {
+        headers: {
+          'Cache-Control': 'public, max-age=31536000, immutable'
+        }
+      }
+    }
+  },
+
+  // ✅ ADD: Global route rules for all file types
+  routeRules: {
+    // Nuxt build files (JS, CSS) - cache forever
+    '/_nuxt/**': { 
+      headers: { 
+        'Cache-Control': 'public, max-age=31536000, immutable',
+        'X-Content-Type-Options': 'nosniff'
+      } 
+    },
+    
+    // Assets folder
+    '/assets/**': { 
+      headers: { 
+        'Cache-Control': 'public, max-age=31536000, immutable' 
+      } 
+    },
+
+    // Images, fonts, and other static assets
+    '/**/*.{png,jpg,jpeg,gif,webp,svg,ico,woff,woff2,ttf,otf,eot}': {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable'
+      }
+    },
+
+    // Pages - 1 hour cache with background revalidation
+    '/**': { 
+      swr: 3600, // stale-while-revalidate
+      headers: {
+        'Cache-Control': 'public, max-age=3600, s-maxage=7200, stale-while-revalidate=86400'
+      }
     }
   },
 
@@ -39,12 +82,9 @@ export default defineNuxtConfig({
         lang: 'en'
       },
 
-      // ✅ KEEP ONLY essentials here
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-
-        // fallback only (will be overridden)
         {
           name: 'description',
           content: 'DSP CRM defaultd description'
@@ -87,5 +127,20 @@ export default defineNuxtConfig({
 
   css: [
     '~/assets/css/main.css'
-  ]
+  ],
+
+  // ✅ ADD: Vite optimization for better chunking
+  vite: {
+    build: {
+      cssCodeSplit: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'swiper': ['swiper'],
+            'aos': ['aos']
+          }
+        }
+      }
+    }
+  }
 })
