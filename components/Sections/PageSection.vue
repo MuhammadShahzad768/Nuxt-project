@@ -23,7 +23,8 @@
 
     </div>
 
-    <img  alt="" :src="client.project_management_boxes_image.url">
+    <img  width="800" 
+  height="500" alt="" :src="client.project_management_boxes_image.url">
   </div>
    </div>
         </div>

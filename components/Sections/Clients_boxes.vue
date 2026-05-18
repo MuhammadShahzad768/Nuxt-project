@@ -36,7 +36,8 @@
   </p>
 
   <!-- large image -->
-  <img :src="client.box_image.url" alt="" class="rounded-xl w-full h-auto transition-all duration-300 min-h-[214px] max-h-[250px]" />
+  <img :src="client.box_image.url" alt="" width="800" 
+  height="500" class="rounded-xl w-full h-auto transition-all duration-300 min-h-[214px] max-h-[250px]" />
 </div>
 </div>
   </div>
