@@ -20,6 +20,8 @@ import 'swiper/css/pagination'
 const router = useRouter()
 const route = useRoute()
 const showLoader = ref(true)
+const contentRef = ref(null)
+
 
 /* =========================
   FETCH DATA
@@ -210,6 +212,94 @@ function initFilters() {
 
   applyFilters()
 }
+/**
+ * =========================
+ * FORM HANDLER (MAIN PART 🔥)
+ * =========================
+ */
+
+let captchaToken = ''
+let captchaWidgetId: number | null = null
+
+const initFormHandler = () => {
+  if (!contentRef.value) return
+
+  const form = contentRef.value.querySelector('#contactForm')
+
+  if (!form) {
+    console.log('Form not found ❌')
+    return
+  }
+
+  console.log('Form found ✅')
+
+  form.removeEventListener('submit', handleSubmit)
+  form.addEventListener('submit', handleSubmit)
+}
+
+const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  const form = e.target
+  const btn = form.querySelector('button')
+
+  // ❗ CAPTCHA VALIDATION ADDED
+  if (!captchaToken) {
+    alert('Please complete CAPTCHA first ❗')
+    return
+  }
+
+  if (btn) btn.innerText = 'Sending...'
+
+  const data = {
+    contact_first_name: document.getElementById('first_name')?.value,
+    contact_last_name: document.getElementById('last_name')?.value,
+    contact_email: document.getElementById('email')?.value,
+    contact_subject: document.getElementById('subject')?.value,
+    contact_message: document.getElementById('message')?.value,
+
+    // ✅ CAPTCHA TOKEN ADDED
+    recaptcha_token: captchaToken
+  }
+
+  console.log("FORM DATA:", data)
+
+  try {
+    const res = await fetch(
+      'https://admin.dspcrm.com/wp-json/custom/v1/submit-contact',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }
+    )
+
+    const result = await res.json()
+    console.log("API RESPONSE:", result)
+
+    if (result.status === 'success') {
+      alert('Form submitted successfully ✅')
+      form.reset()
+
+      // reset captcha
+      captchaToken = ''
+
+      if ((window as any).grecaptcha && captchaWidgetId !== null) {
+        (window as any).grecaptcha.reset(captchaWidgetId)
+      }
+
+    } else {
+      alert('Error: ' + result.message)
+    }
+
+  } catch (err) {
+    console.error(err)
+    alert('Something went wrong ❌')
+  }
+
+  btn.innerText = 'Send message'
+}
+
 onMounted(() => {
   document.addEventListener('click', (e: any) => {
     const link = e.target.closest('a')
@@ -251,53 +341,56 @@ onMounted(() => {
       })
 
       // =========================
-      // ✅ CAPTCHA INJECTION HERE
+      // ✅ CAPTCHA INJECTION (UPDATED)
       // =========================
-   const form = document.querySelector('#contactForm')
+      const form = document.querySelector('#contactForm')
 
-if (form) {
+      if (form) {
+        const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]')
 
-  const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]')
+        const captchaWrapper = document.createElement('div')
+        captchaWrapper.className = 'g-recaptcha'
 
-  const captchaWrapper = document.createElement('div')
-  captchaWrapper.className = 'g-recaptcha'
-  captchaWrapper.setAttribute('data-sitekey', '6Ldspt0sAAAAAPkbuf5w8IqH_lR3tULW4ckX9GSb')
+        if (submitBtn) {
+          form.insertBefore(captchaWrapper, submitBtn)
+        } else {
+          form.appendChild(captchaWrapper)
+        }
 
-  // insert BEFORE submit button
-  if (submitBtn) {
-    form.insertBefore(captchaWrapper, submitBtn)
-  } else {
-    form.appendChild(captchaWrapper)
-  }
+        // ✅ FIXED CAPTCHA RENDER WITH CALLBACK
+        if ((window as any).grecaptcha?.render) {
+          captchaWidgetId = (window as any).grecaptcha.render(captchaWrapper, {
+            sitekey: '6Ldspt0sAAAAAPkbuf5w8IqH_lR3tULW4ckX9GSb',
 
-  // render captcha
-  if ((window as any).grecaptcha) {
-    ;(window as any).grecaptcha.render(captchaWrapper)
-  }
-}
+            callback: (token: string) => {
+              captchaToken = token
+              console.log('CAPTCHA VERIFIED ✅')
+            },
+
+            'expired-callback': () => {
+              captchaToken = ''
+              console.log('CAPTCHA EXPIRED ❌')
+            },
+
+            'error-callback': () => {
+              captchaToken = ''
+              console.log('CAPTCHA ERROR ❌')
+            }
+          })
+        }
+      }
 
       // existing functions
       initializeScripts()
       initFilters()
+      initFormHandler()
     })
   }, 300)
-})
-document.addEventListener('submit', (e: any) => {
-  const form = e.target
-
-  if (form && form.id === 'contactForm') {
-    const response = (window as any).grecaptcha?.getResponse()
-
-    if (!response) {
-      e.preventDefault()
-      alert('Please complete CAPTCHA')
-    }
-  }
 })
 </script>
 
 <template>
-  <div>
+  <div    ref="contentRef">
     <Loader v-if="showLoader" />
     <div class="wp-content" :class="[{ 'content-hidden': showLoader }, wpClass]">
       <div v-if="pageData">
