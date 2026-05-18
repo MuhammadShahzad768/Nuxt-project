@@ -1,9 +1,9 @@
 <template>
-  <div class="flex ">
+  <div class="flex">
 
     <!-- MAIN CONTENT -->
     <main class="flex-1 min-w-0 py-7 px-5 md:px-0 sm:px-8 lg:max-w-[560px] md:max-w-[350px]">
-      
+
       <div 
         v-if="post" 
         ref="contentRef"
@@ -15,10 +15,12 @@
 
     </main>
 
-    <!-- TOC SIDEBAR -->
-    <aside class=" md:hidden sticky top-0 pt-[20px] h-screen overflow-y-auto border-l border-gray-200 py-[18px] px-4 toc-aside lg:hidden xl:block" v-if="toc.length > 0">
+    <!-- TOC -->
+    <aside 
+      class="md:hidden sticky top-0 pt-[20px] h-screen overflow-y-auto border-l border-gray-200 py-[18px] px-4 toc-aside lg:hidden xl:block"
+      v-if="toc.length > 0">
 
-     <div class="toc-wrap" >
+      <div class="toc-wrap">
         <p class="toc-title">On this page</p>
 
         <ul class="toc-list">
@@ -42,39 +44,69 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, watch, onMounted, onUnmounted, nextTick, computed } from 'vue'
 
 definePageMeta({ layout: 'doc' })
 
 const route = useRoute()
 
-/**
- * ✅ Fetch API
- */
+/* =========================
+   FETCH POST
+========================= */
 const { data: post } = await useFetch(
   `https://admin.dspcrm.com/wp-json/custom/v1/docs/${route.params.slug}`
 )
 
-/**
- * Refs
- */
+/* =========================
+   REFS
+========================= */
 const contentRef = ref(null)
 const toc = ref([])
 const activeId = ref(null)
 
-/**
- * Generate TOC
- */
+/* =========================
+   RECAPTCHA LOAD
+========================= */
+useHead({
+  script: [
+    {
+      src: 'https://www.google.com/recaptcha/api.js?render=6Ldspt0sAAAAAPkbuf5w8IqH_lR3tULW4ckX9GSb',
+      async: true,
+      defer: true
+    }
+  ]
+})
+
+/* =========================
+   RECAPTCHA TOKEN
+========================= */
+const getRecaptchaToken = () => {
+  return new Promise((resolve) => {
+    if (!window.grecaptcha) {
+      console.log('reCAPTCHA not loaded ❌')
+      resolve(null)
+      return
+    }
+
+    grecaptcha.ready(async () => {
+      const token = await grecaptcha.execute('6Ldspt0sAAAAAPkbuf5w8IqH_lR3tULW4ckX9GSb', {
+        action: 'submit'
+      })
+      resolve(token)
+    })
+  })
+}
+
+/* =========================
+   TOC GENERATION
+========================= */
 const generateTOC = () => {
   if (!contentRef.value) return
 
   const headings = contentRef.value.querySelectorAll('h2')
 
-  console.log("HEADINGS FOUND:", headings.length)
-
   toc.value = Array.from(headings).map((el) => {
 
-    // Ensure ID exists
     if (!el.id) {
       el.id = el.innerText
         .toLowerCase()
@@ -89,21 +121,19 @@ const generateTOC = () => {
   })
 }
 
-/**
- * Scroll to section
- */
+/* =========================
+   SCROLL TO SECTION
+========================= */
 const scrollTo = (id) => {
   const el = document.getElementById(id)
   if (el) {
-    el.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    })
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 }
-/* ============================================
-   SEO Injection
-============================================ */
+
+/* =========================
+   SEO (your existing logic)
+========================= */
 const seoHtml = computed(() => post.value?.SEO?.description || '')
 
 const seoTitle = computed(() => {
@@ -115,14 +145,15 @@ const seoMeta = computed(() => {
   const metaArray = []
   const regex = /<meta\s+([^>]+)>/gi
   let match
+
   while ((match = regex.exec(seoHtml.value)) !== null) {
     const attrs = {}
     match[1].replace(/([\w:-]+)="([^"]*)"/g, (_, name, value) => {
       attrs[name] = value
-      return ''
     })
     metaArray.push(attrs)
   }
+
   return metaArray
 })
 
@@ -131,9 +162,9 @@ useHead({
   meta: seoMeta
 })
 
-/**
- * Scroll spy
- */
+/* =========================
+   SCROLL SPY
+========================= */
 const handleScroll = () => {
   const sections = toc.value.map(item => document.getElementById(item.id))
 
@@ -150,22 +181,17 @@ const handleScroll = () => {
 
   activeId.value = current
 }
-/**
- * ✅ FORM HANDLER (MAIN PART 🔥)
- */
+
+/* =========================
+   FORM HANDLER (CAPTCHA ADDED)
+========================= */
 const initFormHandler = () => {
   if (!contentRef.value) return
 
   const form = contentRef.value.querySelector('#contactForm')
 
-  if (!form) {
-    console.log('Form not found ❌')
-    return
-  }
+  if (!form) return
 
-  console.log('Form found ✅')
-
-  // prevent duplicate binding
   form.removeEventListener('submit', handleSubmit)
   form.addEventListener('submit', handleSubmit)
 }
@@ -175,33 +201,44 @@ const handleSubmit = async (e) => {
 
   const form = e.target
   const btn = form.querySelector('button')
-  btn.innerText = 'Sending...'
 
-  const data = {
-    contact_first_name: document.getElementById('first_name')?.value,
-    contact_last_name: document.getElementById('last_name')?.value,
-    contact_email: document.getElementById('email')?.value,
-    contact_subject: document.getElementById('subject')?.value,
-    contact_message: document.getElementById('message')?.value
-  }
-
-  console.log("FORM DATA:", data)
+  if (btn) btn.innerText = 'Sending...'
 
   try {
-    const res = await fetch('https://admin.dspcrm.com/wp-json/custom/v1/submit-contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
+    const recaptchaToken = await getRecaptchaToken()
+
+    // ⚠️ BLOCK if no token
+    if (!recaptchaToken) {
+      alert('reCAPTCHA failed ❌ Try again')
+      if (btn) btn.innerText = 'Send message'
+      return
+    }
+
+    const data = {
+      contact_first_name: document.getElementById('first_name')?.value,
+      contact_last_name: document.getElementById('last_name')?.value,
+      contact_email: document.getElementById('email')?.value,
+      contact_subject: document.getElementById('subject')?.value,
+      contact_message: document.getElementById('message')?.value,
+      recaptcha_token: recaptchaToken
+    }
+
+    const res = await fetch(
+      'https://admin.dspcrm.com/wp-json/custom/v1/submit-contact',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }
+    )
 
     const result = await res.json()
-    console.log("API RESPONSE:", result)
 
     if (result.status === 'success') {
       alert('Form submitted successfully ✅')
       form.reset()
     } else {
-      alert('Error: ' + result.message)
+      alert(result.message || 'Captcha failed ❌')
     }
 
   } catch (err) {
@@ -209,17 +246,16 @@ const handleSubmit = async (e) => {
     alert('Something went wrong ❌')
   }
 
-  btn.innerText = 'Send message'
+  if (btn) btn.innerText = 'Send message'
 }
 
-/**
- * ✅ WATCH + DELAY (CRITICAL FIX)
- */
-watch(post, async (newVal) => {
-  if (newVal) {
+/* =========================
+   WATCH POST RENDER
+========================= */
+watch(post, async (val) => {
+  if (val) {
     await nextTick()
 
-    // Delay ensures v-html is fully rendered
     setTimeout(() => {
       generateTOC()
       initFormHandler()
@@ -227,9 +263,9 @@ watch(post, async (newVal) => {
   }
 }, { immediate: true })
 
-/**
- * Lifecycle
- */
+/* =========================
+   LIFECYCLE
+========================= */
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 })

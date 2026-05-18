@@ -94,7 +94,7 @@ onMounted(async () => {
   setTimeout(() => {
     showLoader.value = false       // Hide loader
     nextTick(() => {
-      initializeScripts()          // Init AOS & Swiper
+     
     })
   }, 200)
 })
