@@ -421,7 +421,13 @@ onMounted(() => {
 .fade-leave-to {
   opacity: 0;
 }
-
+:deep(.tool_box.show) {
+  opacity: 1;
+  transform: scale(1);
+  position: relative;
+  max-width: 31.5%;
+    width: 100%;
+}
 :deep(.tool_box) {
   transition: all 0.4s ease;
   max-width:31.4%;
@@ -477,6 +483,14 @@ onMounted(() => {
 :deep(.page-id-1154 .reday) {
     padding-top: 0;
 }
+}
+
+@media screen and (min-width:768px) and (max-width:1023px) {
+
+  :deep(.tool_box.show){
+max-width: 90%;
+
+  }
 }
 @media screen and (min-width:1024px) and (max-width:1200px) {
   :deep(h1),:deep(h2){

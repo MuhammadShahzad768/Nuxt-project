@@ -240,13 +240,7 @@ ul {
 .fil svg path{
   color:#00296B;
 }
-:deep(.tool_box.show) {
-  opacity: 1;
-  transform: scale(1);
-  position: relative;
-  max-width: 31.5%;
-    width: 100%;
-}
+
 .content li::before{
   content: none;
 }
@@ -355,14 +349,15 @@ li {
 }
 } 
 
-@media screen and (min-width:768px) and (max-width:1023px) {
+@media screen and (min-width:769px) and (max-width:1023px) {
+    a.mega-menu-link:not(:last-child) {
+    pointer-events: auto;
+
+}
   .toogle_sidebar{
         margin-top: 55px;
   }
-  .tool_box.show{
-max-width: 32%;
-
-  }
+  
   :deep(.toc-aside){
     display: none;
   }
