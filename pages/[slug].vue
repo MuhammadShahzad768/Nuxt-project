@@ -404,6 +404,7 @@ onMounted(() => {
   </div>
 </template>
 <style scoped>
+
 :deep(.max-w-8xl){
   max-width: 90rem;
   margin: 0 auto;

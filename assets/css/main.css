@@ -11,6 +11,10 @@
 .leading-\[50px\] {
     line-height: 50px !important;
 }
+.page-id-706 h1:first-child{
+display:none;
+    
+}
 header {
     background-image: url(http://admin.dspcrm.com/wp-content/uploads/2025/10/shape-bottom-1.png);
     background-position: top;
