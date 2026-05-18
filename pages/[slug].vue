@@ -210,15 +210,13 @@ function initFilters() {
 
   applyFilters()
 }
-/* =========================
-  MOUNTED
-========================= */
 onMounted(() => {
   document.addEventListener('click', (e: any) => {
     const link = e.target.closest('a')
     if (!link) return
     const url = link.getAttribute('href')
     if (!url) return
+
     if (url.startsWith('/')) {
       e.preventDefault()
       navigateTo(url)
@@ -227,33 +225,74 @@ onMounted(() => {
 
   setTimeout(() => {
     showLoader.value = false
+
     nextTick(() => {
+
       const BASE_URL = 'https://admin.dspcrm.com'
-     document.querySelectorAll('.success img').forEach((img: HTMLImageElement) => {
-  let src = img.getAttribute('src') || ''
 
-  if (src && !src.startsWith('http')) {
-    src = `${BASE_URL}${src}`
+      document.querySelectorAll('.success img').forEach((img: HTMLImageElement) => {
+        let src = img.getAttribute('src') || ''
+
+        if (src && !src.startsWith('http')) {
+          src = `${BASE_URL}${src}`
+        }
+
+        img.src = src
+        img.setAttribute('loading', 'lazy')
+        img.setAttribute('decoding', 'async')
+
+        if (!img.hasAttribute('width')) img.setAttribute('width', '800')
+        if (!img.hasAttribute('height')) img.setAttribute('height', '600')
+
+        const rect = img.getBoundingClientRect()
+        if (rect.top < window.innerHeight) {
+          img.setAttribute('fetchpriority', 'high')
+        }
+      })
+
+      // =========================
+      // ✅ CAPTCHA INJECTION HERE
+      // =========================
+   const form = document.querySelector('#contactForm')
+
+if (form) {
+
+  const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]')
+
+  const captchaWrapper = document.createElement('div')
+  captchaWrapper.className = 'g-recaptcha'
+  captchaWrapper.setAttribute('data-sitekey', '6Ldspt0sAAAAAPkbuf5w8IqH_lR3tULW4ckX9GSb')
+
+  // insert BEFORE submit button
+  if (submitBtn) {
+    form.insertBefore(captchaWrapper, submitBtn)
+  } else {
+    form.appendChild(captchaWrapper)
   }
 
-  img.src = src
-  img.setAttribute('loading', 'lazy')
-  img.setAttribute('decoding', 'async')
-  
-  // Add proper dimensions (replace with actual sizes)
-  if (!img.hasAttribute('width')) img.setAttribute('width', '800')
-  if (!img.hasAttribute('height')) img.setAttribute('height', '600')
-  
-  // Add fetchpriority for above-the-fold images
-  const rect = img.getBoundingClientRect()
-  if (rect.top < window.innerHeight) {
-    img.setAttribute('fetchpriority', 'high')
+  // render captcha
+  if ((window as any).grecaptcha) {
+    ;(window as any).grecaptcha.render(captchaWrapper)
   }
-})
+}
+
+      // existing functions
       initializeScripts()
       initFilters()
     })
   }, 300)
+})
+document.addEventListener('submit', (e: any) => {
+  const form = e.target
+
+  if (form && form.id === 'contactForm') {
+    const response = (window as any).grecaptcha?.getResponse()
+
+    if (!response) {
+      e.preventDefault()
+      alert('Please complete CAPTCHA')
+    }
+  }
 })
 </script>
 
