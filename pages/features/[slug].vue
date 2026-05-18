@@ -178,12 +178,27 @@ onMounted(() => {
     showLoader.value = false
     nextTick(() => {
       const BASE_URL = 'https://admin.dspcrm.com'
-      document.querySelectorAll('.success img').forEach((img: HTMLImageElement) => {
-        let src = img.getAttribute('src') || img.src
-        if (src && !src.startsWith('http')) {
-          img.src = `${BASE_URL}${src}`
-        }
-      })
+     document.querySelectorAll('.success img').forEach((img: HTMLImageElement) => {
+  let src = img.getAttribute('src') || ''
+
+  if (src && !src.startsWith('http')) {
+    src = `${BASE_URL}${src}`
+  }
+
+  img.src = src
+  img.setAttribute('loading', 'lazy')
+  img.setAttribute('decoding', 'async')
+  
+  // Add proper dimensions (replace with actual sizes)
+  if (!img.hasAttribute('width')) img.setAttribute('width', '800')
+  if (!img.hasAttribute('height')) img.setAttribute('height', '600')
+  
+  // Add fetchpriority for above-the-fold images
+  const rect = img.getBoundingClientRect()
+  if (rect.top < window.innerHeight) {
+    img.setAttribute('fetchpriority', 'high')
+  }
+})
       if (customCss.value) {
         const styleTag = document.createElement('style')
         styleTag.innerHTML = customCss.value

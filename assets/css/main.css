@@ -8,6 +8,9 @@
     max-width: 240px;
     /* height: 60px; */
 }
+.leading-\[50px\] {
+    line-height: 50px !important;
+}
 header {
     background-image: url(http://admin.dspcrm.com/wp-content/uploads/2025/10/shape-bottom-1.png);
     background-position: top;
