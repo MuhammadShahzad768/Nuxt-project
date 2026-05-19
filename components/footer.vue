@@ -8,6 +8,8 @@
               :key="`logo-${index}`"
               :src="item.name"
               alt="logo"
+              width="100" 
+  height="100"
               class="wow skewIn text-base text-[#5E6282] font-poppins font-medium mt-3 mb-1"
               :class="{ animated: visibleItems[index] }"
               :style="visibleItems[index] ? { transitionDelay: (index * 0.15) + 's' } : {}"

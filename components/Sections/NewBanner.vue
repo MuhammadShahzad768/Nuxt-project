@@ -18,10 +18,14 @@
                          <router-link  to="/book-a-demo" > Try It Free</router-link>
                         </span></p>
             </div>
-            <img src='http://admin.dspcrm.com/wp-content/uploads/2026/02/Group-143-Cf659UdD.svg' class='xl:w-[100px] w-[80px] absolute xl:top-[26%] top-[17%] left-[5%] xl:left-[17%]'>
-            <img src='http://admin.dspcrm.com/wp-content/uploads/2026/02/Group-144-CbSq2YSC.svg' class='xl:w-[100px] w-[80px] absolute xl:top-[26%]  xl:right-[24%] top-[14%] right-[0%]'>
-            <img src='http://admin.dspcrm.com/wp-content/uploads/2026/02/Group-145-DgSMHD_y.svg' class='xl:w-[100px] w-[80px] absolute  xl:bottom-[38%] xl:left-[26%] bottom-[30%] left-[10%] md:hidden xl:block'>
-            <img src='http://admin.dspcrm.com/wp-content/uploads/2026/02/Group-142-BLUaaRaE.svg' class=' xl:w-[100px] w-[80px] absolute xl:bottom-[38%] bottom-[28%] right-[10%] xl:right-[17%] md:hidden xl:block'>
+            <img src='http://admin.dspcrm.com/wp-content/uploads/2026/02/Group-143-Cf659UdD.svg' width="100" 
+  height="100" class='xl:w-[100px] w-[80px] absolute xl:top-[26%] top-[17%] left-[5%] xl:left-[17%]'>
+            <img src='http://admin.dspcrm.com/wp-content/uploads/2026/02/Group-144-CbSq2YSC.svg' width="100" 
+  height="100" class='xl:w-[100px] w-[80px] absolute xl:top-[26%]  xl:right-[24%] top-[14%] right-[0%]'>
+            <img src='http://admin.dspcrm.com/wp-content/uploads/2026/02/Group-145-DgSMHD_y.svg' width="100" 
+  height="100" class='xl:w-[100px] w-[80px] absolute  xl:bottom-[38%] xl:left-[26%] bottom-[30%] left-[10%] md:hidden xl:block'>
+            <img src='http://admin.dspcrm.com/wp-content/uploads/2026/02/Group-142-BLUaaRaE.svg' width="100" 
+  height="100" class=' xl:w-[100px] w-[80px] absolute xl:bottom-[38%] bottom-[28%] right-[10%] xl:right-[17%] md:hidden xl:block'>
            <img
         ref="bannerImage"
         :src="hero[0].banner_image"
