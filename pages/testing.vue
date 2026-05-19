@@ -238,17 +238,9 @@ useHead({
     },
     {
       rel: 'stylesheet',
-      href: 'https://admin.dspcrm.com/wp-includes/css/dashicons.min.css'
-    }
-  ],
-  script: [
-    {
-      src: 'https://admin.dspcrm.com/wp-includes/js/jquery/jquery.min.js',
-      defer: false
-    },
-    {
-      src: 'https://admin.dspcrm.com/wp-content/plugins/mega-main-menu/js/mega-main-menu.js',
-      defer: true
+      href: 'https://admin.dspcrm.com/wp-includes/css/dashicons.min.css',
+      media: 'print',
+      onload: "this.media='all'"
     }
   ],
   style: [

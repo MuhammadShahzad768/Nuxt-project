@@ -98,6 +98,12 @@ export default defineNuxtConfig({
       ],
 
       script: [
+        
+    {
+      src: 'https://admin.dspcrm.com/wp-content/plugins/mega-main-menu/js/mega-main-menu.js',
+      defer: true,
+      tagPosition: 'bodyClose'
+    },
          {
           src: "https://www.google.com/recaptcha/api.js",
           async: true,

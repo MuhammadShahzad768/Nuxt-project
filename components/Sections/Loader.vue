@@ -1,6 +1,8 @@
 <template>
   <div class="loader-container">
-    <img src="https://admin.dspcrm.com/wp-content/uploads/2025/09/DSP-final-logo-4-cropped.svg" alt="Logo" class="loader-logo" />
+    <img src="https://admin.dspcrm.com/wp-content/uploads/2025/09/DSP-final-logo-4-cropped.svg" alt="Logo" class="loader-logo"
+    fetchpriority="high"
+    />
   </div>
 </template>
 
