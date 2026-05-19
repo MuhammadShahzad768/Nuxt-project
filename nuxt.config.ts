@@ -126,7 +126,8 @@ export default defineNuxtConfig({
   },
 
   css: [
-    '~/assets/css/main.css'
+    '~/assets/css/main.css',
+    '@fortawesome/fontawesome-free/css/all.min.css'
   ],
 
   // ✅ ADD: Vite optimization for better chunking
