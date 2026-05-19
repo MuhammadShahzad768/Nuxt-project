@@ -27,6 +27,12 @@ export default defineNuxtConfig({
         headers: {
           'Cache-Control': 'public, max-age=31536000, immutable'
         }
+      },
+      // Don't cache HTML pages
+      '/**': {
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
+        }
       }
     }
   },
