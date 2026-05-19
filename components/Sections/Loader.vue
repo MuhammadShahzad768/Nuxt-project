@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<style scoped>
+<style>
 .loader-container {
   position: fixed;
   top: 0;

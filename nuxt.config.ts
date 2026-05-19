@@ -9,7 +9,9 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     'nuxt-gtag',
   ],
-
+experimental: {
+    inlineSSRStyles: true
+  },
   gtag: {
     id: 'G-XWL8VTL6T8'
   },

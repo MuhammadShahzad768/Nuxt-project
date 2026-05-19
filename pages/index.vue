@@ -116,7 +116,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style>
 /* LOADER OVERLAY */
 .loader-container {
   position: fixed;
