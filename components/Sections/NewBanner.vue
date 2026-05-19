@@ -30,6 +30,7 @@
         ref="bannerImage"
         :src="hero[0].banner_image"
         alt="Animated Banner"
+        fetchpriority="high"
         class="xl:absolute xl:mt-0 xl:max-w-[100%] max-w-[90%] mt-20 relative xl:bottom-[-25%] left-0 right-0 m-auto max-h-[460px] shadow-[10px_35px_35px_20px_rgba(0,0,0,0.25)] transition-transform duration-300 ease-out"
         :style="{ transform: imageTransform }"
       />
@@ -41,21 +42,31 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const imageTransform = ref('translate3d(0, 0, 0) rotateX(40deg)')
 const isMobile = ref(false)
-const hero = ref(null)
 
-const fetchHero = async () => {
-  try {
-    const res = await fetch('https://admin.dspcrm.com/wp-json/dsp/v1/hero/7')
-    console.log('Response status:', res.status)
-    console.log('Response ok:', res.ok)
-    const data = await res.json()
-    console.log('Fetched data:', data)
-    hero.value = data
-  } catch (err) {
-    console.error('Hero API Error:', err)
+// 1. Client-side fetch ki jagah Nuxt ka useFetch use karein (SSR friendly)
+const { data: hero } = await useFetch('https://admin.dspcrm.com/wp-json/dsp/v1/hero/7', {
+  key: 'hero-data-7' // caching aur state replay ke liye unique key
+})
+
+// 2. Dynamic Preload: Jab hero data load hoga, yeh automatically head mein inject ho jayega
+useHead(() => {
+  // Check karein ke API se image ka URL aa chuka hai ya nahi
+  // (Yahan 'banner_image_url' ki jagah wo key likhein jo aapke API response mein image ke liye aa rahi hai)
+  const imageUrl = hero.value?.banner_image_url || '' 
+
+  return {
+    link: imageUrl ? [
+      {
+        rel: 'preload',
+        as: 'image',
+        // Agar image format dynamic rakhna hai toh 'image/png' ya jo bhi default ho, varna type remove bhi kar sakte hain
+        type: 'image/webp', 
+        href: imageUrl,
+        fetchpriority: 'high'
+      }
+    ] : []
   }
-}
-
+})
 
 const handleScroll = () => {
   if (isMobile.value) return // ❌ Skip animation on mobile
@@ -63,25 +74,21 @@ const handleScroll = () => {
   const scrollY = window.scrollY
 
   if (scrollY <= 150) {
-    // Before 150px scroll → stay fixed at 40deg
     imageTransform.value = 'translate3d(0, 0, 0) rotateX(40deg)'
   } else {
-    // After 150px → reduce gradually toward 0deg
     const adjustedScroll = scrollY - 150
     const rotateX = Math.max(40 - adjustedScroll / 8, 0)
     imageTransform.value = `translate3d(0, 0, 0) rotateX(${rotateX}deg)`
   }
 }
 
-onMounted(async () => {
-   await fetchHero()
+onMounted(() => {
   // ✅ Detect mobile screen size
   isMobile.value = window.innerWidth < 768
 
   if (!isMobile.value) {
     window.addEventListener('scroll', handleScroll)
   } else {
-    // Keep static transform for mobile
     imageTransform.value = 'translate3d(0, 0, 0) rotateX(0deg)'
   }
 })
@@ -90,7 +97,6 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 </script>
-
 
 <style scoped>
 img {
