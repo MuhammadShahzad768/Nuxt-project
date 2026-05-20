@@ -226,6 +226,10 @@ ul {
 .price li:before{
   display: none;
 }
+footer li::before{
+  content: "";
+
+}
 .price li{
   padding: 0;
 }
