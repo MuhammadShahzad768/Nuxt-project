@@ -1,28 +1,16 @@
 <template>
-  <div class="min-h-screen bg-stone-100 font-sans text-stone-950 antialiased mt-[150px]">
-    <main class="pt-10 lg:pt-0">
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
+    
       <section>
-        <div class="mx-auto max-w-4xl px-4 pb-8 pt-10">
-          <nav class="flex items-center justify-center text-sm text-stone-600">
-            <a href="" class="hover:text-rose-600" target="_blank" rel="noopener noreferrer">Home</a>
-            <Chevron class="mx-2 size-4" />
-            <a href="/free-tools" class="hover:text-rose-600" target="_blank" rel="noopener noreferrer">Tools</a>
-            <Chevron class="mx-2 size-4" />
-            <span>Package Optimizer</span>
-          </nav>
-        </div>
-
-        <header class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-20">
-          <h1 class="text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">Package Optimizer for productized Agencies</h1>
-          <p class="mt-3 text-lg text-stone-600 md:text-xl">
-            Determine the optimal mix of different service packages to maximize profit
-          </p>
-        </header>
-
+        <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Package Optimizer for productized Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600"> Determine the optimal mix of different service packages to maximize profit</p>
+      </div>
         <div class="mx-auto max-w-5xl overflow-hidden p-6 md:p-8">
           <!-- Team capacity -->
           <div class="mb-8 rounded-xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6">
-            <h2 class="mb-5 border-b border-stone-100 pb-2 text-xl font-semibold text-stone-800">Team Capacity</h2>
+            <h2 class="mb-5 border-b border-stone-100 pb-2 text-xl font-bold text-[#233267]">Team Capacity</h2>
             <div class="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-4">
               <div class="lg:col-span-3">
                 <label for="hoursSlider" class="mb-2 block text-sm font-semibold">Available Team Hours per Month</label>
@@ -37,10 +25,10 @@
                     min="0"
                     max="5000"
                     step="50"
-                    class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-stone-200 accent-orange-600"
+                    class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-stone-200 accent-[#233267]"
                   />
                   <div class="mt-2 text-center">
-                    <span class="text-sm font-medium text-orange-600">{{ availableHours }} hours</span>
+                    <span class="text-sm font-medium text-[#233267]">{{ availableHours }} hours</span>
                   </div>
                 </div>
               </div>
@@ -53,7 +41,7 @@
                     type="number"
                     min="0"
                     max="5000"
-                    class="w-full rounded-lg border border-stone-300 py-2 pl-3 pr-12 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                    class="w-full rounded-lg border border-stone-300 py-2 pl-3 pr-12 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     placeholder="0"
                   />
                   <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-stone-500">hrs</span>
@@ -65,8 +53,8 @@
           <!-- Packages -->
           <div class="mb-8 rounded-xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6">
             <div class="mb-5 flex flex-col gap-3 border-b border-stone-100 pb-2 sm:flex-row sm:items-center sm:justify-between">
-              <h2 class="text-xl font-semibold text-stone-800">Package Configuration</h2>
-              <button type="button" class="inline-flex items-center border border-transparent text-sm font-medium leading-4 text-orange-600 hover:text-orange-700" @click="addPackage">
+              <h2 class="text-xl font-bold text-[#233267]">Package Configuration</h2>
+              <button type="button" class="inline-flex items-center border border-transparent text-sm font-medium leading-4 text-[#233267] hover:text-[#233267]" @click="addPackage">
                 + Add Package
               </button>
             </div>
@@ -99,7 +87,7 @@
                         v-model.number="pkg.price"
                         type="number"
                         min="0"
-                        class="w-full rounded-lg border border-stone-300 py-2 pl-7 pr-3 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                        class="w-full rounded-lg border border-stone-300 py-2 pl-7 pr-3 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                         placeholder="0"
                       />
                     </div>
@@ -111,7 +99,7 @@
                       v-model.number="pkg.hours"
                       type="number"
                       min="0"
-                      class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                      class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                       placeholder="0"
                     />
                   </div>
@@ -124,7 +112,7 @@
                         type="number"
                         min="0"
                         max="100"
-                        class="w-full rounded-lg border border-stone-300 py-2 pl-3 pr-10 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                        class="w-full rounded-lg border border-stone-300 py-2 pl-3 pr-10 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                         placeholder="0"
                       />
                       <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-stone-500">%</span>
@@ -137,7 +125,7 @@
             <div class="mt-8 flex justify-center">
               <button
                 type="button"
-                class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+                class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                 @click="optimizePackageMix"
               >
                 Find Optimal Mix
@@ -147,7 +135,7 @@
 
           <!-- Results -->
           <div class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6">
-            <h2 class="mb-5 border-b border-stone-100 pb-2 text-xl font-semibold text-stone-800">Optimization Results</h2>
+            <h2 class="mb-5 border-b border-stone-100 pb-2 text-xl font-bold text-[#233267]">Optimization Results</h2>
 
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <div>
@@ -204,20 +192,22 @@
               </div>
             </div>
 
-            <div class="mt-6 rounded-xl border border-orange-200 bg-orange-50/50 p-4 text-stone-800">
+            <div class="mt-6 rounded-xl border border-[#233267] bg-[#DFDFDF] p-4 ">
               <p>
-                <strong>Note</strong>
+                <strong class='text-[#233267]'>Note</strong>
                 : This optimizer uses a balanced approach that first ensures diversity (minimum 3 clients per package when possible) and then allocates remaining resources based on balanced profit-per-hour efficiency with diminishing returns for each package type. For more complex business constraints, consider consulting with a business analyst.
               </p>
             </div>
           </div>
         </div>
       </section>
-    </main>
+
   </div>
 </template>
 
 <script setup lang="ts">
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 import { computed, h, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { Chart, ArcElement, Tooltip, Legend, PieController, type Chart as ChartJS } from 'chart.js'
 

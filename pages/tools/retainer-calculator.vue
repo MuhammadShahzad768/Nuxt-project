@@ -1,30 +1,24 @@
 <template>
-  <div class="min-h-screen bg-stone-100 font-sans text-stone-950 antialiased mt-[120px]">
-    <div class="h-20 lg:h-24" />
-    <main class="pt-10 lg:pt-0">
-      <section>
-        <header class="mx-auto mb-12 max-w-3xl px-4 text-center md:mb-20">
-          <h1 class="text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-            Retainer Calculator for Agencies
-          </h1>
-          <p class="mt-3 text-lg text-stone-600 md:text-xl">
-            Calculate optimal
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
+       <section>
+         <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl"> Retainer Calculator for Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600">Calculate optimal
             <a
               href=""
-              class="text-orange-600 underline decoration-orange-300 underline-offset-2 hover:text-orange-700"
+              class="text-[#233267] underline decoration-[#233267] underline-offset-2 hover:text-[#fff]"
               target="_blank"
               rel="noopener noreferrer"
             >
               retainer fees
-            </a>
-            based on costs and desired profit margin
-          </p>
-        </header>
+            </a> based on costs and desired profit margin</p>
+      </div>
 
         <div class="mx-auto max-w-6xl px-5 pb-16">
           <!-- Monthly costs (risk buffer field kept in UI like original save; not used in JS there) -->
           <div class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-            <h2 class="mb-4 text-xl font-semibold text-stone-800">Monthly Costs &amp; Target Profit</h2>
+            <h2 class="mb-4 text-xl font-bold text-[#233267]">Monthly Costs &amp; Target Profit</h2>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
                 <label for="team-costs" class="mb-1 block text-sm font-semibold">Team Costs ($)</label>
@@ -32,7 +26,7 @@
                   id="team-costs"
                   v-model.number="form.teamCosts"
                   type="number"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Total monthly cost of all team members working on this account</p>
               </div>
@@ -42,7 +36,7 @@
                   id="tool-costs"
                   v-model.number="form.toolCosts"
                   type="number"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Monthly cost of software and tools dedicated to client work</p>
               </div>
@@ -52,7 +46,7 @@
                   id="other-expenses"
                   v-model.number="form.otherExpenses"
                   type="number"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Additional monthly expenses related to client service</p>
               </div>
@@ -64,7 +58,7 @@
                   type="number"
                   min="0"
                   max="100"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Your desired profit margin percentage</p>
               </div>
@@ -72,7 +66,7 @@
           </div>
 
           <div class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-            <h2 class="mb-4 text-xl font-semibold text-stone-800">Additional Factors</h2>
+            <h2 class="mb-4 text-xl font-bold text-[#233267]">Additional Factors</h2>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
                 <label for="risk-buffer" class="mb-1 block text-sm font-semibold">Risk Buffer (%)</label>
@@ -82,7 +76,7 @@
                   type="number"
                   min="0"
                   max="100"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Additional buffer for unexpected costs or scope changes</p>
               </div>
@@ -92,7 +86,7 @@
                   id="estimated-hours"
                   v-model.number="form.estimatedHours"
                   type="number"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">For hourly rate calculation</p>
               </div>
@@ -101,7 +95,7 @@
                 <select
                   id="client-size"
                   v-model="form.clientSize"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 >
                   <option value="small">Small Business</option>
                   <option value="medium">Mid-Market</option>
@@ -114,7 +108,7 @@
                 <select
                   id="service-complexity"
                   v-model="form.serviceComplexity"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 >
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
@@ -126,7 +120,7 @@
           </div>
 
           <div class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-            <h2 class="mb-4 text-xl font-semibold text-stone-800">Scope Creep Protection</h2>
+            <h2 class="mb-4 text-xl font-bold text-[#233267]">Scope Creep Protection</h2>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
                 <label for="scope-creep-percentage" class="mb-1 block text-sm font-semibold">Expected Scope Creep (%)</label>
@@ -136,7 +130,7 @@
                   type="number"
                   min="0"
                   max="100"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Percentage of additional unplanned work typically requested</p>
               </div>
@@ -146,7 +140,7 @@
                   id="buffer-hours"
                   v-model.number="form.bufferHours"
                   type="number"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Additional hours reserved for unplanned requests</p>
               </div>
@@ -161,9 +155,9 @@
                   <span class="ml-2 text-sm text-stone-700">Include scope protection in retainer price</span>
                 </label>
               </div>
-              <div class="col-span-1 rounded-xl border border-amber-200 bg-amber-50 p-4 md:col-span-2">
-                <h3 class="text-sm font-medium text-amber-800">Why protect against scope creep?</h3>
-                <p class="mt-1 text-sm text-amber-800/90">
+              <div class="col-span-1 rounded-xl border border-[#233267] bg-[#DFDFDF] p-4 md:col-span-2">
+                <h3 class="text-sm font-medium text-[#233267]">Why protect against scope creep?</h3>
+                <p class="mt-1 text-sm ">
                   Scope creep can reduce your profit margin by up to 40%. Adding a buffer protects your profitability and sets clear boundaries with clients about what's included in the retainer.
                 </p>
               </div>
@@ -173,7 +167,7 @@
           <div class="mb-8 flex justify-center">
             <button
               type="button"
-              class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+              class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#fff] hover:text-[#233267] hover:border-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267] focus:ring-offset-[#233267]"
               @click="onCalculate"
             >
               Calculate Retainer Fee
@@ -182,7 +176,7 @@
 
           <div v-show="showResults" ref="resultsEl">
             <div class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-              <h2 class="mb-4 text-xl font-semibold text-stone-800">Base Retainer Results</h2>
+              <h2 class="mb-4 text-xl font-bold text-[#233267]">Base Retainer Results</h2>
 
               <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <div class="rounded-xl border border-stone-200 p-4">
@@ -229,7 +223,7 @@
               <div class="mt-6 flex justify-center">
                 <button
                   type="button"
-                  class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+                  class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                   @click="onGenerateTiers"
                 >
                   Generate Pricing Tiers
@@ -267,15 +261,15 @@
                 </div>
 
                 <div
-                  class="relative mt-0 transform overflow-hidden rounded-xl border-2 border-orange-500 bg-white shadow-md transition-transform hover:scale-[1.02] md:-mt-4"
+                  class="relative mt-0 transform overflow-hidden rounded-xl border-2 border-[#233267] bg-white shadow-md transition-transform hover:scale-[1.02] md:-mt-4"
                 >
-                  <div class="absolute inset-x-0 top-0 bg-orange-600 px-3 py-1 text-center text-xs font-semibold uppercase tracking-wide text-white">
+                  <div class="absolute inset-x-0 top-0 bg-[#233267] px-3 py-1 text-center text-xs font-semibold uppercase tracking-wide text-white">
                     Recommended
                   </div>
-                  <div class="border-b border-orange-100 bg-orange-50 p-6 pt-8">
+                  <div class="border-b border-[#233267] bg-bg-[#ECECEC] p-6 pt-8">
                     <h3 class="text-center text-lg font-bold text-stone-700">Standard</h3>
                     <div class="mt-4 text-center">
-                      <span class="text-3xl font-bold text-orange-600">{{ formatCurrency(tierPrices.standard) }}</span>
+                      <span class="text-3xl font-bold text-[#233267]">{{ formatCurrency(tierPrices.standard) }}</span>
                       <span class="text-stone-500">/month</span>
                     </div>
                   </div>
@@ -288,7 +282,7 @@
                     </ul>
                     <div class="mt-6 border-t border-stone-100 pt-4">
                       <p class="mb-1 text-sm text-stone-500">Profit Margin:</p>
-                      <p class="font-medium text-orange-700">{{ tierMargins.standard }}%</p>
+                      <p class="font-medium text-[#233267]">{{ tierMargins.standard }}%</p>
                     </div>
                   </div>
                 </div>
@@ -317,7 +311,7 @@
               </div>
 
               <div class="mt-8 rounded-lg border border-stone-200 bg-stone-50 p-6">
-                <h3 class="mb-4 text-lg font-medium text-stone-800">Tiered Pricing Strategy Tips</h3>
+                <h3 class="mb-4 text-lg font-bold text-[#233267]">Tiered Pricing Strategy Tips</h3>
                 <ul class="space-y-3 text-stone-700">
                   <li>Position the Standard package as the best value and highlight it visually.</li>
                   <li>Make sure each tier has clear differentiation in both features and value.</li>
@@ -329,11 +323,13 @@
           </div>
         </div>
       </section>
-    </main>
+   
   </div>
 </template>
 
 <script setup lang="ts">
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 import { computed, nextTick, reactive, ref, h } from 'vue'
 import { Chart, ArcElement, Tooltip, Legend, DoughnutController, type Chart as ChartJS } from 'chart.js'
 
@@ -343,7 +339,7 @@ const FeatureCheck = () =>
   h(
     'svg',
     {
-      class: 'mr-2 size-5 shrink-0 text-orange-600',
+      class: 'mr-2 size-5 shrink-0 text-[#233267]',
       xmlns: 'http://www.w3.org/2000/svg',
       height: '18',
       width: '18',

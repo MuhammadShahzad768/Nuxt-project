@@ -1,30 +1,17 @@
 <template>
-  <div class="min-h-screen bg-stone-100 font-sans text-stone-950 antialiased mt-[150px]">
-    <main class="pt-10 lg:pt-0 ">
-      <section class="pt-10">
-        <div class="mx-auto max-w-4xl px-4 pb-8">
-          <nav class="flex items-center justify-center text-sm text-stone-600">
-            <a href="" class="hover:text-rose-600" target="_blank" rel="noopener noreferrer">Home</a>
-            <Chevron class="mx-2 size-4" />
-            <a href="/tools" class="hover:text-rose-600" target="_blank" rel="noopener noreferrer">Tools</a>
-            <Chevron class="mx-2 size-4" />
-            <span>Capacity Calculator</span>
-          </nav>
-        </div>
-
-        <header class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-20">
-          <h1 class="text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-            Capacity Calculator for productized Agencies
-          </h1>
-          <p class="mt-3 text-lg text-stone-600 md:text-xl">
-            Understand how many packages you can deliver with your current team resources
-          </p>
-        </header>
-
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
+    
+      <section class="">
+         <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Package  Capacity Calculator for productized Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600">            Understand how many packages you can deliver with your current team resources
+</p>
+      </div>
         <div class="mx-auto mb-16 max-w-5xl px-4">
           <div class="overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm md:flex flex">
             <div class="border-b border-stone-200 p-6 md:w-1/2 md:border-b-0 md:border-r">
-              <h2 class="mb-6 text-xl font-semibold text-stone-800">Team Resources</h2>
+              <h2 class="mb-6 text-xl font-bold text-[#233267]">Team Resources</h2>
               <form class="space-y-5" @submit.prevent>
                 <div>
                   <label for="specialists" class="mb-1 block text-sm font-semibold">Number of Specialists</label>
@@ -33,7 +20,7 @@
                     v-model.number="specialists"
                     type="number"
                     min="1"
-                    class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                    class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     placeholder="0"
                   />
                 </div>
@@ -45,7 +32,7 @@
                     v-model.number="productiveHours"
                     type="number"
                     min="1"
-                    class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                    class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     placeholder="0"
                   />
                 </div>
@@ -59,7 +46,7 @@
                       type="number"
                       min="0"
                       max="100"
-                      class="w-full rounded-lg border border-stone-300 py-2 pl-3 pr-10 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                      class="w-full rounded-lg border border-stone-300 py-2 pl-3 pr-10 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                       placeholder="0"
                     />
                     <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-stone-500">%</span>
@@ -67,7 +54,7 @@
                 </div>
 
                 <div class="mt-6 border-t border-stone-200 pt-4">
-                  <h3 class="mb-3 text-lg font-medium text-stone-800">Package Requirements</h3>
+                  <h3 class="mb-3 text-lg font-bold text-[#233267]">Package Requirements</h3>
 
                   <div v-for="pkg in packages" :key="pkg.letter" class="mb-4">
                     <div v-if="!isCoreLetter(pkg.letter)" class="cursor-pointer text-right text-xs text-red-600 hover:underline" @click="removePackage(pkg.letter)">
@@ -81,7 +68,7 @@
                       v-model.number="pkg.hours"
                       type="number"
                       min="0"
-                      class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                      class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                       placeholder="0"
                     />
                   </div>
@@ -90,7 +77,7 @@
                 <div class="flex justify-center">
                   <button
                     type="button"
-                    class="inline-flex items-center border border-transparent text-sm font-medium leading-4 text-orange-600 hover:text-orange-700"
+                    class="inline-flex items-center border border-transparent text-sm font-medium leading-4 text-[#233267] hover:text-[#233267]"
                     @click="addPackage"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -107,7 +94,7 @@
                 <div class="pt-4">
                   <button
                     type="button"
-                    class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+                    class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                     @click="calculateCapacity"
                   >
                     Calculate Capacity
@@ -117,7 +104,7 @@
             </div>
 
             <div class="bg-stone-50/50 p-6 md:w-1/2">
-              <h2 class="mb-6 text-xl font-semibold text-stone-800">Capacity Analysis</h2>
+              <h2 class="mb-6 text-xl font-bold text-[#233267]">Capacity Analysis</h2>
               <div class="space-y-5">
                 <div class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
                   <h3 class="mb-1 text-sm font-semibold">Team Capacity</h3>
@@ -162,11 +149,13 @@
           </div>
         </div>
       </section>
-    </main>
+  
   </div>
 </template>
 
 <script setup lang="ts">
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 import { computed, h, reactive, ref } from 'vue'
 
 type Pkg = { letter: string; hours: number }

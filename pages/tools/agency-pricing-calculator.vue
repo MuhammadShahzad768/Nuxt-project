@@ -1,22 +1,17 @@
 <template>
-  <div class="min-h-screen bg-stone-100 font-sans text-stone-950 antialiased mt-[150px]">
-    <main class="pt-10 lg:pt-0">
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
+    
       <section>
-        
-
-        <header class="mx-auto mb-12 max-w-3xl px-4 text-center md:mb-20 pt-10">
-          <h1 class="text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-            Pricing Calculator for Agencies
-          </h1>
-          <p class="mt-3 text-lg text-stone-600 md:text-xl">
-            Calculate optimal pricing and generate attractive pricing tiers
-          </p>
-        </header>
-
+          <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl"> Pricing Calculator for Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600"> Calculate optimal pricing and generate attractive pricing tiers</p>
+      </div>
+      
         <div class="mx-auto max-w-4xl px-5 pb-16">
           <!-- Basic inputs -->
           <div class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-            <h2 class="mb-4 text-xl font-semibold text-stone-800">Basic Inputs</h2>
+            <h2 class="mb-4 text-xl font-bold text-[#233267]">Basic Inputs</h2>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
                 <label for="hourly-cost" class="mb-1 block text-sm font-semibold">Team Hourly Cost ($)</label>
@@ -24,7 +19,7 @@
                   id="hourly-cost"
                   v-model.number="form.hourlyCost"
                   type="number"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Average cost per hour for your team</p>
               </div>
@@ -34,7 +29,7 @@
                   id="hours-required"
                   v-model.number="form.hoursRequired"
                   type="number"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Total hours needed for the project</p>
               </div>
@@ -44,7 +39,7 @@
                   id="overhead-percent"
                   v-model.number="form.overheadPercent"
                   type="number"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Percentage to add for overhead costs</p>
               </div>
@@ -54,7 +49,7 @@
                   id="profit-margin"
                   v-model.number="form.profitMargin"
                   type="number"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Your desired profit margin percentage</p>
               </div>
@@ -62,13 +57,13 @@
           </div>
 
           <!-- Pricing model -->
-          <div class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-            <h2 class="mb-4 text-xl font-semibold text-stone-800">Pricing Model</h2>
+          <div class="mb-6 rounded-xl border border-neutral-500 bg-white p-6 shadow-sm">
+            <h2 class="mb-4 text-xl font-bold text-[#233267]">Pricing Model</h2>
             <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
               <button
                 type="button"
-                class="cursor-pointer rounded-lg border p-4 text-left transition hover:border-orange-500"
-                :class="form.pricingModel === 'hourly' ? 'border-orange-500 ring-1 ring-orange-500' : 'border-stone-200'"
+                class="cursor-pointer rounded-lg border p-4 text-left transition hover:border-neutral-500"
+                :class="form.pricingModel === 'hourly' ? 'border-neutral-500 ring-1 ring-neutral-500' : 'border-neutral-500'"
                 @click="form.pricingModel = 'hourly'"
               >
                 <div class="mb-2 flex items-center">
@@ -79,8 +74,8 @@
               </button>
               <button
                 type="button"
-                class="cursor-pointer rounded-lg border p-4 text-left transition hover:border-orange-500"
-                :class="form.pricingModel === 'fixed' ? 'border-orange-500 ring-1 ring-orange-500' : 'border-stone-200'"
+                class="cursor-pointer rounded-lg border p-4 text-left transition hover:border-neutral-500"
+                :class="form.pricingModel === 'fixed' ? 'border-neutral-500 ring-1 ring-neutral-500' : 'border-stone-200'"
                 @click="form.pricingModel = 'fixed'"
               >
                 <div class="mb-2 flex items-center">
@@ -91,8 +86,8 @@
               </button>
               <button
                 type="button"
-                class="cursor-pointer rounded-lg border p-4 text-left transition hover:border-orange-500"
-                :class="form.pricingModel === 'value' ? 'border-orange-500 ring-1 ring-orange-500' : 'border-stone-200'"
+                class="cursor-pointer rounded-lg border p-4 text-left transition hover:border-neutral-500"
+                :class="form.pricingModel === 'value' ? 'border-neutral-500 ring-1 ring-neutral-500' : 'border-stone-200'"
                 @click="form.pricingModel = 'value'"
               >
                 <div class="mb-2 flex items-center">
@@ -110,7 +105,7 @@
                   id="hourly-rate"
                   v-model.number="form.hourlyRate"
                   type="number"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
               </div>
               <div v-show="form.pricingModel === 'fixed'">
@@ -119,7 +114,7 @@
                   id="risk-buffer"
                   v-model.number="form.riskBuffer"
                   type="number"
-                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                 />
                 <p class="mt-1 text-xs text-stone-500">Additional percentage to account for scope uncertainty</p>
               </div>
@@ -130,7 +125,7 @@
                     id="client-value"
                     v-model.number="form.clientValue"
                     type="number"
-                    class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                    class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                   />
                   <p class="mt-1 text-xs text-stone-500">Estimated value your work will deliver to the client</p>
                 </div>
@@ -140,7 +135,7 @@
                     id="value-capture"
                     v-model.number="form.valueCapture"
                     type="number"
-                    class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                    class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                   />
                   <p class="mt-1 text-xs text-stone-500">Percentage of created value you capture as your fee</p>
                 </div>
@@ -151,7 +146,7 @@
           <div class="mb-8 flex justify-center">
             <button
               type="button"
-              class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+              class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#fff] hover:text-[#233267] hover:border-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267] focus:ring-offset-[#233267]"
               @click="calculatePrice"
             >
               Calculate Price
@@ -160,7 +155,7 @@
 
           <!-- Results -->
           <div v-show="showResults" ref="resultsEl" class="mb-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-            <h2 class="mb-4 text-xl font-semibold text-stone-800">Base Price Results</h2>
+            <h2 class="mb-4 text-xl font-bold text-[#233267]">Base Price Results</h2>
             <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               <div class="rounded-xl border border-stone-200 p-4">
                 <h3 class="text-sm font-medium uppercase text-stone-500">Recommended Price</h3>
@@ -186,7 +181,7 @@
             <div class="mt-6 flex justify-center">
               <button
                 type="button"
-                class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+                class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                 @click="generatePricingTiers"
               >
                 Generate Pricing Tiers
@@ -196,7 +191,7 @@
 
           <!-- Tiers -->
           <div v-show="showTiers" ref="tiersEl" class="mb-6">
-            <h2 class="mb-4 text-center text-2xl font-semibold text-stone-800">Recommended Pricing Tiers</h2>
+            <h2 class="mb-4 text-center text-2xl font-bold text-[#233267]">Recommended Pricing Tiers</h2>
             <p class="mb-6 text-center text-stone-600">
               Present these options to your clients to increase deal size and conversion rates
             </p>
@@ -229,14 +224,14 @@
               </div>
 
               <!-- Standard (recommended) -->
-              <div class="transform overflow-hidden rounded-xl border-2 border-orange-200 bg-white shadow-md transition-transform hover:scale-[1.02]">
-                <div class="border-b border-orange-100 bg-orange-50 p-6">
+              <div class="transform overflow-hidden rounded-xl border-2 border-[#233267] bg-white shadow-md transition-transform hover:scale-[1.02]">
+                <div class="border-b border-orange-100 bg-[#ECECEC] p-6">
                   <div class="flex justify-center">
-                    <span class="rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-700">RECOMMENDED</span>
+                    <span class="rounded-full bg-[#233267] px-3 py-1 text-xs font-semibold text-[#fff]">RECOMMENDED</span>
                   </div>
                   <h3 class="mt-2 text-center text-lg font-bold text-stone-700">Standard</h3>
                   <div class="mt-4 text-center">
-                    <span class="text-3xl font-bold text-orange-600">{{ formatMoney(tierPrices.standard) }}</span>
+                    <span class="text-3xl font-bold text-[#233267]">{{ formatMoney(tierPrices.standard) }}</span>
                   </div>
                 </div>
                 <div class="p-6">
@@ -248,7 +243,7 @@
                   </ul>
                   <div class="mt-6 border-t border-stone-100 pt-4">
                     <p class="mb-1 text-sm text-stone-500">Profit Margin:</p>
-                    <p class="font-medium text-orange-700">{{ tierMargins.standard }}%</p>
+                    <p class="font-medium text-[#233267]">{{ tierMargins.standard }}%</p>
                   </div>
                 </div>
               </div>
@@ -277,10 +272,10 @@
             </div>
 
             <div class="mt-8 rounded-lg border border-stone-200 bg-stone-50 p-6">
-              <h3 class="mb-4 text-lg font-medium text-stone-800">Tiered Pricing Strategy Tips</h3>
+              <h3 class="mb-4 text-lg font-bold text-[#233267]">Tiered Pricing Strategy Tips</h3>
               <ul class="space-y-3">
                 <li v-for="(tip, i) in strategyTips" :key="i" class="flex items-start">
-                  <svg class="mr-2 mt-0.5 h-5 w-5 shrink-0 text-orange-600" viewBox="0 0 20 20" fill="currentColor">
+                  <svg class="mr-2 mt-0.5 h-5 w-5 shrink-0 text-[#233267]" viewBox="0 0 20 20" fill="currentColor">
                     <path
                       fill-rule="evenodd"
                       d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -294,13 +289,14 @@
           </div>
         </div>
       </section>
-    </main>
+    
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, nextTick, reactive, ref } from 'vue'
-
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 type PricingModel = 'hourly' | 'fixed' | 'value'
 
 const form = reactive({

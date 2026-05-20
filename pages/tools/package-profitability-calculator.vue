@@ -1,22 +1,18 @@
 <template>
-  <div class="min-h-screen bg-stone-100 font-sans text-stone-950 antialiased mt-[100px]">
-    <div class="h-20 lg:h-24" />
-    <main class="pt-10 lg:pt-0">
-      <section>
-        <header class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-20">
-          <h1 class="text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-            Package Profitability for productized Agencies
-          </h1>
-          <p class="mt-3 text-lg text-stone-600 md:text-xl">
-            Determine the true profitability of your standardized service packages
-          </p>
-        </header>
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
 
+      <section>
+         <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Package Profitability for productized Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600"> Determine the true profitability of your standardized service packages</p>
+      </div>
+       
         <div class="mx-auto mb-16 max-w-5xl px-4">
           <div class="overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm">
             <div class="grid md:grid-cols-2">
               <div class="border-b border-stone-200 p-8 md:border-b-0 md:border-r">
-                <h2 class="mb-8 text-2xl font-semibold text-stone-800">Package Details</h2>
+                <h2 class="mb-8 text-2xl font-bold text-[#233267]">Package Details</h2>
                 <form class="space-y-6" @submit.prevent>
                   <div>
                     <label for="packagePrice" class="mb-2 block font-semibold">Package Price ($/month)</label>
@@ -27,7 +23,7 @@
                         v-model.number="form.packagePrice"
                         type="number"
                         min="0"
-                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                         placeholder="0.00"
                         @input="calculate"
                       />
@@ -41,7 +37,7 @@
                       v-model.number="form.laborHours"
                       type="number"
                       min="0"
-                      class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                      class="w-full rounded-lg border border-stone-300 px-3 py-2 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                       placeholder="0"
                       @input="calculate"
                     />
@@ -56,7 +52,7 @@
                         v-model.number="form.hourlyRate"
                         type="number"
                         min="0"
-                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                         placeholder="0.00"
                         @input="calculate"
                       />
@@ -72,7 +68,7 @@
                         v-model.number="form.softwareCost"
                         type="number"
                         min="0"
-                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                         placeholder="0.00"
                         @input="calculate"
                       />
@@ -88,7 +84,7 @@
                         v-model.number="form.pmCost"
                         type="number"
                         min="0"
-                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                         placeholder="0.00"
                         @input="calculate"
                       />
@@ -104,7 +100,7 @@
                         v-model.number="form.acquisitionCost"
                         type="number"
                         min="0"
-                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                         placeholder="0.00"
                         @input="calculate"
                       />
@@ -120,7 +116,7 @@
                         v-model.number="form.fixedOverhead"
                         type="number"
                         min="0"
-                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                        class="w-full rounded-lg border border-stone-300 py-2 pl-8 pr-3 shadow-sm focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                         placeholder="0.00"
                         @input="calculate"
                       />
@@ -130,7 +126,7 @@
                   <div class="pt-4">
                     <button
                       type="button"
-                      class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+                      class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                       @click="calculate"
                     >
                       Calculate Profitability
@@ -140,7 +136,7 @@
               </div>
 
               <div class="bg-stone-50/50 p-8">
-                <h2 class="mb-8 text-2xl font-semibold text-stone-800">Profitability Analysis</h2>
+                <h2 class="mb-8 text-2xl font-bold text-[#233267]">Profitability Analysis</h2>
                 <div class="space-y-6">
                   <div class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
                     <h3 class="mb-1 font-semibold">Direct Labor Costs</h3>
@@ -173,11 +169,13 @@
           </div>
         </div>
       </section>
-    </main>
+  
   </div>
 </template>
 
 <script setup lang="ts">
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 import { computed, reactive, onMounted, h } from 'vue'
 
 const Chevron = () =>
