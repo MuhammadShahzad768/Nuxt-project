@@ -1,6 +1,6 @@
 <template>
   <header class="header-wrapper">
-    <!-- <Loader v-if="showLoader" /> -->
+    <Loader v-if="showLoader" />
 
     <div
       class="wp-content"
@@ -28,7 +28,7 @@ import { useHead, useAsyncData, useRouter, useRoute } from '#imports'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-// import Loader from "@/components/Sections/Loader.vue"
+import Loader from "@/components/Sections/Loader.vue"
 
 // Swiper
 import Swiper from 'swiper'
