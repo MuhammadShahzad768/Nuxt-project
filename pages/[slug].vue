@@ -11,7 +11,7 @@ import {
 
 import AOS from 'aos'
 import 'aos/dist/aos.css'
-import Loader from "@/components/Sections/Loader.vue"
+// import Loader from "@/components/Sections/Loader.vue"
 import Swiper from 'swiper'
 import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'
@@ -391,7 +391,7 @@ onMounted(() => {
 
 <template>
   <div    ref="contentRef">
-    <Loader v-if="showLoader" />
+    <!-- <Loader v-if="showLoader" /> -->
     <div class="wp-content" :class="[{ 'content-hidden': showLoader }, wpClass]">
       <div v-if="pageData">
         <div v-for="(sectionContent, key) in apiSections" :key="key" v-html="sectionContent" />

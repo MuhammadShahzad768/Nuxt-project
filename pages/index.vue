@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="fade-out">
+    <!-- <transition name="fade-out">
       <div v-if="showLoader" class="loader-container">
         <img 
           src="https://admin.dspcrm.com/wp-content/uploads/2025/09/DSP-final-logo-4-cropped.svg" 
@@ -8,7 +8,7 @@
           class="loader-logo" 
         />
       </div>
-    </transition>
+    </transition> -->
 
     <div v-show="!showLoader" id="page-root">
       <template v-for="(section, index) in organizedSections" :key="index">
@@ -116,7 +116,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style>
+<style scoped>
 /* LOADER OVERLAY */
 .loader-container {
   position: fixed;
