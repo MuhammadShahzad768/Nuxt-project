@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Faqs from '~/components/Sections/Faqs.vue'
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
 definePageMeta({ layout: 'tools' })
 import { computed, ref } from 'vue'
@@ -764,7 +765,6 @@ function calculate() {
             </div>
           </div>
         </section>
-      
- 
   </div>
+    <Faqs/>
 </template>

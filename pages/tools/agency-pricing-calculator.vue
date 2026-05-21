@@ -291,9 +291,11 @@
       </section>
     
   </div>
+   <Faqs/>
 </template>
 
 <script setup lang="ts">
+import Faqs from '~/components/Sections/Faqs.vue'
 import { computed, nextTick, reactive, ref } from 'vue'
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
 definePageMeta({ layout: 'tools' })

@@ -461,9 +461,11 @@
         </div>
    
   </div>
+   <Faqs/>
 </template>
 
 <script setup lang="ts">
+import Faqs from '~/components/Sections/Faqs.vue'
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
 import { nextTick, ref } from 'vue'
 import Chart from 'chart.js/auto'

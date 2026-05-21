@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Faqs from '~/components/Sections/Faqs.vue'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
 definePageMeta({ layout: 'tools' })
@@ -796,4 +797,5 @@ onBeforeUnmount(() => {
       </main>
 
   </div>
+    <Faqs/>
 </template>

@@ -157,10 +157,12 @@
           </div>
         </div>
   </div>
+   <Faqs/>
 </template>
 
 <script setup lang="ts">
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
+import Faqs from '~/components/Sections/Faqs.vue'
 import { computed, h, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import type { ApexOptions } from 'apexcharts'
 definePageMeta({ layout: 'tools' })

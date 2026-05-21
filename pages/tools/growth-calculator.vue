@@ -193,9 +193,11 @@
           </div>
         </div>
   </div>
+   <Faqs/>
 </template>
 
 <script setup lang="ts">
+import Faqs from '~/components/Sections/Faqs.vue'
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
 import { computed, h, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import type { ApexOptions } from 'apexcharts'

@@ -203,9 +203,11 @@
       </section>
 
   </div>
+    <Faqs/>
 </template>
 
 <script setup lang="ts">
+import Faqs from '~/components/Sections/Faqs.vue'
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
 definePageMeta({ layout: 'tools' })
 import { computed, h, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'

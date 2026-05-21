@@ -143,9 +143,11 @@
       </section>
 
   </div>
+    <Faqs/>
 </template>
 
 <script setup>
+import Faqs from '~/components/Sections/Faqs.vue'
 import { computed, ref } from 'vue'
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
 definePageMeta({ layout: 'tools' })
