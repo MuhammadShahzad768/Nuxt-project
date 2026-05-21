@@ -27,7 +27,7 @@
           >
 
             <button
-              @click="activeFaq = index"
+              @click="handleFaqClick(index)"
               class="faq-btn w-full text-left pl-5 py-4 text-lg xl:text-2xl transition-all"
               :class="activeFaq === index
                 ? 'bg-white shadow-[0_4px_4px_rgba(0,0,0,0.25)] rounded-l-lg font-bold text-[#00296B]'
@@ -73,10 +73,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 
+/* Active FAQ */
 const activeFaq = ref(0);
 
+/* FAQ DATA */
 const faqs = ref([
   {
     question: "Who is DSP for?",
@@ -94,4 +96,28 @@ const faqs = ref([
       "Yes, our support team is available 24/7 to help you with any issues.",
   },
 ]);
+
+/* SET ACTIVE */
+function setActiveQuestion(id) {
+  activeFaq.value = id;
+}
+
+/* SCROLL TO SECTION */
+function scrollToFaq() {
+  nextTick(() => {
+    const el = document.getElementById("Faqs");
+    if (el) {
+      el.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  });
+}
+
+/* COMBINED CLICK HANDLER */
+function handleFaqClick(index) {
+  setActiveQuestion(index);
+  scrollToFaq();
+}
 </script>

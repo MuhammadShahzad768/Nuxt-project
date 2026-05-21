@@ -694,5 +694,4 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
   </div>
     <Faqs/>
         <Ready/>
-
 </template>
