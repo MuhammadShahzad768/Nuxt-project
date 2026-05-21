@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
-
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 type Package = {
   id: number
   name: string
@@ -222,53 +223,18 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-stone-900 font-sans text-stone-950 antialiased mt-[150px]">
-    <div class="flex min-h-screen flex-col bg-stone-100">
-      <main class="pt-10 text-neutral-900 lg:pt-0">
-        <section data-theme="light">
-          <div class="mx-auto max-w-4xl px-4 pb-8 pt-10">
-            <nav class="flex items-center justify-center text-sm text-neutral-600">
-              <NuxtLink to="/" class="hover:text-red-600">Home</NuxtLink>
-              <svg class="mx-2 size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <NuxtLink to="/tools" class="hover:text-red-600">Tools</NuxtLink>
-              <svg class="mx-2 size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <span>Bundle Pricing Calculator</span>
-            </nav>
-          </div>
-
-          <header class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-20">
-            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Bundle Pricing Calculator for productized Agencies</h1>
-            <p class="mt-4 text-lg text-neutral-600">
-              Determine optimal pricing for bundled service packages based on delivery efficiency gains and cost reduction.
-            </p>
-          </header>
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
+     <section >
+           <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Bundle Pricing Calculator for productized Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600">Determine optimal pricing for bundled service packages based on delivery efficiency gains and cost reduction.</p>
+      </div>
 
           <div class="mb-4 flex justify-center px-4">
             <button
               type="button"
-              class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+              class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
               @click="loadSampleData"
             >
               Load Sample Agency Scenario
@@ -277,7 +243,7 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
 
           <div class="container mx-auto max-w-6xl px-4 py-8">
             <div class="mb-8 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h2 class="mb-4 text-xl font-semibold">1. Add Your Service Packages</h2>
+              <h2 class="mb-4 text-xl font-bold text-[#233267]">1. Add Your Service Packages</h2>
 
               <form class="mb-6 grid gap-4 md:grid-cols-3" @submit="onAddPackage">
                 <div>
@@ -315,7 +281,7 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
                   >
                 </div>
                 <div class="md:col-span-3">
-                  <button type="submit" class="font-medium text-red-700 hover:text-red-800">+ Add Package</button>
+                  <button type="submit" class="font-medium text-[#233267] hover:text-[#8188A3]">+ Add Package</button>
                 </div>
               </form>
 
@@ -347,7 +313,7 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
                       <td class="whitespace-nowrap px-6 py-4 text-sm">{{ formatMoney(pkg.cost) }}</td>
                       <td class="whitespace-nowrap px-6 py-4 text-sm">{{ pkg.margin.toFixed(1) }}%</td>
                       <td class="whitespace-nowrap px-6 py-4 text-sm">
-                        <button type="button" class="text-red-600 hover:text-red-700" @click="removePackage(pkg.id)">Remove</button>
+                        <button type="button" class="text-[#233267] hover:text-[#8188A3]" @click="removePackage(pkg.id)">Remove</button>
                       </td>
                     </tr>
                   </tbody>
@@ -360,7 +326,7 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
             </div>
 
             <div class="card mb-8 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h2 class="mb-4 text-xl font-semibold">2. Bundling Efficiency</h2>
+              <h2 class="mb-4 text-xl font-bold text-[#233267]">2. Bundling Efficiency</h2>
               <div class="mb-6 grid gap-4 md:grid-cols-2">
                 <div>
                   <label class="mb-1 block text-sm font-semibold">Combined Delivery Efficiency Gain (%)</label>
@@ -392,7 +358,7 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
             <div v-show="showCalculateBtn" class="mb-8 text-center">
               <button
                 type="button"
-                class="text-[#00296B] border-2 border-[#00296B] rounded-full px-6 py-2 text-lg font-semibold hover:bg-[#00296B] hover:text-white transition-all"
+                class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                 @click="calculateBundlePricing"
               >
                 Calculate Bundle Pricing
@@ -400,7 +366,7 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
             </div>
 
             <div v-if="hasCalculated && bundleCalc" class="mb-8 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h2 class="mb-4 text-xl font-semibold">Bundle Pricing Results</h2>
+              <h2 class="mb-4 text-xl font-bold text-[#233267]">Bundle Pricing Results</h2>
 
               <div class="mb-6 grid gap-6 md:grid-cols-2">
                 <div class="rounded-lg border border-neutral-200 p-4">
@@ -518,7 +484,7 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
                 </div>
               </div>
 
-              <h3 class="mb-4 border-t border-neutral-200 pt-6 text-lg font-semibold">Revenue Projections</h3>
+              <h3 class="mb-4 border-t border-neutral-200 pt-6 text-lg font-bold text-[#233267]">Revenue Projections</h3>
 
               <div class="mb-6 grid gap-4 md:grid-cols-3">
                 <div>
@@ -544,7 +510,7 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
                 <div class="flex items-end">
                   <button
                     type="button"
-                    class="w-full rounded-lg bg-neutral-900 px-6 py-3 font-medium text-white hover:bg-neutral-800"
+                    class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                     @click="calculateBundlePricing"
                   >
                     Update Projections
@@ -553,7 +519,7 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
               </div>
 
               <div v-if="projections" class="grid gap-6 md:grid-cols-2">
-                <div class="rounded-xl border border-amber-200/80 bg-amber-50/50 p-4">
+                <div class="rounded-xl border border-amber-200/80 bg-[#DFDFDF] p-4">
                   <h3 class="mb-3 text-lg font-medium">Bundle Sales Projections</h3>
                   <div class="grid grid-cols-2 gap-3 text-neutral-900">
                     <div class="text-sm font-medium">Total Revenue:</div>
@@ -722,7 +688,5 @@ watch([estimatedSales, timePeriod, bundleCalc], () => {
             </div>
           </div>
         </section>
-      </main>
-    </div>
   </div>
 </template>

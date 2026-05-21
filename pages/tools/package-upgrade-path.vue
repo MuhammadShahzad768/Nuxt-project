@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 import { computed, ref } from 'vue'
 
 const currentPackage = ref(1000)
@@ -159,57 +161,19 @@ function calculate() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-stone-900 font-sans text-stone-950 antialiased mt-[150px]">
-    <div class="flex min-h-screen flex-col bg-stone-100">
-      <main class="pt-10 lg:pt-0">
-        <section data-theme="light" >
-          <div class="mx-auto max-w-4xl px-4 pb-8 pt-10">
-            <nav class="flex items-center justify-center text-sm text-stone-600">
-              <NuxtLink to="/" class="hover:text-red-600">Home</NuxtLink>
-              <svg class="mx-2 size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <NuxtLink to="/tools" class="hover:text-red-600">Tools</NuxtLink>
-              <svg class="mx-2 size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <span>Package Upgrade Path Calculator</span>
-            </nav>
-          </div>
-
-          <header class="mx-auto mb-20 max-w-4xl px-4 text-center">
-            <h1 class="text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-              Package Upgrade Path Calculator for productized Agencies
-            </h1>
-            <p class="mt-4 text-lg text-stone-600">
-              Calculate the value of strategically moving clients up to higher-tier packages
-            </p>
-          </header>
-
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">   
+        <section>
+       <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Service Standardization ROI Calculator for productized Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600">Determine whether investing in systems, templates, and processes is worth the cost by calculating the ROI of standardization investments over time.</p>
+      </div>
           <div class="mx-auto mb-16 max-w-7xl p-4">
             <div class="overflow-hidden rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
               <div class="mb-6">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                   <div class="rounded-xl border border-stone-200 p-3">
-                    <h3 class="mb-8 text-lg font-semibold">Package Pricing</h3>
+                    <h3 class="mb-8 text-lg font-bold text-[#233267]">Package Pricing</h3>
                     <div class="space-y-6">
                       <div>
                         <label for="currentPackage" class="mb-1 block text-sm font-semibold">
@@ -245,7 +209,7 @@ function calculate() {
                   </div>
 
                   <div class="rounded-xl border border-stone-200 p-3">
-                    <h3 class="mb-8 text-lg font-semibold">Profit Margins</h3>
+                    <h3 class="mb-8 text-lg font-bold text-[#233267]">Profit Margins</h3>
                     <div class="space-y-6">
                       <div>
                         <label for="currentMargin" class="mb-1 block text-sm font-semibold">
@@ -287,7 +251,7 @@ function calculate() {
                   </div>
 
                   <div class="rounded-xl border border-stone-200 p-3">
-                    <h3 class="mb-8 text-lg font-semibold">Retention Rates</h3>
+                    <h3 class="mb-8 text-lg font-bold text-[#233267]">Retention Rates</h3>
                     <div class="space-y-6">
                       <div>
                         <label for="currentRetention" class="mb-1 block text-sm font-semibold">
@@ -321,7 +285,7 @@ function calculate() {
                   </div>
 
                   <div class="rounded-xl border border-stone-200 p-3">
-                    <h3 class="mb-8 text-lg font-semibold">Client Data</h3>
+                    <h3 class="mb-8 text-lg font-bold text-[#233267]">Client Data</h3>
                     <div class="space-y-6">
                       <div>
                         <label for="clientBase" class="mb-1 block text-sm font-semibold">Current Client Base</label>
@@ -358,7 +322,7 @@ function calculate() {
 
                 <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div class="rounded-xl border border-stone-200 p-3">
-                    <h3 class="mb-2 text-lg font-semibold">Upgrade Efforts</h3>
+                    <h3 class="mb-2 text-lg font-bold text-[#233267]">Upgrade Efforts</h3>
                     <div class="grid grid-cols-2 gap-3">
                       <div>
                         <label for="hoursPerAttempt" class="mb-1 block text-sm font-semibold">
@@ -394,7 +358,7 @@ function calculate() {
                   <div class="flex items-center justify-center p-3">
                     <button
                       type="button"
-                      class="inline-flex w-full items-center justify-center rounded-lg bg-stone-900 px-6 py-3 font-medium text-white hover:bg-stone-800 md:w-2/3"
+                      class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                       @click="calculate"
                     >
                       Calculate Upgrade Path
@@ -404,7 +368,7 @@ function calculate() {
               </div>
 
               <div class="pt-6">
-                <h2 class="mb-4 text-lg font-semibold text-stone-800">Results</h2>
+                <h2 class="mb-4 text-lg font-bold text-[#233267]">Results</h2>
 
                 <div class="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                   <div class="rounded-xl border border-stone-200 p-4">
@@ -588,7 +552,7 @@ function calculate() {
 
                 <div class="mb-6 overflow-hidden rounded-xl border border-stone-200">
                   <div class="border-b border-stone-200 bg-stone-50 px-4 py-3">
-                    <h3 class="text-sm font-semibold">Retention Comparison</h3>
+                    <h3 class="text-sm font-bold text-[#233267]">Retention Comparison</h3>
                   </div>
                   <div class="p-4">
                     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -691,7 +655,7 @@ function calculate() {
 
                 <div class="mb-6 overflow-hidden rounded-xl border border-stone-200">
                   <div class="border-b border-stone-200 bg-stone-50 px-4 py-3">
-                    <h3 class="text-sm font-semibold">ROI Analysis</h3>
+                    <h3 class="text-sm font-bold text-[#233267]">ROI Analysis</h3>
                   </div>
                   <div class="p-4">
                     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -800,7 +764,7 @@ function calculate() {
             </div>
           </div>
         </section>
-      </main>
-    </div>
+      
+ 
   </div>
 </template>

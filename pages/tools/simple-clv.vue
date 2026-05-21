@@ -1,44 +1,11 @@
 <template>
-  <div class="min-h-screen bg-stone-100 font-sans text-stone-950 antialiased mt-[150px]">
-    <div class="h-16 lg:h-20" />
-    <main class="pt-10 lg:pt-0">
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
       <section>
-        <div class="mx-auto max-w-4xl px-4 pb-8 pt-10">
-          <nav class="flex items-center justify-center text-sm text-stone-600">
-            <a href="/" class="transition hover:text-orange-600">Home</a>
-            <svg class="mx-2 size-4 shrink-0 text-stone-400" viewBox="0 0 20 20" aria-hidden="true">
-              <polyline
-                points="7.5 16.5 14 10 7.5 3.5"
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
-            </svg>
-            <a href="/tools" class="transition hover:text-orange-600">Tools</a>
-            <svg class="mx-2 size-4 shrink-0 text-stone-400" viewBox="0 0 20 20" aria-hidden="true">
-              <polyline
-                points="7.5 16.5 14 10 7.5 3.5"
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
-            </svg>
-            <span class="text-stone-800">Simple CLV Calculator</span>
-          </nav>
-        </div>
-
-        <header class="mx-auto mb-16 max-w-4xl px-4 text-center">
-          <h1 class="text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-            Simple CLV Calculator for productized Agencies
-          </h1>
-          <p class="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
-            Determine the long-term value of subscription clients in your productized agency model.
-          </p>
-        </header>
+      <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Service Standardization ROI Calculator for productized Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600">Determine whether investing in systems, templates, and processes is worth the cost by calculating the ROI of standardization investments over time.</p>
+      </div>
 
         <div class="mx-auto mb-16 max-w-7xl px-4">
           <div class="overflow-hidden rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
@@ -58,7 +25,7 @@
                       type="number"
                       min="0"
                       step="any"
-                      class="block h-10 w-full rounded-md border border-stone-300 bg-white pl-7 pr-3 text-stone-900 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                      class="block h-10 w-full rounded-md border border-stone-300 bg-white pl-7 pr-3 text-stone-900 shadow-sm focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
                       placeholder="1500"
                     />
                   </div>
@@ -74,7 +41,7 @@
                     type="number"
                     min="0"
                     step="any"
-                    class="mt-1 block h-10 w-full rounded-md border border-stone-300 bg-white px-3 text-stone-900 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                    class="mt-1 block h-10 w-full rounded-md border border-stone-300 bg-white px-3 text-stone-900 shadow-sm focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
                     placeholder="8"
                   />
                 </div>
@@ -93,7 +60,7 @@
                       type="number"
                       min="0"
                       step="any"
-                      class="block h-10 w-full rounded-md border border-stone-300 bg-white pl-7 pr-3 text-stone-900 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                      class="block h-10 w-full rounded-md border border-stone-300 bg-white pl-7 pr-3 text-stone-900 shadow-sm focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
                       placeholder="900"
                     />
                   </div>
@@ -113,7 +80,7 @@
                       type="number"
                       min="0"
                       step="any"
-                      class="block h-10 w-full rounded-md border border-stone-300 bg-white pl-7 pr-3 text-stone-900 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                      class="block h-10 w-full rounded-md border border-stone-300 bg-white pl-7 pr-3 text-stone-900 shadow-sm focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
                       placeholder="2000"
                     />
                   </div>
@@ -123,7 +90,7 @@
               <div class="my-10 flex justify-center">
                 <button
                   type="button"
-                  class="rounded-lg bg-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                  class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                   @click="scrollToResults"
                 >
                   Calculate Lifetime Value
@@ -132,7 +99,7 @@
             </div>
 
             <div id="clv-results" class="mt-8 border-t border-stone-200 pt-6">
-              <h2 class="mb-6 text-center text-xl font-medium text-stone-800">Results</h2>
+              <h2 class="mb-6 text-center text-xl font-bold text-[#233267]">Results</h2>
 
               <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
                 <div class="rounded-lg border border-stone-200 bg-stone-50 p-4 shadow-sm">
@@ -174,13 +141,14 @@
           </div>
         </div>
       </section>
-    </main>
+
   </div>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
-
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 const packagePrice = ref(1500)
 const retention = ref(8)
 const deliveryCost = ref(900)

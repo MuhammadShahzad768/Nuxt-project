@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
-
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 type AutomationLevel = 'automated' | 'semi-automated' | 'manual'
 
 type ComponentRow = {
@@ -247,60 +248,16 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-stone-900 font-sans text-stone-950 antialiased">
-    <div class="flex min-h-screen flex-col bg-stone-100">
-      <div class="h-20 lg:h-24" />
-      <main class="pt-10 text-neutral-900 lg:pt-0">
-        <section data-theme="light">
-          <div class="mx-auto max-w-4xl px-4 pb-8">
-            <nav class="flex items-center justify-center text-sm text-neutral-600">
-              <NuxtLink to="/" class="hover:text-red-600">Home</NuxtLink>
-              <svg class="mx-2 size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <NuxtLink to="/tools" class="hover:text-red-600">Tools</NuxtLink>
-              <svg class="mx-2 size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <span>Scalability Assessment Calculator</span>
-            </nav>
-          </div>
-
-          <header class="mx-auto mb-20 max-w-4xl px-4 text-center">
-            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Scalability Assessment Calculator for productized Agencies</h1>
-            <p class="mt-4 text-lg text-neutral-600">
-              Determine the long-term value of
-              <a
-                href="https://wayfront.com/tools/retainer-calculator"
-                class="text-red-700 underline hover:text-red-800"
-                target="_blank"
-                rel="noopener noreferrer"
-              >subscription clients</a>
-              in your productized agency model.
-            </p>
-          </header>
-
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">     
+        <section >
+           <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Scalability Assessment Calculator for productized Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600">Determine the long-term value of <a href="">subscription clients</a>  in your productized agency model.</p>
+      </div>
           <div class="mx-auto max-w-7xl overflow-hidden p-6 md:p-8">
             <div
-              class="my-6 rounded-xl border border-l-4 border-red-600 bg-white p-4 text-neutral-800 shadow-sm"
+              class="my-6 rounded-xl border border-l-4 border-[#233267] bg-white p-4 text-neutral-800 shadow-sm"
               role="alert"
             >
               <p class="mt-1 text-sm md:text-base">
@@ -321,7 +278,7 @@ onBeforeUnmount(() => {
             <div class="mb-10 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
               <form class="block" @submit.prevent="calculateScalability">
                 <div class="mb-8">
-                  <h2 class="mb-4 text-xl font-semibold text-neutral-800">Delivery Volume</h2>
+                  <h2 class="mb-4 text-xl font-bold text-[#233267]">Delivery Volume</h2>
                   <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
                       <label for="current-delivery" class="mb-1 block text-sm font-semibold">
@@ -354,10 +311,10 @@ onBeforeUnmount(() => {
 
                 <div class="mb-8">
                   <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
-                    <h2 class="text-xl font-semibold text-neutral-800">Service Components</h2>
+                    <h2 class="text-xl font-bold text-[#233267]">Service Components</h2>
                     <button
                       type="button"
-                      class="inline-flex items-center rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-red-700 hover:bg-neutral-50"
+                      class="inline-flex items-center rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm font-medium text-[#233267] hover:bg-neutral-50"
                       @click="addComponent"
                     >
                       <svg class="mr-2 -ml-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -424,7 +381,7 @@ onBeforeUnmount(() => {
                         </div>
                       </div>
                       <div class="mt-2 text-right">
-                        <button type="button" class="text-sm text-red-600 hover:text-red-800" @click="removeComponent(c.id)">
+                        <button type="button" class="text-sm text-[#233267] hover:text-red-800" @click="removeComponent(c.id)">
                           Remove
                         </button>
                       </div>
@@ -436,7 +393,7 @@ onBeforeUnmount(() => {
                   <button type="button" class="text-sm text-neutral-500 transition duration-150 hover:text-red-700" @click="resetCalculator">
                     Reset
                   </button>
-                  <button type="submit" class="rounded-lg bg-neutral-900 px-6 py-3 font-medium text-white hover:bg-neutral-800">
+                  <button type="submit" class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]">
                     Calculate
                   </button>
                 </div>
@@ -444,7 +401,7 @@ onBeforeUnmount(() => {
             </div>
 
             <div v-if="showResults" class="mb-10 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h2 class="mb-6 text-2xl font-semibold text-neutral-800">Scalability Assessment Results</h2>
+              <h2 class="mb-6 text-2xl font-bold text-[#233267]">Scalability Assessment Results</h2>
 
               <div class="mb-8">
                 <h3 class="mb-2 text-lg font-semibold">Overall Scalability Score</h3>
@@ -479,8 +436,8 @@ onBeforeUnmount(() => {
               </div>
 
               <div class="mb-8">
-                <h3 class="mb-4 text-lg font-semibold">Scaling Recommendations</h3>
-                <div class="rounded-xl border border-l-4 border-red-600 bg-white p-4 shadow-sm">
+                <h3 class="mb-4 font-bold text-[#233267]">Scaling Recommendations</h3>
+                <div class="rounded-xl border border-l-4 border-[#233267] bg-white p-4 shadow-sm">
                   <p class="mb-2">
                     <strong>Primary bottleneck:</strong>
                     {{ primaryBottleneckName }}
@@ -497,7 +454,7 @@ onBeforeUnmount(() => {
             </div>
           </div>
         </section>
-      </main>
-    </div>
+     
+
   </div>
 </template>

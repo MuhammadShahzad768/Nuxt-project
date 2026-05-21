@@ -1,5 +1,7 @@
 
 <script setup lang="ts">
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 import { reactive, ref } from 'vue'
 
 const defaults = {
@@ -253,7 +255,7 @@ function calculateROI() {
     decisionClass = 'rounded-lg border border-emerald-200 bg-emerald-50 p-4 font-medium text-emerald-800'
   } else if (breakEvenDays !== null && Number.isFinite(breakEvenDays) && breakEvenDays <= 90) {
     decisionText = 'Good investment with reasonable payback period.'
-    decisionClass = 'rounded-lg border border-amber-200 bg-amber-50 p-4 font-medium text-amber-900'
+    decisionClass = 'rounded-lg border border-[#233267] bg-[#233267] p-4 font-medium text-[#fff]'
   } else if (breakEvenDays !== null && Number.isFinite(breakEvenDays) && breakEvenDays <= 180) {
     decisionText = 'Moderate investment with medium-term payback.'
     decisionClass = 'rounded-lg border border-yellow-200 bg-yellow-50 p-4 font-medium text-yellow-900'
@@ -326,52 +328,13 @@ function roiStatusText(row: MonthlyRow, cost: number) {
 </script>
 
 <template>
-  <div class="min-h-screen bg-stone-900 font-sans text-stone-950 antialiased mt-[140px]">
-    <div class="flex min-h-screen flex-col bg-stone-100">
-      <main class="pt-10 lg:pt-0">
-        <section data-theme="light">
-          <div class="mx-auto max-w-4xl px-4 pb-8 pt-10">
-            <nav class="flex items-center justify-center text-sm text-stone-600">
-              <NuxtLink to="/" class="hover:text-red-600">Home</NuxtLink>
-              <svg class="mx-2 size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <NuxtLink to="/tools" class="hover:text-red-600">Tools</NuxtLink>
-              <svg class="mx-2 size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <span>Service Standardization ROI Calculator</span>
-            </nav>
-          </div>
-
-          <header class="mx-auto mb-20 max-w-4xl px-4 text-center">
-            <h1 class="text-3xl font-bold tracking-tight text-stone-900 md:text-4xl">
-              Service Standardization ROI Calculator for productized Agencies
-            </h1>
-            <p class="mt-4 text-lg text-stone-600">
-              Determine whether investing in systems, templates, and processes is worth the cost by calculating the ROI of
-              standardization investments over time.
-            </p>
-          </header>
-
+    <div class="min-h-screen  py-12 mt-[80px] custom_family">
+        <section >
+           <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Service Standardization ROI Calculator for productized Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600">Determine whether investing in systems, templates, and processes is worth the cost by calculating the ROI of standardization investments over time.</p>
+      </div>
           <div class="mx-auto max-w-5xl overflow-hidden p-6 md:p-8">
             <div class="mb-8 rounded-xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6">
               <form class="space-y-4" @submit.prevent>
@@ -387,7 +350,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                       min="0.1"
                       step="0.1"
                       required
-                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
+                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     >
                     <p class="mt-1 text-xs text-stone-500">
                       The average time it currently takes to complete one deliverable
@@ -404,7 +367,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                       min="0.1"
                       step="0.1"
                       required
-                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
+                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     >
                     <p class="mt-1 text-xs text-stone-500">
                       The projected time it will take after implementing standardized processes
@@ -421,7 +384,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                       min="1"
                       step="1"
                       required
-                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
+                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     >
                     <p class="mt-1 text-xs text-stone-500">
                       One-time investment for documentation, templates, training, etc.
@@ -438,7 +401,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                       min="1"
                       step="1"
                       required
-                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
+                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     >
                     <p class="mt-1 text-xs text-stone-500">How many deliverables your team completes each month</p>
                   </div>
@@ -451,13 +414,13 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                       min="1"
                       step="0.1"
                       required
-                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
+                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     >
                     <p class="mt-1 text-xs text-stone-500">The value of an hour of work (cost or billable rate)</p>
                   </div>
 
                   <div class="border-t border-stone-200 pt-4 md:col-span-2">
-                    <h3 class="mb-2 text-lg font-medium text-stone-800">Phased Implementation</h3>
+                    <h3 class="mb-2 text-lg font-bold text-[#233267]">Phased Implementation</h3>
                     <p class="mb-3 text-xs text-stone-500">
                       Most standardization projects don't yield results immediately. Configure how the efficiency gains will be
                       realized over time.
@@ -476,7 +439,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                       max="24"
                       step="1"
                       required
-                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
+                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     >
                     <p class="mt-1 text-xs text-stone-500">How long until full efficiency is achieved</p>
                   </div>
@@ -489,7 +452,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                       id="implementationCurve"
                       v-model="form.implementationCurve"
                       required
-                      class="mt-1 w-full rounded-md border border-stone-300 bg-white px-3 py-2 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
+                      class="mt-1 w-full rounded-md border border-stone-300 bg-white px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     >
                       <option value="linear">Linear (steady progress)</option>
                       <option value="s-curve">S-curve (slow start, rapid middle, plateau)</option>
@@ -499,7 +462,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                   </div>
 
                   <div class="border-t border-stone-200 pt-4 md:col-span-2">
-                    <h3 class="mb-2 text-lg font-medium text-stone-800">Quality Impact Metrics</h3>
+                    <h3 class="mb-2 text-lg font-bold text-[#233267]">Quality Impact Metrics</h3>
                     <p class="mb-3 text-xs text-stone-500">
                       Standardization typically reduces errors and revisions, which are major profit killers for agencies.
                     </p>
@@ -517,7 +480,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                       max="100"
                       step="1"
                       required
-                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
+                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     >
                     <p class="mt-1 text-xs text-stone-500">Percentage of deliverables needing revisions</p>
                   </div>
@@ -531,7 +494,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                       min="0.1"
                       step="0.1"
                       required
-                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
+                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     >
                     <p class="mt-1 text-xs text-stone-500">Average time spent on each revision</p>
                   </div>
@@ -548,7 +511,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                       max="100"
                       step="1"
                       required
-                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
+                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     >
                     <p class="mt-1 text-xs text-stone-500">Anticipated revision rate after implementation</p>
                   </div>
@@ -564,7 +527,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                       min="0"
                       step="10"
                       required
-                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none"
+                      class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 focus:outline-none"
                     >
                     <p class="mt-1 text-xs text-stone-500">
                       Estimated value of improved client satisfaction (retention, referrals)
@@ -582,7 +545,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                   </button>
                   <button
                     type="button"
-                    class="rounded-lg bg-stone-900 px-6 py-3 font-medium text-white hover:bg-stone-800"
+                    class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                     @click="calculateROI"
                   >
                     Calculate ROI
@@ -593,7 +556,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
               <div v-if="resultsVisible && run" class="mt-8">
                 <div class="overflow-hidden rounded-xl border border-stone-200">
                   <div class="border-b border-stone-200 bg-stone-50 px-6 py-4">
-                    <h2 class="text-xl font-semibold text-stone-800">Results</h2>
+                    <h2 class="text-xl font-bold text-[#233267]">Results</h2>
                   </div>
 
                   <div class="bg-white px-6 py-5">
@@ -664,7 +627,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                     </div>
 
                     <div class="mt-8 border-t border-stone-200 pt-6">
-                      <h3 class="mb-4 text-lg font-medium text-stone-800">Total Impact</h3>
+                      <h3 class="mb-4 text-lg font-bold text-[#233267]">Total Impact</h3>
                       <div class="rounded-xl border border-stone-200 p-5">
                         <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                           <div>
@@ -694,7 +657,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                     </div>
 
                     <div class="mt-8 border-t border-stone-200 pt-6">
-                      <h3 class="mb-4 text-lg font-medium text-stone-800">Phased Implementation Analysis</h3>
+                      <h3 class="mb-4 text-lg font-bold text-[#233267]">Phased Implementation Analysis</h3>
 
                       <div class="mb-5 overflow-hidden rounded-lg border border-stone-200">
                         <div class="max-h-64 overflow-auto">
@@ -733,7 +696,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
                                 :key="row.month"
                                 :class="
                                   row.isBreakEven
-                                    ? 'bg-amber-50'
+                                    ? 'bg-[#E7E5E4]'
                                     : index % 2 === 0
                                       ? 'bg-white'
                                       : 'bg-stone-50'
@@ -774,7 +737,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
 
                      <div class="space-y-2 text-neutral-800">
   <div
-    class="relative h-8 overflow-hidden rounded-xl border border-amber-300/60 bg-amber-100"
+    class="relative h-8 overflow-hidden rounded-xl border border-[#E7E5E4] bg-[#E7E5E4]"
     aria-hidden="true"
   >
     <div
@@ -814,8 +777,8 @@ function roiStatusText(row: MonthlyRow, cost: number) {
             </div>
           </div>
         </section>
-      </main>
-    </div>
+      
+   
   </div>
 </template>
 <style scoped>

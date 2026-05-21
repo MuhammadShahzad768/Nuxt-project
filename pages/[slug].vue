@@ -299,8 +299,13 @@ const handleSubmit = async (e) => {
 
   btn.innerText = 'Send message'
 }
+// --- SCROLL & LIFECYCLE ---
+const showTopBtn = ref(false);
+const handleScroll = () => { showTopBtn.value = window.scrollY > 300; };
+const scrollToTop = () => { window.scrollTo({ top: 0, behavior: "smooth" }); };
 
 onMounted(() => {
+   window.addEventListener("scroll", handleScroll);
   document.addEventListener('click', (e: any) => {
     const link = e.target.closest('a')
     if (!link) return
@@ -394,6 +399,15 @@ onMounted(() => {
     <!-- <Loader v-if="showLoader" /> -->
     <div class="wp-content" :class="[{ 'content-hidden': showLoader }, wpClass]">
       <div v-if="pageData">
+         <transition name="fade">
+        <button
+          v-if="showTopBtn"
+          @click="scrollToTop"
+          class="back-to-top"
+          aria-label="Back to top" >
+<i class="fa-solid fa-arrow-up"></i>
+        </button>
+      </transition>
         <div v-for="(sectionContent, key) in apiSections" :key="key" v-html="sectionContent" />
       </div>
       <div v-else-if="!showLoader" class="error">
@@ -503,4 +517,5 @@ line-height:40px !important;
   max-width:45%;
 }
 }
+
 </style>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const developmentCosts = ref(20000)
@@ -415,54 +417,20 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-stone-900 font-sans text-stone-950 antialiased">
-    <div class="flex min-h-screen flex-col bg-stone-100">
-      <div class="h-20 lg:h-24" />
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
+    
       <main class="pt-10 text-neutral-900 lg:pt-0">
-        <section data-theme="light">
-          <div class="mx-auto max-w-4xl px-4 pb-8">
-            <nav class="flex items-center justify-center text-sm text-neutral-600">
-              <NuxtLink to="/" class="hover:text-red-600">Home</NuxtLink>
-              <svg class="mx-2 size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <NuxtLink to="/tools" class="hover:text-red-600">Tools</NuxtLink>
-              <svg class="mx-2 size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <span>Package Development Calculator</span>
-            </nav>
-          </div>
-
-          <header class="mx-auto mb-20 max-w-4xl px-4 text-center">
-            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Package Development Calculator for productized Agencies</h1>
-            <p class="mt-4 text-lg text-neutral-600">
-              Calculate your service package ROI, forecast profitability, and find your break-even point.
-            </p>
-          </header>
+        <section >
+        <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Service Standardization ROI Calculator for productized Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600">Determine whether investing in systems, templates, and processes is worth the cost by calculating the ROI of standardization investments over time.</p>
+      </div>
 
           <div class="container mx-auto max-w-6xl px-4 py-8">
             <div class="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
               <div class="mb-8">
-                <h2 class="mb-4 border-b border-neutral-200 pb-2 text-xl font-semibold">Initial Investment &amp; Package Economics</h2>
+                <h2 class="mb-4 border-b border-neutral-200 pb-2 font-bold text-[#233267]">Initial Investment &amp; Package Economics</h2>
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div>
                     <h3 class="mb-3 text-lg font-medium text-neutral-800">Initial Investment</h3>
@@ -499,7 +467,7 @@ onBeforeUnmount(() => {
                     <div class="mb-4">
                       <label class="mb-1 block text-sm font-semibold">Total Initial Investment</label>
                       <div class="mt-1">
-                        <span class="font-semibold text-red-700">{{ formatCurrency(totalInvestment) }}</span>
+                        <span class="font-semibold text-#233267]">{{ formatCurrency(totalInvestment) }}</span>
                       </div>
                     </div>
                   </div>
@@ -540,10 +508,10 @@ onBeforeUnmount(() => {
                       <label class="mb-1 block text-sm font-semibold">Profit per Client</label>
                       <div class="mt-1 flex gap-4">
                         <div class="flex-1">
-                          <span class="font-semibold text-red-700">{{ formatCurrency(profitAmount) }}</span>
+                          <span class="font-semibold text-#233267]">{{ formatCurrency(profitAmount) }}</span>
                         </div>
                         <div class="flex-1">
-                          <span class="font-semibold text-red-700">{{ profitMarginPct.toFixed(1) }}%</span>
+                          <span class="font-semibold text-#233267]">{{ profitMarginPct.toFixed(1) }}%</span>
                         </div>
                       </div>
                     </div>
@@ -552,7 +520,7 @@ onBeforeUnmount(() => {
               </div>
 
               <div class="mb-8">
-                <h2 class="mb-4 border-b border-neutral-200 pb-2 text-xl font-semibold">Sales Projections</h2>
+                <h2 class="mb-4 border-b border-neutral-200 pb-2 text-xl font-bold text-[#233267]">Sales Projections</h2>
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div class="mb-4">
                     <label for="initialClients" class="mb-1 block text-sm font-semibold">Initial Package Subscribers (Month 1)</label>
@@ -605,7 +573,7 @@ onBeforeUnmount(() => {
                 <div class="mt-4 text-center">
                   <button
                     type="button"
-                    class="rounded-lg bg-neutral-900 px-6 py-3 font-medium text-white hover:bg-neutral-800"
+                    class="rounded-lg bg-[#233267] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#233267] hover:ring-2 hover:ring-[#233267] focus:outline-none focus:ring-2 focus:ring-[#233267]"
                     @click="calculateROI"
                   >
                     Calculate ROI
@@ -614,7 +582,7 @@ onBeforeUnmount(() => {
               </div>
 
               <div v-if="showResults && run" class="my-8">
-                <h2 class="mb-4 border-b border-neutral-200 pb-2 text-xl font-semibold">Key Metrics</h2>
+                <h2 class="mb-4 border-b border-neutral-200 pb-2 text-xl font-bold text-[#233267]">Key Metrics</h2>
                 <div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-4">
                   <div class="rounded-lg border border-neutral-200 p-4">
                     <h3 class="mb-2 text-lg font-medium">Break-even Month</h3>
@@ -677,7 +645,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <div class="mb-8">
-                  <h2 class="mb-4 border-b border-neutral-200 pb-2 text-xl font-semibold">Financial Projection</h2>
+                  <h2 class="mb-4 border-b border-neutral-200 pb-2 text-xl font-bold text-[#233267]">Financial Projection</h2>
 
                   <ClientOnly>
                     <div class="mb-6">
@@ -711,7 +679,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <div>
-                  <h2 class="mb-4 border-b border-neutral-200 pb-2 text-xl font-semibold">Monthly Breakdown</h2>
+                  <h2 class="mb-4 border-b border-neutral-200 pb-2 text-xl font-bold text-[#233267]">Monthly Breakdown</h2>
                   <div class="overflow-x-auto rounded-xl border border-neutral-200">
                     <table class="min-w-full divide-y divide-neutral-200">
                       <thead class="bg-neutral-50">
@@ -783,6 +751,6 @@ onBeforeUnmount(() => {
           </div>
         </section>
       </main>
-    </div>
+ 
   </div>
 </template>

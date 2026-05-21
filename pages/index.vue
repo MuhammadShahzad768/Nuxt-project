@@ -139,39 +139,6 @@ onBeforeUnmount(() => {
   50% { transform: scale(1.05); opacity: 0.8; }
 }
 
-.fade-out-leave-active {
-  transition: opacity 0.8s ease;
-}
-.fade-out-leave-to {
-  opacity: 0;
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-  transform: scale(0.8) translateY(20px);
-}
-
-/* BACK TO TOP */
-.back-to-top {
-  position: fixed;
-  bottom: 50px;
-  right: 20px;
-  background: #00296B;
-  color: white;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 1;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
 
 .error-msg {
   text-align: center;

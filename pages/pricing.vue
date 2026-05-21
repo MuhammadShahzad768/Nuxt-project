@@ -1,5 +1,14 @@
 <template>
  <div>
+   <transition name="fade">
+        <button
+          v-if="showTopBtn"
+          @click="scrollToTop"
+          class="back-to-top"
+          aria-label="Back to top" >
+<i class="fa-solid fa-arrow-up"></i>
+        </button>
+      </transition>
     <!-- Show spinner while loading -->
     <Loader v-if="loading" />
      <div v-else>
@@ -396,9 +405,15 @@ function scrollToFaq() {
     if (el) el.scrollIntoView({ behavior: "smooth" });
   });
 }
+// --- SCROLL & LIFECYCLE ---
+const showTopBtn = ref(false);
+const handleScroll = () => { showTopBtn.value = window.scrollY > 300; };
+const scrollToTop = () => { window.scrollTo({ top: 0, behavior: "smooth" }); };
 
 // 🔹 Lifecycle
 onMounted(async () => {
+      window.addEventListener("scroll", handleScroll);
+
     const savedCycle = localStorage.getItem('cycle')
   if (savedCycle) {
     activeTab.value = savedCycle

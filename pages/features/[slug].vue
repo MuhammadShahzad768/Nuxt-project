@@ -160,11 +160,17 @@ function initializeScripts() {
   })
   AOS.init({ duration: 1000, once: true })
 }
+// --- SCROLL & LIFECYCLE ---
+const showTopBtn = ref(false);
+const handleScroll = () => { showTopBtn.value = window.scrollY > 300; };
+const scrollToTop = () => { window.scrollTo({ top: 0, behavior: "smooth" }); };
+
 /* ============================================
    Mounted
 ============================================ */
 onMounted(() => {
   document.addEventListener('click', (e: any) => {
+    window.addEventListener("scroll", handleScroll);
     const link = e.target.closest('a')
     if (!link) return
     const url = link.getAttribute('href')
@@ -219,6 +225,15 @@ onMounted(() => {
       :class="[{ 'content-hidden': showLoader }, wpClass]"
     >
       <template v-if="pageData">
+         <transition name="fade">
+        <button
+          v-if="showTopBtn"
+          @click="scrollToTop"
+          class="back-to-top"
+          aria-label="Back to top" >
+<i class="fa-solid fa-arrow-up"></i>
+        </button>
+      </transition>
         <div
           v-for="(sectionContent, key) in apiSections"
           :key="key"

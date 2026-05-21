@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-
+import breadcrumb from '~/components/Sections/breadcrumb.vue'
+definePageMeta({ layout: 'tools' })
 type PackageRow = {
   id: number
   name: string
@@ -407,57 +408,22 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-stone-900 font-sans text-stone-950 antialiased mt-[150px]">
-    <div class="flex min-h-screen flex-col bg-stone-100">
-      <div class="h-20 lg:h-24" />
-      <main class="pt-10 text-neutral-900 lg:pt-0 ">
-        <section data-theme="light">
-          <div class="mx-auto max-w-4xl px-4 pb-8 p-10">
-            <nav class="flex items-center justify-center text-sm text-neutral-600">
-              <NuxtLink to="/" class="hover:text-red-600">Home</NuxtLink>
-              <svg class="mx-2 size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <NuxtLink to="/tools" class="hover:text-red-600">Tools</NuxtLink>
-              <svg class="mx-2 size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true">
-                <g fill="currentColor">
-                  <polyline
-                    points="7.5 16.5 14 10 7.5 3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  />
-                </g>
-              </svg>
-              <span>Team Cost Calculator</span>
-            </nav>
-          </div>
-
-          <header class="mx-auto mb-20 max-w-4xl px-4 text-center">
-            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Team Cost Calculator for productized Agencies</h1>
-            <p class="mt-4 text-lg text-neutral-600">
-              Plan your team structure and analyze financial impact for your standardized service packages.
-            </p>
-          </header>
+  <div class="min-h-screen  py-12 mt-[80px] custom_family">
+    <main class="pt-10 text-neutral-900 lg:pt-0 ">
+        <section >
+          <breadcrumb/>
+<div class="mx-auto mb-12 max-w-4xl px-4 text-center md:mb-12">
+        <h1 class="text-3xl font-bold text-[#233267] tracking-tight md:text-4xl">Team Cost Calculator for productized Agencies</h1>
+        <p class="mt-4 text-lg text-stone-600">Plan your team structure and analyze financial impact for your standardized service packages.</p>
+      </div>
 
           <div class="container mx-auto max-w-6xl px-4 py-8">
             <div class="mb-8 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
               <div class="mb-4 flex items-center justify-between">
-                <h2 class="text-xl font-semibold">Service Packages</h2>
+                <h2 class="text-xl font-semibold text-[#233267]">Service Packages</h2>
                 <button
                   type="button"
-                  class="px-3 py-1 text-sm font-medium text-red-700 hover:text-red-800"
+                  class="px-3 py-1 text-sm font-medium text-[#233267] hover:text-red-800"
                   @click="addPackage"
                 >
                   + Add Package
@@ -521,7 +487,7 @@ onBeforeUnmount(() => {
                       <td class="py-3">
                         <button
                           type="button"
-                          class="px-2 py-1 text-red-600 hover:text-red-700"
+                          class="px-2 py-1 text-[#5D688F] hover:text-[#233267]"
                           @click="removePackage(p.id)"
                         >
                           Remove
@@ -542,7 +508,7 @@ onBeforeUnmount(() => {
             </div>
 
             <div class="mb-8 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h2 class="mb-4 text-xl font-semibold">Team Settings</h2>
+              <h2 class="mb-4 text-xl font-semibold text-[#233267]">Team Settings</h2>
 
               <div class="grid gap-8 md:grid-cols-2">
                 <div>
@@ -670,7 +636,7 @@ onBeforeUnmount(() => {
             </div>
 
             <div class="mb-8 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h2 class="mb-4 text-xl font-semibold">Financial Impact</h2>
+              <h2 class="mb-4 text-xl font-bold text-[#233267]">Financial Impact</h2>
 
               <div class="grid gap-8 md:grid-cols-3">
                 <div>
@@ -730,7 +696,7 @@ onBeforeUnmount(() => {
             </div>
 
             <div class="mb-8 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h2 class="mb-4 text-xl font-semibold">Team Composition</h2>
+              <h2 class="mb-4 text-xl font-bold text-[#233267]">Team Composition</h2>
 
               <div class="grid gap-8 md:grid-cols-3">
                 <ClientOnly>
@@ -788,7 +754,7 @@ onBeforeUnmount(() => {
             </div>
 
             <div class="mb-8 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h2 class="mb-4 text-xl font-semibold">Break-Even Analysis</h2>
+              <h2 class="mb-4 text-xl font-bold text-[#233267]">Break-Even Analysis</h2>
 
               <div class="grid gap-8 md:grid-cols-2">
                 <ClientOnly>
@@ -828,6 +794,6 @@ onBeforeUnmount(() => {
           </div>
         </section>
       </main>
-    </div>
+
   </div>
 </template>

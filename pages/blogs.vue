@@ -1,6 +1,14 @@
 <template>
   <div class="min-h-screen bg-[#FAFAFA] custom_family">
-
+ <transition name="fade">
+        <button
+          v-if="showTopBtn"
+          @click="scrollToTop"
+          class="back-to-top"
+          aria-label="Back to top" >
+<i class="fa-solid fa-arrow-up"></i>
+        </button>
+      </transition>
     <section class="max-w-7xl mx-auto px-6 py-20">
       <div class="text-center mb-10 pt-20">
         <h2 class="xl:text-[45px] text-center text-[20px] text-[var(--bg-custom-color)] font-bold leading-[30px] md:leading-[30px] lg:leading-[40px] xl:leading-[70px] tracking-tight mb-0">
@@ -162,6 +170,13 @@ const navigateTo = (path) => {
   const router = useRouter();
   router.push(path);
 };
+// --- SCROLL & LIFECYCLE ---
+const showTopBtn = ref(false);
+const handleScroll = () => { showTopBtn.value = window.scrollY > 300; };
+const scrollToTop = () => { window.scrollTo({ top: 0, behavior: "smooth" }); };
+onMounted(() => {
+    window.addEventListener("scroll", handleScroll);
+})
 </script>
 
 <style scoped>
