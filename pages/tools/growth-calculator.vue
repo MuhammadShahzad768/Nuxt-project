@@ -194,9 +194,11 @@
         </div>
   </div>
    <Faqs/>
+   <Ready/>
 </template>
 
 <script setup lang="ts">
+import Ready from '~/components/Sections/Ready.vue'
 import Faqs from '~/components/Sections/Faqs.vue'
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
 import { computed, h, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'

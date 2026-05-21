@@ -1,6 +1,7 @@
 
 <script setup lang="ts">
 import Faqs from '~/components/Sections/Faqs.vue'
+import Ready from '~/components/Sections/Ready.vue'
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
 definePageMeta({ layout: 'tools' })
 import { reactive, ref } from 'vue'
@@ -780,6 +781,7 @@ function roiStatusText(row: MonthlyRow, cost: number) {
         </section>
   </div>
     <Faqs/>
+    <Ready/>
 </template>
 <style scoped>
 *{

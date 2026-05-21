@@ -323,10 +323,12 @@
     </div>
   </div>
   <Faqs/>
+  <Ready/>
 </template>
 
 <script setup>
 import Faqs from '~/components/Sections/Faqs.vue'
+import Ready from '~/components/Sections/Ready.vue'
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
 import { ref, computed } from 'vue'
 definePageMeta({ layout: 'tools' })

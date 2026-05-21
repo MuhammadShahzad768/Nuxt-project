@@ -144,9 +144,13 @@
 
   </div>
     <Faqs/>
+        <Ready/>
+
 </template>
 
 <script setup>
+import Ready from '~/components/Sections/Ready.vue'
+
 import Faqs from '~/components/Sections/Faqs.vue'
 import { computed, ref } from 'vue'
 import breadcrumb from '~/components/Sections/breadcrumb.vue'
