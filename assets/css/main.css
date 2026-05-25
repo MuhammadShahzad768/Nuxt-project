@@ -4,7 +4,6 @@
 @tailwind utilities;
 /* assets/css/main.css */
 
-@import "tailwindcss";
 .fade-out-leave-active {
   transition: opacity 0.8s ease;
 }
@@ -318,9 +317,7 @@ li.cursor-pointer.active {
 }
 @media screen and (max-width:1024px) {
   
-.tool_box.show{
-      max-width: 48%;
-}
+
     .toogle_sidebar {
         margin-top: 20px;
     }
@@ -383,11 +380,7 @@ li {
   width: 100%;
   padding: 30px 3%;
 }
-.tool_box.show {
 
-  max-width: 100%;
-    width: 100%;
-}
 } 
 
 @media screen and (min-width:769px) and (max-width:1023px) {

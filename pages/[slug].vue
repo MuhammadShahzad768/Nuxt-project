@@ -436,26 +436,7 @@ onMounted(() => {
 .fade-leave-to {
   opacity: 0;
 }
-:deep(.tool_box.show) {
-  opacity: 1;
-  transform: scale(1);
-  position: relative;
-  max-width: 31.5%;
-    width: 100%;
-}
-:deep(.tool_box) {
-  transition: all 0.4s ease;
-  max-width:31.4%;
-  width:100%;
-  border:2.17px solid #fff
-}
 
-:deep(.tool_box.hide) {
-  opacity: 0;
-  transform: scale(0.9);
-  pointer-events: none;
-  position: absolute;
-}
 
 .wp-content {
   width: 100%;
@@ -477,9 +458,7 @@ onMounted(() => {
     line-height: 110%;
 }
 @media screen and (min-width:320px) and (max-width:768px){
-:deep(.tool_box) {
-  max-width:100%;
-}
+
 :deep(.page-id-659 .left_right) {
      padding-top: 20px;
     padding-bottom: 20px;
@@ -502,10 +481,7 @@ onMounted(() => {
 
 @media screen and (min-width:768px) and (max-width:1023px) {
 
-  :deep(.tool_box.show){
-max-width: 90%;
 
-  }
 }
 @media screen and (min-width:1024px) and (max-width:1200px) {
   :deep(h1),:deep(h2){
@@ -513,9 +489,7 @@ font-size:35px !important;
 line-height:40px !important;
 
 }
-:deep(.tool_box) {
-  max-width:45%;
-}
+
 }
 
 </style>
