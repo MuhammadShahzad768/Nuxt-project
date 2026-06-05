@@ -70,17 +70,7 @@ export default defineNuxtConfig({
     }
   },
 
-  hooks: {
-    async 'nitro:config'(nitroConfig) {
-      const pages: any = await fetch(
-        'https://admin.dspcrm.com/wp-json/wp/v2/pages?per_page=100'
-      ).then(r => r.json())
 
-      const slugs = pages.map((p: any) => `/${p.slug}`)
-
-      nitroConfig.prerender!.routes = ['/', ...slugs]
-    }
-  },
 
   app: {
     head: {
