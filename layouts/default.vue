@@ -8,7 +8,7 @@ import Testing from '~/pages/testing.vue';
 <template>
   <div class="layout-wrapper overflow-x-hidden">
     <Testing/>
-<h1>Hello</h1>
+
     <main class="content">
       <slot /> 
     </main>
