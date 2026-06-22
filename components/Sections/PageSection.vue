@@ -28,7 +28,7 @@
           v-for="(client, index) in P_boxes"
           :key="index"
           :data-aos="getAosEffect(index)"
-          class="xl:max-w-[32.2%] md:max-w-[48%] max-w-[100%] w-full flex flex-col gap-4 group bg-white rounded-2xl xl:px-10 px-5 box-border py-5 hover:shadow-xl"
+          class="xl:max-w-[32.2%] md:max-w-[48%] max-w-[100%] w-full flex flex-col gap-4 group bg-white rounded-xl xl:px-10 px-5 box-border py-5 hover:shadow-xl"
         >
           <!-- Card Title -->
           <h4 class="text-[#00296B] font-normal text-2xl">
@@ -57,7 +57,7 @@
             :alt="client?.project_management_boxes_title || ''"
             width="800"
             height="500"
-            class="w-full h-auto rounded-xl object-cover"
+            class="w-full h-auto  object-cover"
           />
         </div>
       </div>
