@@ -14,7 +14,7 @@
         <div class=" flex mt-8 xl:mt-16 flex-wrap gap-[2%] gap-y-[20px] xl:gap-y-[30px] overflow-hidden">
    <div 
    v-for="(client, index) in clientsBoxes" :key="index"
-  class=" w-full group  max-w-[100%] xl:max-w-[31%] md:max-w-[49%]  box-border bg-white  overflow-hidden border border-[#999999] rounded-3xl"
+  class=" w-full group  max-w-[100%] xl:max-w-[31%] md:max-w-[49%]  box-border bg-white  overflow-hidden border border-[#999999] rounded-xl"
   :data-aos="getAosEffect(index)"
 >
 <div class='clients_box pl-6 pr-6 pt-8 pb-4'>
@@ -37,7 +37,7 @@
 
   <!-- large image -->
   <img :src="client.box_image.url" alt="" width="800" 
-  height="500" class="rounded-xl w-full h-auto transition-all duration-300 min-h-[214px] max-h-[250px]" />
+  height="500" class="w-full h-auto transition-all duration-300 min-h-[214px] max-h-[250px]" />
 </div>
 </div>
   </div>
