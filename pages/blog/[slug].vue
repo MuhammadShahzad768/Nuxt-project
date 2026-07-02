@@ -17,14 +17,29 @@ const slug = route.params.slug as string
 
 const { data, error, pending } = await useAsyncData(
   () => `post-${slug}`,
-  () => $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/blog-html/${slug}`),
-  { server: true }
+  () => $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/blog-html/${slug}`, {
+    // Live server ke network verification issues ko bypass karne ke liye
+    onRequestError({ error }) {
+      console.error('Request Error on Server:', error)
+    },
+    onResponseError({ response }) {
+      console.error('Response Error on Server:', response._data)
+    }
+  }),
+  { 
+    server: true,
+    // Taaki Nuxt strictly server ke data ka wait kare aur source khali na bheje
+    lazy: false 
+  }
 )
 
-if (error.value?.statusCode === 404) {
-  throw createError({ statusCode: 404, statusMessage: 'Post Not Found' })
+// Agar live server par data nahi mila, toh yahin crash karein taaki aapko logs mein dikhe
+if (error.value) {
+  throw createError({ 
+    statusCode: error.value.statusCode || 500, 
+    statusMessage: error.value.message || 'SSR Fetch Failed on Live Server' 
+  })
 }
-
 /* ============================================
    Parse raw SEO HTML string → JSON
 ============================================ */
