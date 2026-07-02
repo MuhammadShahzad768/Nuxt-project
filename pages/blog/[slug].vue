@@ -1,14 +1,5 @@
 <template>
   <div>
-     <transition name="fade">
-        <button
-          v-if="showTopBtn"
-          @click="scrollToTop"
-          class="back-to-top"
-          aria-label="Back to top" >
-<i class="fa-solid fa-arrow-up"></i>
-        </button>
-      </transition>
     <Loader v-if="pending" />
 
     <div v-else>
@@ -62,14 +53,6 @@ useHead(() => {
     title: parsed.title,
     meta: parsed.meta
   }
-})
-// --- SCROLL & LIFECYCLE ---
-const showTopBtn = ref(false);
-const handleScroll = () => { showTopBtn.value = window.scrollY > 300; };
-const scrollToTop = () => { window.scrollTo({ top: 0, behavior: "smooth" }); };
-onMounted(() => {
-    window.addEventListener("scroll", handleScroll);
-
 })
 </script>
 <style>
