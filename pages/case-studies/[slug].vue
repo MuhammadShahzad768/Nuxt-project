@@ -4,7 +4,7 @@
 
     <div v-else>
       <div v-if="data?.html" v-html="data.html"></div>
-      <div v-else class="text-center py-20">Post not found.</div>
+      <div v-else class="text-center py-20">Post not founds.</div>
     </div>
   </div>
 </template>
