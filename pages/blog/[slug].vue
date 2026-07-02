@@ -56,6 +56,54 @@ useHead(() => {
 })
 </script>
 <style>
+.blog-content :deep(h2) {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 48px 0 24px;
+  color: #1a1a1a;
+  line-height: 1.2;
+  scroll-margin-top: 130px; /* Offset for smooth scroll landing */
+}
+.gap-10{
+  gap:40px;
+}
+.blog-content :deep(h3) {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 32px 0 16px;
+}
+
+.blog-content :deep(p) {
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+  color: #374151;
+  font-size: 18px;
+}
+
+.blog-content :deep(img) {
+  border-radius: 1rem;
+  width: 100%;
+  margin: 2.5rem 0;
+}
+
+/* TOC Styling cleanup */
+#table-of-contents li::before {
+  content: none !important;
+}
+
+:deep(li) {
+  padding-left: 0;
+}
+
+/* Global browser smooth scrolling */
+:global(html) {
+  scroll-behavior: smooth;
+}
+:deep(.btn-primary){
+      color: #233267;
+    border-radius: 6px;
+    border: 2px solid #233267;
+}
 .blog_sidebar{
   max-width:300px;
 }
