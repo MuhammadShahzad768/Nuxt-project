@@ -2,7 +2,7 @@
   <div class="flex">
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 min-w-0 py-7 px-5 md:px-0 sm:px-8 lg:max-w-[560px] md:max-w-[350px]">
+    <main class="flex-1 min-w-0 py-7 px-5 md:px-0 sm:px-8 lg:max-w-[660px] md:max-w-[350px] lg:pr-[50px]">
 
       <div 
         v-if="post" 
