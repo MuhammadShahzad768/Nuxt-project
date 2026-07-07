@@ -47,7 +47,7 @@ const showLoader = ref(true)
 const { data: pageData, error, refresh } = await useAsyncData(
   `wp-page-${pageId}`,
   () => $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/Header`),
-  { server: false , lazy: false }
+  { server: true , lazy: false }
 )
 
 /* =========================

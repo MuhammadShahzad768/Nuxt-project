@@ -318,62 +318,94 @@ export default {
 
   methods: {
     async fetchData() {
-      try {
-        const res = await fetch(
-          `https://admin.dspcrm.com/wp-json/myapi/v1/page/181?timestamp=${Date.now()}`
-        );
-        const data = await res.json();
+  try {
+    const res = await fetch(
+      `https://admin.dspcrm.com/wp-json/myapi/v1/page/181?timestamp=${Date.now()}`
+    );
 
-        // Map Footer Data
-        this.banner = data.footer || {};
-        this.logo = data.footer?.footer_logo ? [{ name: data.footer.footer_logo.url }] : [];
-        this.Contact = data.footer?.footer_?.map((item) => ({ name: item.footer_location })) || [];
+    const response = await res.json();
 
-        // Map Sections
-        this.features = data.feature_links?.links || [];
-        this.featuresTitle = data.feature_links?.title || "";
-        this.features2 = data.feature_links_2?.links || [];
-        this.featuresTitle2 = data.feature_links_2?.title || "";
-        this.resources = data.resources?.links || [];
-        this.resourcesTitle = data.resources?.title || "";
-        this.Product = data.product_copy?.links || [];
-        this.ProductTitle = data.product_copy?.title || "";
-        this.Support = data.support?.links || [];
-        this.SupportTitle = data.support?.title || "";
+    console.log("Full API Response:", response);
 
-        this.custom_html =
-          typeof data.html_section === "object" && data.html_section?.section
-            ? data.html_section.section
-            : data.html_section || "";
+    // Agar data acf ke andar hai to acf use karega,
+    // warna direct response use karega
+    const data = response.acf || response;
 
-        // ✅ FIXED: Correct spelling "social_icons"
-        const faIconMap = {
-          facebook: "facebook-f",
-          twitter: "twitter",
-          instagram: "instagram",
-          linkedin: "linkedin-in",
-          youtube: "youtube",
-          tiktok: "tiktok",
+    console.log("Processed Data:", data);
+
+    // Footer
+    this.banner = data.footer || {};
+
+    this.logo = data.footer?.footer_logo
+      ? [{ name: data.footer.footer_logo.url }]
+      : [];
+
+    this.Contact =
+      data.footer?.footer_?.map((item) => ({
+        name: item.footer_location,
+      })) || [];
+
+    // Feature Links
+    this.features = data.feature_links?.links || [];
+    this.featuresTitle = data.feature_links?.title || "";
+
+    this.features2 = data.feature_links_2?.links || [];
+    this.featuresTitle2 = data.feature_links_2?.title || "";
+
+    // Resources
+    this.resources = data.resources?.links || [];
+    this.resourcesTitle = data.resources?.title || "";
+
+    // Product
+    this.Product = data.product_copy?.links || [];
+    this.ProductTitle = data.product_copy?.title || "";
+
+    // Support
+    this.Support = data.support?.links || [];
+    this.SupportTitle = data.support?.title || "";
+
+    // HTML Section
+    this.custom_html =
+      typeof data.html_section === "object" && data.html_section?.section
+        ? data.html_section.section
+        : data.html_section || "";
+
+    // Social Icons
+    const faIconMap = {
+      facebook: "facebook-f",
+      twitter: "twitter",
+      instagram: "instagram",
+      linkedin: "linkedin-in",
+      youtube: "youtube",
+      tiktok: "tiktok",
+    };
+
+    const normalize = (str) =>
+      str?.toLowerCase().replace(/\s+/g, "").replace("-", "");
+
+    this.SocialName =
+      data.social_icons?.icons_and_links?.map((item) => {
+        const key = normalize(item.icons_name);
+
+        return {
+          href: item.icon_url?.url || "#",
+          icon: ["fab", faIconMap[key] || "question-circle"],
         };
-        const normalize = (str) => str?.toLowerCase().replace(/\s+/g, "").replace("-", "");
+      }) || [];
 
-        this.SocialName = data.social_icons?.icons_and_links?.map((item) => {
-          const key = normalize(item.icons_name);
-          return {
-            href: item.icon_url?.url || "#",
-            icon: ["fab", faIconMap[key] || "question-circle"],
-          };
-        }) || [];
+    console.log("Features:", this.features);
+    console.log("Resources:", this.resources);
+    console.log("Support:", this.Support);
 
-        // Reset and Re-init Observer
-        this.visibleItems = new Array(20).fill(false);
-        this.$nextTick(() => {
-          this.initObserver();
-        });
-      } catch (err) {
-        console.error("Fetch Error:", err);
-      }
-    },
+    this.visibleItems = new Array(20).fill(false);
+
+    this.$nextTick(() => {
+      this.initObserver();
+    });
+  } catch (err) {
+    console.error("Fetch Error:", err);
+  }
+},
 
     initObserver() {
       if (this.observer) {

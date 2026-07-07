@@ -68,22 +68,66 @@ const { data, pending, error } = await useAsyncData('wpPageData', () =>
 const forceTimer = ref(true);
 const showLoader = computed(() => pending.value || forceTimer.value);
 
-// --- SECTIONS CONFIGURATION ---
+/// SECTIONS
 const organizedSections = computed(() => {
-  if (!data.value) return [];
-  return [
-    { comp: NewBanner, props: { banner: data.value.banner } },
-    { comp: ClientsBoxes, props: { clients: data.value.clients } },
-    { comp: Agencies, props: { Services: data.value.service_agencies } },
+  console.log("Fetched Data:", data.value);
 
-    { comp: PageSection, props: { project_management: data.value.project_management } },
-    { comp: Limitlessly, props: { Limitless: data.value.limitlessly_flexible } },
-    { comp: Integration, props: { Integrate: data.value.integrate } },
-    { comp: CommentSlides, props: { slides_show: "1", CommentsData: data.value.comments } },
-    { comp: ReadyToGive, props: { Last: data.value.last_section } },
+  if (!data.value?.acf) return [];
+
+  const page = data.value.acf;
+
+  return [
+    {
+      comp: NewBanner,
+      props: {
+        banner: page.banner,
+      },
+    },
+    {
+      comp: ClientsBoxes,
+      props: {
+        clients: page.clients,
+      },
+    },
+    {
+      comp: Agencies,
+      props: {
+        Services: page.service_agencies,
+      },
+    },
+    {
+      comp: PageSection,
+      props: {
+        project_management: page.project_management,
+      },
+    },
+    {
+      comp: Limitlessly,
+      props: {
+        Limitless: page.limitlessly_flexible,
+      },
+    },
+    {
+      comp: Integration,
+      props: {
+        Integrate: page.integrate,
+      },
+    },
+    {
+      comp: CommentSlides,
+      props: {
+        slides_show: "1",
+        CommentsData: page.comments,
+      },
+    },
+    {
+      comp: ReadyToGive,
+      props: {
+        Last: page.last_section,
+      },
+    },
   ];
 });
-
 const dynamicHtml = computed(() => data.value?.html_section?.display ? data.value.html_section.section : null);
 const insertAfterIndex = computed(() => {
   const pos = data.value?.html_section?.postion;
