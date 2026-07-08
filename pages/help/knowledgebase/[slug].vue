@@ -327,8 +327,8 @@ onUnmounted(() => {
 }
 
 .toc-link.active {
-  color: #000;
-  font-weight: bold;
+    color: #233267;
+    font-weight: 800;
 }
 .bg-button{
   background-color:#233267;
