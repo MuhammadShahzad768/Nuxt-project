@@ -1,5 +1,5 @@
 <template>
- <section class="bg-[#FAFAFA] xl:py-14 py-0  bg-top custom_family xl:pt-[300px] pt-[40px] pb-[40px]" :data-id="clients?.section_display"  :class="{ hidden: !clients?.section_display }">
+ <section class="bg-[#FAFAFA] xl:py-14 py-0  bg-top custom_family xl:pt-[350px] pt-[40px] pb-[40px]" :data-id="clients?.section_display"  :class="{ hidden: !clients?.section_display }">
       <div class="container max-w-screen-xl m-auto xl:px-8 px-4 md:px-6 custom_family">
         <div class="head ">
           <div class="flex items-center flex-col">

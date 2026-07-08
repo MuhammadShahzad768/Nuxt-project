@@ -32,9 +32,9 @@
         muted
         loop
         playsinline
-        style="max-width: 900px;width:1000px"
-        :style="{ transform: imageTransform }"
-        class="video-element xl:absolute xl:mt-0 xl:max-w-[100%] max-w-[800px] mt-20 relative xl:bottom-[-25%] left-0 right-0 m-auto max-h-[460px] w-full h-[460px] shadow-[10px_35px_35px_20px_rgba(0,0,0,0.25)] object-cover"
+        style="max-width: 1050px; height: 600px; z-index: 999; width: 1200px;"
+        
+        class="video-element xl:absolute xl:mt-0 xl:max-w-[100%] max-w-[800px] mt-20 relative xl:bottom-[-37%] left-0 right-0 m-auto  w-full  shadow-[10px_35px_35px_20px_rgba(0,0,0,0.25)] object-contain"
       >
         <source :src="hero[0].banner_image" type="video/mp4">
       </video>
@@ -131,9 +131,9 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-img, .video-element {
+/* img, .video-element {
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
   transform-origin: center bottom;
-}
+} */
 </style>
