@@ -24,16 +24,17 @@
       <img src="https://admin.dspcrm.com/wp-content/uploads/2026/02/Group-145-DgSMHD_y.svg" width="100" height="100" class="xl:w-[100px] w-[80px] absolute xl:bottom-[38%] xl:left-[26%] bottom-[30%] left-[10%] md:hidden xl:block">
       <img src="https://admin.dspcrm.com/wp-content/uploads/2026/02/Group-142-BLUaaRaE.svg" width="100" height="100" class="xl:w-[100px] w-[80px] absolute xl:bottom-[38%] bottom-[28%] right-[10%] xl:right-[17%] md:hidden xl:block">
       
-      <img
-        ref="bannerImage"
-        :src="hero[0].banner_image"
-        alt="Animated Banner"
-        fetchpriority="high"
-        width="1200"
-        height="460"
-        class="xl:absolute xl:mt-0 xl:max-w-[100%] max-w-[90%] mt-20 relative xl:bottom-[-25%] left-0 right-0 m-auto max-h-[460px] shadow-[10px_35px_35px_20px_rgba(0,0,0,0.25)] transition-transform duration-300 ease-out"
-        "
-      />
+ <iframe
+  style="max-width: 900px;"
+  class="xl:absolute xl:mt-0 xl:max-w-[100%] max-w-[800px] mt-20 relative xl:bottom-[-25%] left-0 right-0 m-auto max-h-[460px]"
+  width="100%"
+  height="460"
+  src="https://www.youtube.com/embed/Lmz_07xNmnI?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&showinfo=0&fs=0&iv_load_policy=3&disablekb=1"
+  title="YouTube video"
+  frameborder="0"
+  allow="autoplay; encrypted-media"
+  allowfullscreen
+></iframe>
     </section>
   </div>
 </template>
