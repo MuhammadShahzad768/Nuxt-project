@@ -374,7 +374,12 @@ const Last = ref(null);
 const activeTab = ref("monthly");
 const activequestion = ref("q1");
 const loading = ref(true);
-const question = ref(null)
+
+const question = ref({
+  faqs_title: "",
+  faqs_question: [],
+  faqs_answers: []
+});
 const Answers = ref(null);
 const Tabs = ref(null);
 const Trusted  = ref(null);
@@ -428,9 +433,9 @@ onMounted(async () => {
     const planData = await planRes.json();
 
     // Assign standard fields
-    CommentsData.value = data.comments;
-    Last.value = data.last_section;
-    question.value = data.faqs;
+   CommentsData.value = data.acf.comments;
+Last.value = data.acf.last_section;
+question.value = data.acf.faqs;
     
     // 3. Transform CRM Plans into your Tabs structure
     if (planData.success) {
@@ -465,13 +470,13 @@ onMounted(async () => {
       }));
 
       // 4. Combine WordPress static text with API dynamic plans
-      Tabs.value = {
-        ...data.pricing, // Keep title_bold, description, etc. from WordPress
-        price_boxes: monthlyMapped,
-        price_boxes_yearly: yearlyMapped
-      };
+     Tabs.value = {
+  ...data.acf.pricing,
+  price_boxes: monthlyMapped,
+  price_boxes_yearly: yearlyMapped
+};
     } else {
-      Tabs.value = data.pricing;
+      Tabs.value = data.acf.pricing;
     }
 
     nextTick(() => {

@@ -19,52 +19,86 @@
         </p>
       </div>
 
+      <!-- Floating Images -->
       <img src="https://admin.dspcrm.com/wp-content/uploads/2026/02/Group-143-Cf659UdD.svg" width="100" height="100" class="xl:w-[100px] w-[80px] absolute xl:top-[26%] top-[17%] left-[5%] xl:left-[17%]">
       <img src="https://admin.dspcrm.com/wp-content/uploads/2026/02/Group-144-CbSq2YSC.svg" width="100" height="100" class="xl:w-[100px] w-[80px] absolute xl:top-[26%] xl:right-[24%] top-[14%] right-[0%]">
       <img src="https://admin.dspcrm.com/wp-content/uploads/2026/02/Group-145-DgSMHD_y.svg" width="100" height="100" class="xl:w-[100px] w-[80px] absolute xl:bottom-[38%] xl:left-[26%] bottom-[30%] left-[10%] md:hidden xl:block">
       <img src="https://admin.dspcrm.com/wp-content/uploads/2026/02/Group-142-BLUaaRaE.svg" width="100" height="100" class="xl:w-[100px] w-[80px] absolute xl:bottom-[38%] bottom-[28%] right-[10%] xl:right-[17%] md:hidden xl:block">
       
- <iframe
-  style="max-width: 900px;"
-  class="xl:absolute xl:mt-0 xl:max-w-[100%] max-w-[800px] mt-20 relative xl:bottom-[-25%] left-0 right-0 m-auto max-h-[460px]"
-  width="100%"
-  height="460"
-  src="https://www.youtube.com/embed/Lmz_07xNmnI?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&showinfo=0&fs=0&iv_load_policy=3&disablekb=1"
-  title="YouTube video"
-  frameborder="0"
-  allow="autoplay; encrypted-media"
-  allowfullscreen
-></iframe>
+      <!-- CASE 1: Agar link MP4 ya direct video file hai -->
+      <video 
+        v-if="hero[0].banner_image && isDirectVideo"
+        autoplay
+        muted
+        loop
+        playsinline
+        style="max-width: 900px;width:1000px"
+        :style="{ transform: imageTransform }"
+        class="video-element xl:absolute xl:mt-0 xl:max-w-[100%] max-w-[800px] mt-20 relative xl:bottom-[-25%] left-0 right-0 m-auto max-h-[460px] w-full h-[460px] shadow-[10px_35px_35px_20px_rgba(0,0,0,0.25)] object-cover"
+      >
+        <source :src="hero[0].banner_image" type="video/mp4">
+      </video>
+
+      <!-- CASE 2: Agar link YouTube/Vimeo ya koi Iframe Embed hai -->
+      <iframe 
+        v-else-if="videoSrc && !isDirectVideo"
+        style="max-width: 900px;"
+        :style="{ transform: imageTransform }"
+        class="video-element xl:absolute xl:mt-0 xl:max-w-[100%]  mt-20 relative xl:bottom-[-25%] left-0 right-0 m-auto "
+        width="100%"
+        height="460"
+        :src="videoSrc"
+        title="Banner video"
+        frameborder="0"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
     </section>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 const imageTransform = ref('translate3d(0, 0, 0) rotateX(40deg)')
 const isMobile = ref(false)
 
-// 1. Data server-side par fetch hoga (Eliminates Render Delay)
+// Server-side data fetch
 const { data: hero } = await useFetch('https://admin.dspcrm.com/wp-json/dsp/v1/hero/7', {
   key: 'hero-data-7'
 })
 
-// 2. Dynamic Preload with correct API structure (Eliminates Resource Load Delay)
-useHead(() => {
-  // Aapke response mein data array format mein hai, isliye hero.value[0] lagaya
-  const imageUrl = hero.value?.[0]?.banner_image || ''
+// 1. Check karein ke link direct video file (.mp4, .webm, vagaira) hai ya nahi
+const isDirectVideo = computed(() => {
+  const url = hero.value?.[0]?.banner_image || ''
+  return /\.(mp4|webm|ogg|mov)$/i.test(url)
+})
 
-  return {
-    link: imageUrl ? [
-      {
-        rel: 'preload',
-        as: 'image',
-        href: imageUrl,
-        fetchpriority: 'high'
-      }
-    ] : []
+// 2. Video URL process karne ka tarika (YouTube link auto convert karega)
+const videoSrc = computed(() => {
+  let url = hero.value?.[0]?.banner_image || ''
+  if (!url) return ''
+
+  // Agar YouTube ka normal watch link hai, toh use embed format mein badlein
+  if (url.includes('youtube.com/watch')) {
+    const urlParams = new URLSearchParams(url.split('?')[1])
+    const videoId = urlParams.get('v')
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}`
+    }
   }
+  
+  // Agar short YouTube link hai (youtu.be)
+  if (url.includes('youtu.be/')) {
+    const videoId = url.split('youtu.be/')[1]?.split('?')[0]
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}`
+    }
+  }
+
+  // Baki links ke liye normal parameters append karein
+  const separator = url.includes('?') ? '&' : '?'
+  return `${url}${separator}autoplay=1&mute=1&loop=1`
 })
 
 const handleScroll = () => {
@@ -97,7 +131,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-img {
+img, .video-element {
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
   transform-origin: center bottom;
