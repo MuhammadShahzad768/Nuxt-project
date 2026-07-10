@@ -32,7 +32,7 @@
         muted
         loop
         playsinline
-        style="max-width: 1050px; height: 600px; z-index: 999; width: 1200px;"
+        style="max-width: 1050px; height: 600px; width: 1200px;"
         
         class="video-element xl:absolute xl:mt-0 xl:max-w-[100%] max-w-[800px] mt-20 relative xl:bottom-[-37%] left-0 right-0 m-auto  w-full  shadow-[10px_35px_35px_20px_rgba(0,0,0,0.25)] object-contain"
       >

@@ -25,13 +25,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, computed } from 'vue'
-import { useHead, useAsyncData, useRouter } from '#imports'
+import { ref, onMounted, nextTick, computed, watch } from 'vue'
+import { useHead, useAsyncData, useRouter, useRoute } from '#imports'
 import 'aos/dist/aos.css'
 import Loader from "@/components/Sections/Loader.vue"
 
-
 const router = useRouter()
+const route = useRoute()
 const pageId = '939'
 const showLoader = ref(true)
 
@@ -53,7 +53,7 @@ const { data: pageData, error } = await useAsyncData(
 const apiSections = computed(() => {
   if (!pageData.value) return {}
 
-  const excludeKeys = [ 'Author_page_custom_css', 'id', 'title', 'link']
+  const excludeKeys = ['Author_page_custom_css', 'id', 'title', 'link']
 
   return Object.keys(pageData.value).reduce((acc, key) => {
     const value = (pageData.value as Record<string, any>)[key]
@@ -65,9 +65,28 @@ const apiSections = computed(() => {
 })
 
 /* =========================
-   3. SEO & Fixed CSS Handling
+   3. Sidebar Active Link Handling
 ========================= */
+const activeSidebarLink = async () => {
+  await nextTick()
 
+  const sidebarLinks = document.querySelectorAll('.wp-content .left-nav-link')
+
+  sidebarLinks.forEach(link => {
+    link.classList.remove('active-sidebar-link')
+
+    const href = new URL((link as HTMLAnchorElement).href, window.location.origin).pathname
+    const current = route.path
+
+    if (href === current) {
+      link.classList.add('active-sidebar-link')
+    }
+  })
+}
+
+/* =========================
+   4. SEO & Fixed CSS Handling
+========================= */
 useHead({
   style: [
     {
@@ -86,18 +105,10 @@ useHead({
     }
   ]
 })
+
 /* =========================
-   6. Mounted
+   5. Internal Link Click Handling
 ========================= */
-onMounted(async () => {
-  await nextTick()
-  setTimeout(() => {
-    showLoader.value = false       // Hide loader
-    nextTick(() => {
-     
-    })
-  }, 200)
-})
 const handleWpClick = (event: Event) => {
   const target = event.target as HTMLElement
 
@@ -118,9 +129,35 @@ const handleWpClick = (event: Event) => {
     }
   }
 }
+
+/* =========================
+   6. Mounted
+========================= */
+onMounted(async () => {
+  await nextTick()
+  setTimeout(() => {
+    showLoader.value = false // Hide loader
+  }, 200)
+})
+
+/* =========================
+   7. Watch Route Changes (client only)
+========================= */
+watch(
+  () => route.path,
+  () => {
+    if (import.meta.client) activeSidebarLink()
+  },
+  { immediate: true }
+)
 </script>
+
 <style scoped>
-h1{
-    color:red
+h1 {
+  color: red;
+}
+:deep(.active-sidebar-link) {
+  color: #233267 !important;
+  font-weight: bold;
 }
 </style>
