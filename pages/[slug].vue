@@ -325,26 +325,48 @@ onMounted(() => {
 
       const BASE_URL = 'https://admin.dspcrm.com'
 
-      document.querySelectorAll('.success img').forEach((img: HTMLImageElement) => {
-        let src = img.getAttribute('src') || ''
+      document.querySelectorAll('.success img').forEach((el) => {
+  if (el instanceof HTMLImageElement) {
+    let src = el.getAttribute('src') || ''
 
-        if (src && !src.startsWith('http')) {
-          src = `${BASE_URL}${src}`
-        }
+    if (src && !src.startsWith('http')) {
+      src = `${BASE_URL}${src}`
+    }
 
-        img.src = src
-        img.setAttribute('loading', 'lazy')
-        img.setAttribute('decoding', 'async')
+    el.src = src
+    el.loading = 'lazy'
+    el.decoding = 'async'
+  }
 
-        if (!img.hasAttribute('width')) img.setAttribute('width', '800')
-        if (!img.hasAttribute('height')) img.setAttribute('height', '600')
+  if (el instanceof HTMLAnchorElement) {
+    let href = el.getAttribute('href') || ''
 
-        const rect = img.getBoundingClientRect()
-        if (rect.top < window.innerHeight) {
-          img.setAttribute('fetchpriority', 'high')
-        }
-      })
+    if (href && !href.startsWith('http')) {
+      el.href = `${BASE_URL}${href}`
+    }
+  }
+})
+document.querySelectorAll<HTMLAnchorElement>('.success a').forEach((link) => {
+  const href = link.getAttribute('href')
+  if (!href) return
 
+  const newHref = href.replace(
+    /^https?:\/\/admin\.dspcrm\.com/i,
+    window.location.origin
+  )
+
+  link.href = newHref
+
+  link.addEventListener('click', (e) => {
+    const url = new URL(link.href)
+
+    // Only intercept internal links
+    if (url.origin === window.location.origin) {
+      e.preventDefault()
+      router.push(url.pathname + url.search + url.hash)
+    }
+  })
+})
       // =========================
       // ✅ CAPTCHA INJECTION (UPDATED)
       // =========================
