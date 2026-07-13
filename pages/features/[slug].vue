@@ -267,6 +267,15 @@ onMounted(() => {
   height: 0;
   overflow: hidden;
 }
+:deep(.page-id-1458 section.py-0.lg\:py-12.px-6.xl\:px-4.custom_family.left_right) {
+    margin-top: 42px;
+    margin-bottom: 40px;
+}
+
+:deep(.page-id-1458 section.border.border-\[\#ACB2BE\].rounded-3xl.md\:p-10.bg-\[\#f5f0eb\].rounded-2xl.max-w-7xl.py-14.grid.grid-cols-1.lg\:grid-cols-2.gap-12.items-center.w-full.m-auto) {
+    margin-top: 40px;
+}
+
 @media screen and (min-width:768px) and (max-width:1024px){
 :deep(.upper_boxes){
 max-width:48%;
