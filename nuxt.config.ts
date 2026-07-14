@@ -41,7 +41,7 @@ export default defineNuxtConfig({
       crawlLinks: true,
       failOnError: false,
       routes: [
-        '/features/apis',
+        '/features/api',
         ...dynamicRoutes
       ]
     }
