@@ -1,0 +1,1025 @@
+openapi: 3.0.3
+info:
+  title: DSP CRM API
+  version: 1.0.0
+  contact: {}
+  x-logo:
+    url: "https://bitsol.dspcrm.app/assets/dsp-logo1.jpg"
+    altText: "My Company Logo"
+servers:
+  - url: https://{workspaceUrl}
+    description: API Server
+    variables:
+      workspaceUrl:
+        default: workspace.dspcrm.app
+paths:
+  /api/ticket_messages/5:
+    get:
+      tags:
+      - Ticket Messages
+      summary: List Messages (for a Ticket)
+      description: |-
+        Get all messages for a specific ticket.
+
+        **Note:** Replace `5` with actual Ticket ID.
+      operationId: listMessagesForATicket
+      parameters:
+      - name: per_page
+        in: query
+        schema:
+          type: string
+          example: '15'
+        description: Items per page (max 100)
+      - name: page
+        in: query
+        schema:
+          type: string
+          example: '1'
+        description: Page number
+      responses:
+        '200':
+          description: ''
+    post:
+      tags:
+      - Ticket Messages
+      summary: Create Message (Reply to Ticket)
+      description: |-
+        Create a new message/reply for a ticket.
+
+        - `message` (required)
+        - `is_internal` (optional) → Only works for admin/owner/team users
+      operationId: createMessageReplyToTicket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                is_internal:
+                  type: boolean
+                  example: false
+                message:
+                  type: string
+                  example: Hello, I need help with my invoice.
+            examples:
+              Create Message (Reply to Ticket):
+                value:
+                  is_internal: false
+                  message: Hello, I need help with my invoice.
+      responses:
+        '200':
+          description: ''
+  /api/ticket_messages/12:
+    delete:
+      tags:
+      - Ticket Messages
+      summary: Delete Message
+      description: |-
+        Permanently delete a message.
+
+        **Note:** Only the message owner or admin/owner can delete it.
+        Replace `12` with actual Message ID.
+      operationId: deleteMessage
+      responses:
+        '200':
+          description: ''
+  /api/tickets:
+    get:
+      tags:
+      - Tickets
+      summary: List Tickets
+      description: List Tickets
+      operationId: listTickets
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: string
+          example: '10'
+      - name: page
+        in: query
+        schema:
+          type: string
+          example: '1'
+      - name: sort
+        in: query
+        schema:
+          type: string
+          example: id:desc
+      - name: x-api-version
+        in: header
+        schema:
+          type: string
+          example: v1
+      responses:
+        '200':
+          description: ''
+    post:
+      tags:
+      - Tickets
+      summary: Create Ticket
+      description: Create Ticket
+      operationId: createTicket
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              Create Ticket:
+                value: |-
+                  {
+                    "client_id": {{client_id}},
+                    "subject": "Issue with login",
+                    "description": "Cannot login to portal",
+                    "priority": "high"
+                  }
+      responses:
+        '200':
+          description: ''
+      security:
+      - {}
+  /api/tickets/{ticketId}:
+    get:
+      tags:
+      - Tickets
+      summary: Get Ticket
+      description: Get Ticket
+      operationId: getTicket
+      responses:
+        '200':
+          description: ''
+    put:
+      tags:
+      - Tickets
+      summary: Update Ticket
+      description: Update Ticket
+      operationId: updateTicket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                priority:
+                  type: string
+                  example: urgent
+                status:
+                  type: string
+                  example: in_progress
+            examples:
+              Update Ticket:
+                value:
+                  priority: urgent
+                  status: in_progress
+      responses:
+        '200':
+          description: ''
+    delete:
+      tags:
+      - Tickets
+      summary: Delete Ticket
+      description: Delete Ticket
+      operationId: deleteTicket
+      responses:
+        '200':
+          description: ''
+    parameters:
+    - name: ticketId
+      in: path
+      required: true
+      schema:
+        type: string
+  /api/services:
+    get:
+      tags:
+      - Services
+      summary: List Services
+      description: List Services
+      operationId: listServices
+      parameters:
+      - name: search
+        in: query
+        schema:
+          type: string
+          example: ''
+      - name: per_page
+        in: query
+        schema:
+          type: string
+          example: '15'
+      - name: page
+        in: query
+        schema:
+          type: string
+          example: '1'
+      responses:
+        '200':
+          description: ''
+      security:
+      - {}
+    post:
+      tags:
+      - Services
+      summary: Create Service
+      description: Create Service
+      operationId: createService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  example: 24/7 priority support
+                folder_id:
+                  nullable: true
+                  example: null
+                is_visible:
+                  type: boolean
+                  example: true
+                name:
+                  type: string
+                  example: Premium Support
+                pricing:
+                  type: object
+                  properties:
+                    currency:
+                      type: string
+                      example: USD
+                    multiple_pricing_options:
+                      type: boolean
+                      example: false
+                    one_time_price:
+                      type: number
+                      example: 0
+                    recurring_action:
+                      type: string
+                      example: charge
+                    recurring_interval:
+                      type: number
+                      example: 1
+                    recurring_period:
+                      type: string
+                      example: month
+                    recurring_price:
+                      type: number
+                      example: 49.99
+                    recurring_service:
+                      type: boolean
+                      example: true
+                    trial_setup_fee:
+                      type: boolean
+                      example: false
+            examples:
+              Create Service:
+                value:
+                  description: 24/7 priority support
+                  folder_id: null
+                  is_visible: true
+                  name: Premium Support
+                  pricing:
+                    currency: USD
+                    multiple_pricing_options: false
+                    one_time_price: 0
+                    recurring_action: charge
+                    recurring_interval: 1
+                    recurring_period: month
+                    recurring_price: 49.99
+                    recurring_service: true
+                    trial_setup_fee: false
+      responses:
+        '200':
+          description: ''
+  /api/services/1:
+    get:
+      tags:
+      - Services
+      summary: Get Service
+      description: Get Service
+      operationId: getService
+      responses:
+        '200':
+          description: ''
+    put:
+      tags:
+      - Services
+      summary: Update Service
+      description: Update Service
+      operationId: updateService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                is_visible:
+                  type: boolean
+                  example: true
+                name:
+                  type: string
+                  example: Updated Service Name
+                pricing:
+                  type: object
+                  properties:
+                    recurring_price:
+                      type: number
+                      example: 59.99
+            examples:
+              Update Service:
+                value:
+                  is_visible: true
+                  name: Updated Service Name
+                  pricing:
+                    recurring_price: 59.99
+      responses:
+        '200':
+          description: ''
+    delete:
+      tags:
+      - Services
+      summary: Delete Service (soft)
+      description: Delete Service (soft)
+      operationId: deleteServiceSoft
+      responses:
+        '200':
+          description: ''
+  /api/clients:
+    get:
+      tags:
+      - Clients
+      summary: List Clients
+      description: List Clients
+      operationId: listClients
+      parameters:
+      - name: search
+        in: query
+        schema:
+          type: string
+          example: ''
+      - name: per_page
+        in: query
+        schema:
+          type: string
+          example: '15'
+      - name: page
+        in: query
+        schema:
+          type: string
+          example: '1'
+      responses:
+        '200':
+          description: ''
+      security:
+      - {}
+    post:
+      tags:
+      - Clients
+      summary: Create Client
+      description: Create Client
+      operationId: createClient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                  example: 456 Main St
+                billing_address:
+                  type: string
+                  example: 123 Billing St
+                city:
+                  type: string
+                  example: New York
+                company_name:
+                  type: string
+                  example: Acme Inc
+                country:
+                  type: string
+                  example: US
+                email:
+                  type: string
+                  example: hamzakhan.dev@gmail.com
+                first_name:
+                  type: string
+                  example: Hamza
+                last_name:
+                  type: string
+                  example: Khan
+                password:
+                  type: string
+                  example: secret123
+                phone:
+                  type: string
+                  example: '+15551234567'
+                postal_code:
+                  type: string
+                  example: '10001'
+                state:
+                  type: string
+                  example: NY
+                tax_id:
+                  type: string
+                  example: 12-3456789
+            examples:
+              Create Client:
+                value:
+                  address: 456 Main St
+                  billing_address: 123 Billing St
+                  city: New York
+                  company_name: Acme Inc
+                  country: US
+                  email: hamzakhan.dev@gmail.com
+                  first_name: Hamza
+                  last_name: Khan
+                  password: secret123
+                  phone: '+15551234567'
+                  postal_code: '10001'
+                  state: NY
+                  tax_id: 12-3456789
+      responses:
+        '200':
+          description: ''
+      security:
+      - bearerAuth: []
+  /api/clients/5:
+    get:
+      tags:
+      - Clients
+      summary: Get Client
+      description: Get Client
+      operationId: getClient
+      responses:
+        '200':
+          description: ''
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Clients
+      summary: Update Client
+      description: Update Client
+      operationId: updateClient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company_name:
+                  type: string
+                  example: Acme LLC
+                first_name:
+                  type: string
+                  example: Jane
+                is_active:
+                  type: boolean
+                  example: true
+            examples:
+              Update Client:
+                value:
+                  company_name: Acme LLC
+                  first_name: Jane
+                  is_active: true
+      responses:
+        '200':
+          description: ''
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Clients
+      summary: Delete Client
+      description: Delete Client
+      operationId: deleteClient
+      responses:
+        '200':
+          description: ''
+      security:
+      - bearerAuth: []
+  /api/team:
+    get:
+      tags:
+      - Team
+      summary: List Team Members
+      description: List Team Members
+      operationId: listTeamMembers
+      parameters:
+      - name: search
+        in: query
+        schema:
+          type: string
+          example: Andrew
+        description: Search by name or email
+      - name: per_page
+        in: query
+        schema:
+          type: string
+          example: '15'
+      - name: page
+        in: query
+        schema:
+          type: string
+          example: '1'
+      responses:
+        '200':
+          description: ''
+  /api/team/{team_id}:
+    get:
+      tags:
+      - Team
+      summary: Get Single Team Member
+      description: Get Single Team Member
+      operationId: getSingleTeamMember
+      responses:
+        '200':
+          description: ''
+    parameters:
+    - name: team_id
+      in: path
+      required: true
+      schema:
+        type: string
+  /api/coupons:
+    get:
+      tags:
+      - Coupon
+      summary: List Coupons
+      description: List Coupons
+      operationId: listCoupons
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+          example: ''
+        description: Search by code or description
+      - name: status
+        in: query
+        schema:
+          type: string
+          example: '1'
+        description: 0 = Inactive, 1 = Active
+      - name: per_page
+        in: query
+        schema:
+          type: string
+          example: '15'
+      - name: page
+        in: query
+        schema:
+          type: string
+          example: '1'
+      responses:
+        '200':
+          description: ''
+    post:
+      tags:
+      - Coupon
+      summary: Create Coupon
+      description: Create Coupon
+      operationId: createCoupon
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  example: SUMMER25x
+                description:
+                  type: string
+                  example: Summer discount
+                discount_duration:
+                  type: string
+                  example: first_payment
+                discount_type:
+                  type: string
+                  example: percentage
+                discounts:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      discount_value:
+                        type: number
+                        example: 25
+                      scope:
+                        type: string
+                        example: all
+                  example:
+                  - discount_value: 25
+                    scope: all
+                expiry_date:
+                  type: string
+                  example: 2026-12-31
+                minimum_cart_amount:
+                  type: number
+                  example: 0
+                new_customers_only:
+                  type: boolean
+                  example: false
+                one_use_per_customer:
+                  type: boolean
+                  example: false
+                status:
+                  type: boolean
+                  example: true
+            examples:
+              Create Coupon:
+                value:
+                  code: SUMMER25x
+                  description: Summer discount
+                  discount_duration: first_payment
+                  discount_type: percentage
+                  discounts:
+                  - discount_value: 25
+                    scope: all
+                  expiry_date: 2026-12-31
+                  minimum_cart_amount: 0
+                  new_customers_only: false
+                  one_use_per_customer: false
+                  status: true
+      responses:
+        '200':
+          description: ''
+  /api/coupons/3:
+    get:
+      tags:
+      - Coupon
+      summary: Get Single Coupon
+      description: Get Single Coupon
+      operationId: getSingleCoupon
+      responses:
+        '200':
+          description: ''
+    put:
+      tags:
+      - Coupon
+      summary: Update Coupon
+      description: Update Coupon
+      operationId: updateCoupon
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  example: Updated summer discount
+                status:
+                  type: boolean
+                  example: true
+            examples:
+              Update Coupon:
+                value:
+                  description: Updated summer discount
+                  status: true
+      responses:
+        '200':
+          description: ''
+    delete:
+      tags:
+      - Coupon
+      summary: Delete Coupon
+      description: Delete Coupon
+      operationId: deleteCoupon
+      responses:
+        '200':
+          description: ''
+  /api/invoices:
+    get:
+      tags:
+      - Invoices
+      summary: List Invoices
+      description: List Invoices
+      operationId: listInvoices
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+          example: ''
+      - name: status
+        in: query
+        schema:
+          type: string
+          example: '1'
+      - name: per_page
+        in: query
+        schema:
+          type: string
+          example: '15'
+      - name: page
+        in: query
+        schema:
+          type: string
+          example: '1'
+      responses:
+        '200':
+          description: ''
+    post:
+      tags:
+      - Invoices
+      summary: Create an invoice
+      description: Create an invoice
+      operationId: createAnInvoice
+      responses:
+        '200':
+          description: ''
+  /api/invoices/{invoice}:
+    get:
+      tags:
+      - Invoices
+      summary: Retrieve an invoice
+      description: Retrieve an invoice
+      operationId: retrieveAnInvoice
+      responses:
+        '200':
+          description: ''
+    put:
+      tags:
+      - Invoices
+      summary: Update an invoice
+      description: Update an invoice
+      operationId: updateAnInvoice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                billing_address:
+                  type: string
+                  example: 123 Main St, New York, NY
+                billing_name:
+                  type: string
+                  example: John Doe
+                billing_phone:
+                  type: string
+                  example: +1-555-0123
+                discount_amount:
+                  type: number
+                  example: 10.0
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      description:
+                        type: string
+                        example: Custom website development
+                      discount:
+                        type: number
+                        example: 0
+                      name:
+                        type: string
+                        example: Web Development Service
+                      price:
+                        type: number
+                        example: 500.0
+                      quantity:
+                        type: number
+                        example: 1
+                      selected_options:
+                        type: object
+                        properties:
+                          pages:
+                            type: number
+                            example: 5
+                          revisions:
+                            type: number
+                            example: 2
+                      service_id:
+                        type: number
+                        example: 3
+                  example:
+                  - description: Custom website development
+                    discount: 0
+                    name: Web Development Service
+                    price: 500.0
+                    quantity: 1
+                    selected_options:
+                      pages: 5
+                      revisions: 2
+                    service_id: 3
+                  - description: Monthly SEO package
+                    discount: 10
+                    name: SEO Optimization
+                    price: 150.0
+                    quantity: 2
+                notes:
+                  type: string
+                  example: Payment confirmed via Stripe.
+                partial_upfront:
+                  type: boolean
+                  example: true
+                partial_upfront_amount:
+                  type: number
+                  example: 50.0
+                payment_method:
+                  type: string
+                  example: stripe
+                send_email_notification:
+                  type: boolean
+                  example: true
+                shipping_address:
+                  type: string
+                  example: 123 Main St, New York, NY
+                shipping_name:
+                  type: string
+                  example: John Doe
+                shipping_phone:
+                  type: string
+                  example: +1-555-0123
+                status:
+                  type: string
+                  example: paid
+                tax_amount:
+                  type: number
+                  example: 15.0
+            examples:
+              Update an invoice:
+                value:
+                  billing_address: 123 Main St, New York, NY
+                  billing_name: John Doe
+                  billing_phone: +1-555-0123
+                  discount_amount: 10.0
+                  items:
+                  - description: Custom website development
+                    discount: 0
+                    name: Web Development Service
+                    price: 500.0
+                    quantity: 1
+                    selected_options:
+                      pages: 5
+                      revisions: 2
+                    service_id: 3
+                  - description: Monthly SEO package
+                    discount: 10
+                    name: SEO Optimization
+                    price: 150.0
+                    quantity: 2
+                  notes: Payment confirmed via Stripe.
+                  partial_upfront: true
+                  partial_upfront_amount: 50.0
+                  payment_method: stripe
+                  send_email_notification: true
+                  shipping_address: 123 Main St, New York, NY
+                  shipping_name: John Doe
+                  shipping_phone: +1-555-0123
+                  status: paid
+                  tax_amount: 15.0
+      responses:
+        '200':
+          description: ''
+    parameters:
+    - name: invoice
+      in: path
+      required: true
+      schema:
+        type: string
+  /api/invoices/{invoice_id}:
+    delete:
+      tags:
+      - Invoices
+      summary: Delete an invoice
+      description: Delete an invoice
+      operationId: deleteAnInvoice
+      responses:
+        '200':
+          description: ''
+    parameters:
+    - name: invoice_id
+      in: path
+      required: true
+      schema:
+        type: string
+  /api/login_links/{client_id}:
+    get:
+      tags:
+      - Magic Link
+      summary: Generate a magic link
+      description: Generate a magic link
+      operationId: generateAMagicLink
+      responses:
+        '200':
+          description: ''
+    parameters:
+    - name: client_id
+      in: path
+      required: true
+      schema:
+        type: string
+  /api/subscriptions:
+    get:
+      tags:
+      - Subscriptions
+      summary: List all subscriptions
+      description: List all subscriptions
+      operationId: listAllSubscriptions
+      responses:
+        '200':
+          description: ''
+      security:
+      - {}
+  /api/subscriptions/{subscription_id}:
+    get:
+      tags:
+      - Subscriptions
+      summary: Retrieve a subscription
+      description: Retrieve a subscription
+      operationId: retrieveASubscription
+      responses:
+        '200':
+          description: ''
+      security:
+      - {}
+    put:
+      tags:
+      - Subscriptions
+      summary: Update a subscription
+      description: Update a subscription
+      operationId: updateASubscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action_on_renew:
+                  type: string
+                  example: renew
+                currency:
+                  type: string
+                  example: USD
+                due_date:
+                  type: string
+                  example: 2026-08-07
+                frequency_type:
+                  type: string
+                  example: month
+                frequency_value:
+                  type: number
+                  example: 1
+                next_billing_date:
+                  type: string
+                  example: 2026-08-07
+                notes:
+                  type: string
+                  example: Renewed for next month
+                recurring_price:
+                  type: number
+                  example: 49.99
+                setup_fee:
+                  type: number
+                  example: 0
+                status:
+                  type: string
+                  example: active
+                trial_days:
+                  nullable: true
+                  example: null
+            examples:
+              Update a subscription:
+                value:
+                  action_on_renew: renew
+                  currency: USD
+                  due_date: 2026-08-07
+                  frequency_type: month
+                  frequency_value: 1
+                  next_billing_date: 2026-08-07
+                  notes: Renewed for next month
+                  recurring_price: 49.99
+                  setup_fee: 0
+                  status: active
+                  trial_days: null
+      responses:
+        '200':
+          description: ''
+      security:
+      - {}
+    parameters:
+    - name: subscription_id
+      in: path
+      required: true
+      schema:
+        type: string
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+- name: Ticket Messages
+- name: Tickets
+- name: Services
+- name: Clients
+- name: Team
+- name: Coupon
+- name: Invoices
+- name: Magic Link
+- name: Subscriptions
