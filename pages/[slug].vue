@@ -357,9 +357,23 @@ document.querySelectorAll('.success a').forEach((link) => {
 
   const url = new URL(newHref);
 
-  // If "/blog" is missing, prepend it
-  if (!url.pathname.startsWith('/blog')) {
-    url.pathname = '/blog' + (url.pathname.startsWith('/') ? '' : '/') + url.pathname;
+  // Sections jinke liye /blog add nahi karna
+  const excludeRoutes = [
+    'glossary',
+    'features',
+    'pricing',
+    'contact',
+    'about'
+  ];
+
+  const firstSegment = url.pathname.split('/').filter(Boolean)[0];
+
+  if (
+    firstSegment &&
+    !excludeRoutes.includes(firstSegment) &&
+    firstSegment !== 'blog'
+  ) {
+    url.pathname = '/blog' + url.pathname;
   }
 
   link.href = url.toString();
