@@ -346,27 +346,31 @@ onMounted(() => {
     }
   }
 })
-document.querySelectorAll<HTMLAnchorElement>('.success a').forEach((link) => {
-  const href = link.getAttribute('href')
-  if (!href) return
+document.querySelectorAll('.success a').forEach((link) => {
+  const href = link.getAttribute('href');
+  if (!href) return;
 
-  const newHref = href.replace(
+  let newHref = href.replace(
     /^https?:\/\/admin\.dspcrm\.com/i,
     window.location.origin
-  )
+  );
 
-  link.href = newHref
+  const url = new URL(newHref);
+
+  // If "/blog" is missing, prepend it
+  if (!url.pathname.startsWith('/blog')) {
+    url.pathname = '/blog' + (url.pathname.startsWith('/') ? '' : '/') + url.pathname;
+  }
+
+  link.href = url.toString();
 
   link.addEventListener('click', (e) => {
-    const url = new URL(link.href)
-
-    // Only intercept internal links
     if (url.origin === window.location.origin) {
-      e.preventDefault()
-      router.push(url.pathname + url.search + url.hash)
+      e.preventDefault();
+      router.push(url.pathname + url.search + url.hash);
     }
-  })
-})
+  });
+});
       // =========================
       // ✅ CAPTCHA INJECTION (UPDATED)
       // =========================
@@ -500,10 +504,7 @@ document.querySelectorAll<HTMLAnchorElement>('.success a').forEach((link) => {
     padding-top: 0;
 }
 }
-
 @media screen and (min-width:768px) and (max-width:1023px) {
-
-
 }
 @media screen and (min-width:1024px) and (max-width:1200px) {
   :deep(h1),:deep(h2){
@@ -511,7 +512,5 @@ font-size:35px !important;
 line-height:40px !important;
 
 }
-
 }
-
 </style>

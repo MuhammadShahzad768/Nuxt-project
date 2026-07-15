@@ -69,6 +69,29 @@ useHead(() => {
     meta: parsed.meta
   }
 })
+onMounted(async () => {
+  await nextTick()
+
+  document.querySelectorAll('.success a').forEach((link) => {
+    const href = link.getAttribute('href')
+    if (!href) return
+
+    const url = new URL(href, window.location.origin)
+
+    // Optional: href ko current domain bana do
+    link.setAttribute(
+      'href',
+      url.pathname + url.search + url.hash
+    )
+
+    link.addEventListener('click', (e) => {
+      if (url.origin === window.location.origin) {
+        e.preventDefault()
+        router.push(url.pathname + url.search + url.hash)
+      }
+    })
+  })
+})
 </script>
 <style>
 .blog-content :deep(h2) {
