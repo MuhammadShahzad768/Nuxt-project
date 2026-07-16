@@ -276,7 +276,13 @@ onUnmounted(() => {
 </script>
 
 <style>
-
+.layout-wrapper{
+      position: relative;
+    z-index: 1;
+}
+.document{
+  z-index: -1;
+}
 .flex.min-h-screen.lg\:px-20 {
   position: relative;
   margin-top: 150px;
