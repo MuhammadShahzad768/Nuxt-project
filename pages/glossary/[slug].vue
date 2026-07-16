@@ -90,22 +90,30 @@
 <script setup>
 const route = useRoute()
 
-/* =========================
-   FETCH SINGLE GLOSSARY
-========================= */
-const { data } = await useFetch(
-  `https://admin.dspcrm.com/wp-json/wp/v2/glossary?slug=${route.params.slug}`
+// =========================
+// FETCH SINGLE GLOSSARY
+// =========================
+const { data } = await useAsyncData(
+  () => `glossary-${route.params.slug}`,
+  () =>
+    $fetch(
+      `https://admin.dspcrm.com/wp-json/wp/v2/glossary?slug=${route.params.slug}`
+    ),
+  {
+    watch: [() => route.params.slug]
+  }
 )
 
 const item = computed(() => data.value?.[0] || {})
 
 
-/* =========================
-   RELATED TERMS (GLOSSARY)
-========================= */
+// =========================
+// RELATED TERMS
+// =========================
 const relatedTerms = ref([])
 
-watchEffect(async () => {
+const fetchRelatedTerms = async () => {
+
   if (!item.value?.related_terms?.length) {
     relatedTerms.value = []
     return
@@ -113,18 +121,21 @@ watchEffect(async () => {
 
   relatedTerms.value = await Promise.all(
     item.value.related_terms.map(id =>
-      $fetch(`https://admin.dspcrm.com/wp-json/wp/v2/glossary/${id}`)
+      $fetch(
+        `https://admin.dspcrm.com/wp-json/wp/v2/glossary/${id}`
+      )
     )
   )
-})
+}
 
 
-/* =========================
-   RELATED ARTICLES (POSTS)
-========================= */
+// =========================
+// RELATED ARTICLES
+// =========================
 const relatedArticles = ref([])
 
-watchEffect(async () => {
+const fetchRelatedArticles = async () => {
+
   if (!item.value?.related_articles?.length) {
     relatedArticles.value = []
     return
@@ -132,16 +143,34 @@ watchEffect(async () => {
 
   relatedArticles.value = await Promise.all(
     item.value.related_articles.map(id =>
-      $fetch(`https://admin.dspcrm.com/wp-json/wp/v2/posts/${id}`)
+      $fetch(
+        `https://admin.dspcrm.com/wp-json/wp/v2/posts/${id}`
+      )
     )
   )
-})
+}
 
 
-/* =========================
-   SEO
-========================= */
+// =========================
+// RUN WHEN DATA CHANGES
+// =========================
+watch(
+  item,
+  async () => {
+    await fetchRelatedTerms()
+    await fetchRelatedArticles()
+  },
+  {
+    immediate: true
+  }
+)
+
+
+// =========================
+// SEO
+// =========================
 useHead({
   title: () => item.value?.title?.rendered || 'Glossary'
 })
+
 </script>

@@ -31,7 +31,7 @@
   controls
   preload="metadata"
   style="max-width: 1050px; height: 600px; width: 1200px;"
-  class="video-element xl:absolute xl:mt-0 xl:max-w-[100%] max-w-[800px] mt-20 relative xl:bottom-[-37%] left-0 right-0 m-auto w-full shadow-[10px_35px_35px_20px_rgba(0,0,0,0.25)] object-contain"
+  class="banner_video video-element xl:absolute xl:mt-0 xl:max-w-[100%] max-w-[800px] mt-20 relative xl:bottom-[-37%] left-0 right-0 m-auto w-full shadow-[10px_35px_35px_20px_rgba(0,0,0,0.25)] object-contain"
 >
   <source :src="hero[0].banner_image" type="video/mp4">
   Your browser does not support the video tag.
@@ -42,7 +42,7 @@
         v-else-if="videoSrc && !isDirectVideo"
         style="max-width: 900px;"
         :style="{ transform: imageTransform }"
-        class="video-element xl:absolute xl:mt-0 xl:max-w-[100%]  mt-20 relative xl:bottom-[-25%] left-0 right-0 m-auto "
+        class="banner_video video-element xl:absolute xl:mt-0 xl:max-w-[100%]  mt-20 relative xl:bottom-[-25%] left-0 right-0 m-auto "
         width="100%"
         height="460"
         :src="videoSrc"
@@ -134,4 +134,13 @@ onUnmounted(() => {
   will-change: transform;
   transform-origin: center bottom;
 } */
+ @media screen and (min-width: 320px) and  (max-width: 768px) {
+   .banner_video {
+    max-width: 1050px;
+    height: 100% !important;
+    max-width: 768px !important;
+    width: 90% !important;
+}
+ }
+
 </style>
