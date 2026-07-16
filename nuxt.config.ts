@@ -36,17 +36,16 @@ export default defineNuxtConfig({
     id: 'G-XWL8VTL6T8'
   },
 
- nitro: {
-  prerender: {
-    crawlLinks: true,
-    failOnError: false,
-    autoSubfolderIndex: false,
-    routes: [
-      '/features/api',
-      ...dynamicRoutes
-    ]
-  }
-},
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      failOnError: false,
+      routes: [
+        '/features/api',
+        ...dynamicRoutes
+      ]
+    }
+  },
 
   compressPublicAssets: true,
 
