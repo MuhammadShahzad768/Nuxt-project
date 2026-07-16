@@ -84,11 +84,17 @@
     <script setup lang="ts">
 const route = useRoute()
 
-const { data: author } = await useAsyncData(
+const { data: author, refresh } = await useAsyncData(
+  () => `author-${route.params.slug}`,
   () =>
     $fetch(
       `https://admin.dspcrm.com/wp-json/myapi/v1/author/${route.params.slug}`
-    )
+    ),
+  {
+    watch: [() => route.params.slug],
+    server: true,
+    lazy: false
+  }
 )
 </script>
 <style scoped>
