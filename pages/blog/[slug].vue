@@ -10,87 +10,117 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute, useAsyncData, useHead, createError } from '#imports'
+import {
+  useRoute,
+  useRouter,
+  useAsyncData,
+  useHead,
+  createError,
+  onMounted,
+  nextTick
+} from '#imports'
 
 const route = useRoute()
+const router = useRouter()
 const slug = route.params.slug as string
 
-const { data, error, pending } = await useAsyncData(
+const { data, error } = await useAsyncData(
   () => `post-${slug}`,
-  () => $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/blog-html/${slug}`, {
-    // Live server ke network verification issues ko bypass karne ke liye
-    onRequestError({ error }) {
-      console.error('Request Error on Server:', error)
-    },
-    onResponseError({ response }) {
-      console.error('Response Error on Server:', response._data)
-    }
-  }),
-  { 
+  () =>
+    $fetch(`https://admin.dspcrm.com/wp-json/custom/v1/blog-html/${slug}`),
+  {
     server: true,
-    // Taaki Nuxt strictly server ke data ka wait kare aur source khali na bheje
-    lazy: false 
+    lazy: false
   }
 )
 
-// Agar live server par data nahi mila, toh yahin crash karein taaki aapko logs mein dikhe
 if (error.value) {
-  throw createError({ 
-    statusCode: error.value.statusCode || 500, 
-    statusMessage: error.value.message || 'SSR Fetch Failed on Live Server' 
+  throw createError({
+    statusCode: error.value.statusCode || 500,
+    statusMessage: error.value.message || 'SSR Fetch Failed'
   })
 }
-/* ============================================
-   Parse raw SEO HTML string → JSON
-============================================ */
+
 function parseSeoString(seoString: string) {
-  if (!seoString) return { title: 'DSPCRM - Page', meta: [] }
+  if (!seoString) {
+    return {
+      title: 'DSPCRM - Page',
+      meta: []
+    }
+  }
 
   const titleMatch = seoString.match(/<title>(.*?)<\/title>/i)
-  const metaDescMatch = seoString.match(/<meta\s+name=["']description["']\s+content=["'](.*?)["']\s*\/?>/i)
+  const metaDescMatch = seoString.match(
+    /<meta\s+name=["']description["']\s+content=["'](.*?)["']\s*\/?>/i
+  )
 
   return {
     title: titleMatch ? titleMatch[1] : 'DSPCRM - Page',
     meta: metaDescMatch
-      ? [{ name: 'description', content: metaDescMatch[1] }]
+      ? [
+          {
+            name: 'description',
+            content: metaDescMatch[1]
+          }
+        ]
       : []
   }
 }
 
-/* ============================================
-   Inject into <head> (SSR-safe)
-============================================ */
 useHead(() => {
-  const seoString = data.value?.SEO?.description || ''
-  const parsed = parseSeoString(seoString)
+  const seo = data.value?.SEO?.description || ''
+  const parsed = parseSeoString(seo)
 
   return {
     title: parsed.title,
     meta: parsed.meta
   }
 })
+
 onMounted(async () => {
   await nextTick()
 
-  document.querySelectorAll('.success a').forEach((link) => {
-    const href = link.getAttribute('href')
-    if (!href) return
+  // Wait until v-html renders
+  setTimeout(() => {
+    document.querySelectorAll('a').forEach((link) => {
+      const href = link.getAttribute('href')
 
-    const url = new URL(href, window.location.origin)
+      if (!href) return
 
-    // Optional: href ko current domain bana do
-    link.setAttribute(
-      'href',
-      url.pathname + url.search + url.hash
-    )
-
-    link.addEventListener('click', (e) => {
-      if (url.origin === window.location.origin) {
-        e.preventDefault()
-        router.push(url.pathname + url.search + url.hash)
+      // Skip anchors, mail, tel, javascript
+      if (
+        href.startsWith('#') ||
+        href.startsWith('mailto:') ||
+        href.startsWith('tel:') ||
+        href.startsWith('javascript:')
+      ) {
+        return
       }
+
+      const url = new URL(href, window.location.origin)
+
+      // External links skip
+      if (url.origin !== window.location.origin) return
+
+      // Remove domain
+      link.setAttribute(
+        'href',
+        url.pathname + url.search + url.hash
+      )
+
+      // Prevent duplicate listeners
+      if ((link as HTMLElement).dataset.nuxtBound) return
+      ;(link as HTMLElement).dataset.nuxtBound = 'true'
+
+      link.addEventListener('click', (e) => {
+        e.preventDefault()
+
+        router.push(
+          url.pathname + url.search + url.hash
+        )
+      })
     })
-  })
+  }, 100)
 })
 </script>
 <style>
