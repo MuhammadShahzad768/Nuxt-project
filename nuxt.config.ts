@@ -29,8 +29,67 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     'nuxt-gtag',
+    '@nuxtjs/sitemap',
   ],
+ site: {
+    url: 'https://dspcrm.com',
+    name: 'DSPCRM',
+  },
+  sitemap: {
+    urls: [
+      { loc: '/', priority: 1.0 },
 
+      { loc: '/pricing', priority: 0.9 },
+      { loc: '/features/client-portal/', priority: 0.9 },
+      { loc: '/features/billing/', priority: 0.9 },
+      { loc: '/features/crm/', priority: 0.9 },
+      { loc: '/features/forms-builder/', priority: 0.9 },
+      { loc: '/features/helpdesk/', priority: 0.9 },
+      { loc: '/features/projects/', priority: 0.9 },
+      { loc: '/features/referrals', priority: 0.9 },
+      { loc: '/features/analytics/', priority: 0.9 },
+      { loc: '/features/api/', priority: 0.9 },
+
+      { loc: '/link-building-agencies/', priority: 0.8 },
+      { loc: '/content-agencies/', priority: 0.8 },
+      { loc: '/local-seo-agencies/', priority: 0.8 },
+      { loc: '/social-media-marketing-agencies/', priority: 0.8 },
+      { loc: '/seo-agencies/', priority: 0.8 },
+      { loc: '/video-editing-agencies/', priority: 0.8 },
+
+      { loc: '/integrations/', priority: 0.8 },
+      { loc: '/onboarding/', priority: 0.8 },
+      { loc: '/tools/', priority: 0.8 },
+      { loc: '/case-studies/', priority: 0.8 },
+      { loc: '/blogs/', priority: 0.8 },
+      { loc: '/glossary/', priority: 0.8 },
+
+      { loc: '/tools/agency-valuation-calculator/', priority: 0.7 },
+      { loc: '/tools/pricing-matrix-calculator/', priority: 0.7 },
+      { loc: '/tools/clv-calculator/', priority: 0.7 },
+      { loc: '/tools/growth-calculator/', priority: 0.7 },
+      { loc: '/tools/growth-ceiling/', priority: 0.7 },
+      { loc: '/tools/client-portal-roi-calculator/', priority: 0.7 },
+      { loc: '/tools/agency-pricing-calculator/', priority: 0.7 },
+      { loc: '/tools/retainer-calculator/', priority: 0.7 },
+      { loc: '/tools/package-profitability-calculator/', priority: 0.7 },
+      { loc: '/tools/capacity-calculator/', priority: 0.7 },
+      { loc: '/tools/package-optimizer/', priority: 0.7 },
+      { loc: '/tools/standardization-roi/', priority: 0.7 },
+      { loc: '/tools/simple-clv/', priority: 0.7 },
+      { loc: '/tools/scalability-calculator/', priority: 0.7 },
+      { loc: '/tools/package-development-calculator/', priority: 0.7 },
+      { loc: '/tools/team-cost-calculator/', priority: 0.7 },
+      { loc: '/tools/bundle-pricing-calculator', priority: 0.7 },
+
+      { loc: '/about/', priority: 0.6 },
+      { loc: '/contact-us/', priority: 0.6 },
+      { loc: '/branding/', priority: 0.5 },
+
+      { loc: '/terms/', priority: 0.3 },
+      { loc: '/privacy-policy/', priority: 0.3 },
+    ],
+  },
   // nuxt-gtag settings (Manual script ki zaroorat nahi hai)
   gtag: {
     id: 'G-XWL8VTL6T8'
@@ -41,7 +100,7 @@ export default defineNuxtConfig({
       crawlLinks: true,
       failOnError: false,
       routes: [
-        '/features/api',
+        '/features/api/',
         ...dynamicRoutes
       ]
     }
