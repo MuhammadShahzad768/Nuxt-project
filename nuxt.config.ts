@@ -17,7 +17,7 @@ const getDynamicRoutes = async () => {
 }
 
 const dynamicRoutes = await getDynamicRoutes()
-
+const today = new Date().toISOString()
 // 2. Nuxt Config Export
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -31,64 +31,91 @@ export default defineNuxtConfig({
     'nuxt-gtag',
     '@nuxtjs/sitemap',
   ],
- site: {
+  site: {
     url: 'https://dspcrm.com',
     name: 'DSPCRM',
   },
+
   sitemap: {
     urls: [
-      { loc: '/', priority: 1.0 },
+      { loc: '/', priority: 1.0, lastmod: today },
 
-      { loc: '/pricing', priority: 0.9 },
-      { loc: '/features/client-portal/', priority: 0.9 },
-      { loc: '/features/billing/', priority: 0.9 },
-      { loc: '/features/crm/', priority: 0.9 },
-      { loc: '/features/forms-builder/', priority: 0.9 },
-      { loc: '/features/helpdesk/', priority: 0.9 },
-      { loc: '/features/projects/', priority: 0.9 },
-      { loc: '/features/referrals', priority: 0.9 },
-      { loc: '/features/analytics/', priority: 0.9 },
-      { loc: '/features/api/', priority: 0.9 },
+      { loc: '/pricing/', priority: 0.9, lastmod: today },
+      { loc: '/features/client-portal/', priority: 0.9, lastmod: today },
+      { loc: '/features/billing/', priority: 0.9, lastmod: today },
+      { loc: '/features/crm/', priority: 0.9, lastmod: today },
+      { loc: '/features/forms-builder/', priority: 0.9, lastmod: today },
+      { loc: '/features/helpdesk/', priority: 0.9, lastmod: today },
+      { loc: '/features/projects/', priority: 0.9, lastmod: today },
+      { loc: '/features/referrals/', priority: 0.9, lastmod: today },
+      { loc: '/features/analytics/', priority: 0.9, lastmod: today },
+      { loc: '/features/api/', priority: 0.9, lastmod: today },
 
-      { loc: '/link-building-agencies/', priority: 0.8 },
-      { loc: '/content-agencies/', priority: 0.8 },
-      { loc: '/local-seo-agencies/', priority: 0.8 },
-      { loc: '/social-media-marketing-agencies/', priority: 0.8 },
-      { loc: '/seo-agencies/', priority: 0.8 },
-      { loc: '/video-editing-agencies/', priority: 0.8 },
+      { loc: '/link-building-agencies/', priority: 0.8, lastmod: today },
+      { loc: '/content-agencies/', priority: 0.8, lastmod: today },
+      { loc: '/local-seo-agencies/', priority: 0.8, lastmod: today },
+      { loc: '/social-media-marketing-agencies/', priority: 0.8, lastmod: today },
+      { loc: '/seo-agencies/', priority: 0.8, lastmod: today },
+      { loc: '/video-editing-agencies/', priority: 0.8, lastmod: today },
 
-      { loc: '/integrations/', priority: 0.8 },
-      { loc: '/onboarding/', priority: 0.8 },
-      { loc: '/tools/', priority: 0.8 },
-      { loc: '/case-studies/', priority: 0.8 },
-      { loc: '/blogs/', priority: 0.8 },
-      { loc: '/glossary/', priority: 0.8 },
+      { loc: '/integrations/', priority: 0.8, lastmod: today },
+      { loc: '/onboarding/', priority: 0.8, lastmod: today },
+      { loc: '/tools/', priority: 0.8, lastmod: today },
+      { loc: '/case-studies/', priority: 0.8, lastmod: today },
+      { loc: '/blogs/', priority: 0.8, lastmod: today },
+      { loc: '/glossary/', priority: 0.8, lastmod: today },
 
-      { loc: '/tools/agency-valuation-calculator/', priority: 0.7 },
-      { loc: '/tools/pricing-matrix-calculator/', priority: 0.7 },
-      { loc: '/tools/clv-calculator/', priority: 0.7 },
-      { loc: '/tools/growth-calculator/', priority: 0.7 },
-      { loc: '/tools/growth-ceiling/', priority: 0.7 },
-      { loc: '/tools/client-portal-roi-calculator/', priority: 0.7 },
-      { loc: '/tools/agency-pricing-calculator/', priority: 0.7 },
-      { loc: '/tools/retainer-calculator/', priority: 0.7 },
-      { loc: '/tools/package-profitability-calculator/', priority: 0.7 },
-      { loc: '/tools/capacity-calculator/', priority: 0.7 },
-      { loc: '/tools/package-optimizer/', priority: 0.7 },
-      { loc: '/tools/standardization-roi/', priority: 0.7 },
-      { loc: '/tools/simple-clv/', priority: 0.7 },
-      { loc: '/tools/scalability-calculator/', priority: 0.7 },
-      { loc: '/tools/package-development-calculator/', priority: 0.7 },
-      { loc: '/tools/team-cost-calculator/', priority: 0.7 },
-      { loc: '/tools/bundle-pricing-calculator', priority: 0.7 },
+      { loc: '/tools/agency-valuation-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/pricing-matrix-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/clv-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/growth-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/growth-ceiling/', priority: 0.7, lastmod: today },
+      { loc: '/tools/client-portal-roi-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/agency-pricing-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/retainer-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/package-profitability-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/capacity-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/package-optimizer/', priority: 0.7, lastmod: today },
+      { loc: '/tools/standardization-roi/', priority: 0.7, lastmod: today },
+      { loc: '/tools/simple-clv/', priority: 0.7, lastmod: today },
+      { loc: '/tools/scalability-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/package-development-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/team-cost-calculator/', priority: 0.7, lastmod: today },
+      { loc: '/tools/bundle-pricing-calculator/', priority: 0.7, lastmod: today },
 
-      { loc: '/about/', priority: 0.6 },
-      { loc: '/contact-us/', priority: 0.6 },
-      { loc: '/branding/', priority: 0.5 },
+      { loc: '/about/', priority: 0.6, lastmod: today },
+      { loc: '/contact-us/', priority: 0.6, lastmod: today },
+      { loc: '/branding/', priority: 0.5, lastmod: today },
 
-      { loc: '/terms/', priority: 0.3 },
-      { loc: '/privacy-policy/', priority: 0.3 },
+      { loc: '/terms/', priority: 0.3, lastmod: today },
+      { loc: '/privacy-policy/', priority: 0.3, lastmod: today },
     ],
+  },
+
+  routeRules: {
+    '/tools/AgencyValuationCalculator': {
+      redirect: {
+        to: '/tools/agency-valuation-calculator/',
+        statusCode: 301,
+      },
+      robots: false,
+    },
+
+    '/tools/PricingMatrixCalculator': {
+      redirect: {
+        to: '/tools/pricing-matrix-calculator/',
+        statusCode: 301,
+      },
+      robots: false,
+    },
+
+    '/tools/ClientPortalRoicalculator': {
+      redirect: {
+        to: '/tools/client-portal-roi-calculator/',
+        statusCode: 301,
+      },
+      robots: false,
+    },
   },
   // nuxt-gtag settings (Manual script ki zaroorat nahi hai)
   gtag: {
