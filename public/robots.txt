@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Sitemap: https://dspcrm.com/sitemap.xml
-Crawl-delay: 1
+Crawl-delay: 0
