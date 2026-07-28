@@ -55,7 +55,7 @@ const email = computed(() => route.query.email || 'No email found')
 
 const resend = () => {
   // Emit or call your resend logic here
-  console.log('Resend confirmation email to:', props.email)
+ 
 }
 </script>
 

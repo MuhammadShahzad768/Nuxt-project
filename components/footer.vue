@@ -255,6 +255,7 @@
         </p>
       </div>
     </section>
+
   </footer>
 </template>
 
@@ -325,13 +326,10 @@ export default {
 
     const response = await res.json();
 
-    console.log("Full API Response:", response);
-
-    // Agar data acf ke andar hai to acf use karega,
-    // warna direct response use karega
+   
     const data = response.acf || response;
 
-    console.log("Processed Data:", data);
+    
 
     // Footer
     this.banner = data.footer || {};
@@ -393,9 +391,7 @@ export default {
         };
       }) || [];
 
-    console.log("Features:", this.features);
-    console.log("Resources:", this.resources);
-    console.log("Support:", this.Support);
+  
 
     this.visibleItems = new Array(20).fill(false);
 

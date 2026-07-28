@@ -227,11 +227,10 @@ const initFormHandler = () => {
   const form = contentRef.value.querySelector('#contactForm')
 
   if (!form) {
-    console.log('Form not found ❌')
+   
     return
   }
 
-  console.log('Form found ✅')
 
   form.removeEventListener('submit', handleSubmit)
   form.addEventListener('submit', handleSubmit)
@@ -243,7 +242,7 @@ const handleSubmit = async (e) => {
   const form = e.target
   const btn = form.querySelector('button')
 
-  // ❗ CAPTCHA VALIDATION ADDED
+  
   if (!captchaToken) {
     alert('Please complete CAPTCHA first ❗')
     return
@@ -258,11 +257,10 @@ const handleSubmit = async (e) => {
     contact_subject: document.getElementById('subject')?.value,
     contact_message: document.getElementById('message')?.value,
 
-    // ✅ CAPTCHA TOKEN ADDED
+
     recaptcha_token: captchaToken
   }
 
-  console.log("FORM DATA:", data)
 
   try {
     const res = await fetch(
@@ -275,7 +273,7 @@ const handleSubmit = async (e) => {
     )
 
     const result = await res.json()
-    console.log("API RESPONSE:", result)
+
 
     if (result.status === 'success') {
       alert('Form submitted successfully ✅')
@@ -409,17 +407,17 @@ document.querySelectorAll('.success a').forEach((link) => {
 
             callback: (token: string) => {
               captchaToken = token
-              console.log('CAPTCHA VERIFIED ✅')
+              
             },
 
             'expired-callback': () => {
               captchaToken = ''
-              console.log('CAPTCHA EXPIRED ❌')
+            
             },
 
             'error-callback': () => {
               captchaToken = ''
-              console.log('CAPTCHA ERROR ❌')
+              
             }
           })
         }

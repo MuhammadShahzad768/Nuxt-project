@@ -59,7 +59,7 @@ const onSubmit = () => {
 
   error.value = null
   token.value = value
-  console.log('Token:', value)
+ 
 
   // Normally you'd send this token + form data to backend
 }

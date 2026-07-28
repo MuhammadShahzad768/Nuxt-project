@@ -95,10 +95,10 @@ watch(
   (newVal) => {
     if (newVal && newVal.slider) {
       newVal.slider.forEach((slide, index) => {
-        // console.log(`Slide ${index + 1} Heading:`, slide.slider_heading);
+       
       });
       if (newVal.image) {
-        // console.log("Banner Image URL:", newVal.image.url);
+        
       }
     }
   },

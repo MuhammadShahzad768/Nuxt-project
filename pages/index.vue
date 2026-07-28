@@ -70,8 +70,7 @@ const showLoader = computed(() => pending.value || forceTimer.value);
 
 /// SECTIONS
 const organizedSections = computed(() => {
-  console.log("Fetched Data:", data.value);
-
+ 
   if (!data.value?.acf) return [];
 
   const page = data.value.acf;

@@ -83,7 +83,7 @@ useHead({
 const getRecaptchaToken = () => {
   return new Promise((resolve) => {
     if (!window.grecaptcha) {
-      console.log('reCAPTCHA not loaded ❌')
+     
       resolve(null)
       return
     }

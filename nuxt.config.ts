@@ -1,4 +1,4 @@
-// 1. Dynamic routes ko top-level par fetch karein
+
 const getDynamicRoutes = async () => {
   try {
     const [pages, posts] = await Promise.all([
@@ -18,7 +18,7 @@ const getDynamicRoutes = async () => {
 
 const dynamicRoutes = await getDynamicRoutes()
 const today = new Date().toISOString()
-// 2. Nuxt Config Export
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
 
@@ -31,7 +31,7 @@ export default defineNuxtConfig({
     'nuxt-gtag',
   ],
  
-  // nuxt-gtag settings (Manual script ki zaroorat nahi hai)
+ 
   gtag: {
     id: 'G-XWL8VTL6T8'
   },
@@ -61,7 +61,7 @@ export default defineNuxtConfig({
         'Cache-Control': 'public, max-age=3600'
       }
     }
-  }, // FIX: Bracket sahi tarah close kiya taake app block andar rahe
+  }, 
 
   app: {
     head: {
@@ -89,7 +89,7 @@ export default defineNuxtConfig({
           async: true,
           defer: true
         }
-        // NOTE: Gtag scripts yahan se remove kar diye hain kyunki 'nuxt-gtag' module already enabled hai.
+       
       ],
 
       link: [
