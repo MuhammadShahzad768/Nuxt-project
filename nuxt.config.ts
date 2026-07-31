@@ -104,7 +104,8 @@ export default defineNuxtConfig({
           as: 'font',
           type: 'font/woff2',
           crossorigin: 'anonymous'
-        }
+        },
+        
       ]
     }
   },
@@ -112,6 +113,7 @@ export default defineNuxtConfig({
   css: [
     '~/assets/css/main.css',
     '@fortawesome/fontawesome-free/css/all.min.css'
+    
   ],
 
   vite: {
