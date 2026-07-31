@@ -333,8 +333,8 @@
         </div>
 </template>
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
-import { useHead } from '#imports'
+import { ref, computed, nextTick, onMounted, onUnmounted } from "vue";
+import { useHead, useAsyncData } from '#imports'
 import Price_box from "@/components/Sections/Price_box.vue";
 import Comments from "@/components/Sections/Comment_Slides.vue";
 import Ready from "@/components/Sections/Ready_to_give.vue";
@@ -342,7 +342,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Loader from "@/components/Sections/Loader.vue"
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -356,38 +356,75 @@ const logos = [
   'http://admin.dspcrm.com/wp-content/uploads/2026/02/seobros.svg',
   'http://admin.dspcrm.com/wp-content/uploads/2026/02/wpspeedfix.svg',
 ]
+
 // ✅ Emits
 const emit = defineEmits(["page-loaded"]);
-const scrollToCompare = () => {
-  const el = document.getElementById('Compare')
 
-  if (el) {
-    el.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    })
-  }
-}
-// 🔹 Reactive state
-const CommentsData = ref(null);
-const Last = ref(null);
+// 🔹 Reactive UI state
 const activeTab = ref("monthly");
 const activequestion = ref("q1");
-const loading = ref(true);
+const showTopBtn = ref(false);
 
-const question = ref({
+// ============================================
+// 🔹 SSR DATA FETCHING (ye HTML mein bake hoga)
+// ============================================
+const { data: acfData, pending: acfPending } = await useAsyncData(
+  'pricing-page-241',
+  () => $fetch(`https://admin.dspcrm.com/wp-json/myapi/v1/page/241`)
+);
+
+const { data: plansRes, pending: plansPending } = await useAsyncData(
+  'pricing-plans',
+  () => $fetch(`https://dspcrm.app/api/v1/plans`)
+);
+
+// 🔹 Loading state (dono fetch complete hone tak true)
+const loading = computed(() => acfPending.value || plansPending.value);
+
+// 🔹 Derived / computed data
+const CommentsData = computed(() => acfData.value?.acf?.comments ?? null);
+const Last = computed(() => acfData.value?.acf?.last_section ?? null);
+
+const question = computed(() => acfData.value?.acf?.faqs ?? {
   faqs_title: "",
   faqs_question: [],
   faqs_answers: []
 });
-const Answers = ref(null);
-const Tabs = ref(null);
-const Trusted  = ref(null);
-// 🔹 Methods
-function handleClick(id) {
-  setActiveQuestion(id);
-  scrollToFaq();
+
+function mapPlan(plan, cycle) {
+  const isYearly = cycle === 'yearly';
+  return {
+    box_title: plan.name,
+    box_descri: plan.description,
+    box_price: `$${isYearly ? plan.yearly_price : plan.monthly_price}`,
+    montly: isYearly ? '/ year' : '/ month',
+    box_button_text: 'Get Started',
+    slug: plan.slug,
+    text_include: 'Included features:',
+    team: plan.team_limit,
+    trial_days: plan.trial_days,
+    include_points: plan.features.map(f => ({ points: f }))
+  };
 }
+
+const Tabs = computed(() => {
+  const pricingBase = acfData.value?.acf?.pricing ?? {};
+
+  if (plansRes.value?.success) {
+    const plans = plansRes.value.data;
+    return {
+      ...pricingBase,
+      price_boxes: plans.map(p => mapPlan(p, 'monthly')),
+      price_boxes_yearly: plans.map(p => mapPlan(p, 'yearly')),
+    };
+  }
+
+  return pricingBase;
+});
+
+// ============================================
+// 🔹 SEO Head
+// ============================================
 useHead({
   title: 'Plans & Pricing',
   meta: [
@@ -400,6 +437,10 @@ useHead({
     { rel: 'canonical', href: 'https://dspcrm.com/pricing' }
   ]
 })
+
+// ============================================
+// 🔹 Methods
+// ============================================
 function setActiveQuestion(id) {
   activequestion.value = id;
 }
@@ -410,87 +451,51 @@ function scrollToFaq() {
     if (el) el.scrollIntoView({ behavior: "smooth" });
   });
 }
-// --- SCROLL & LIFECYCLE ---
-const showTopBtn = ref(false);
+
+function handleClick(id) {
+  setActiveQuestion(id);
+  scrollToFaq();
+}
+
+const scrollToCompare = () => {
+  const el = document.getElementById('Compare');
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 const handleScroll = () => { showTopBtn.value = window.scrollY > 300; };
 const scrollToTop = () => { window.scrollTo({ top: 0, behavior: "smooth" }); };
 
-// 🔹 Lifecycle
-onMounted(async () => {
-      window.addEventListener("scroll", handleScroll);
+// ============================================
+// 🔹 Client-only lifecycle
+// ============================================
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
 
-    const savedCycle = localStorage.getItem('cycle')
+  const savedCycle = localStorage.getItem('cycle');
   if (savedCycle) {
-    activeTab.value = savedCycle
+    activeTab.value = savedCycle;
   }
-  try {
-    // 1. Fetch your Page Data (WordPress)
-    const res = await fetch("https://admin.dspcrm.com/wp-json/myapi/v1/page/241?timestamp=" + Date.now());
-    const data = await res.json();
 
-    // 2. Fetch the actual Plans (CRM API)
-    const planRes = await fetch("https://dspcrm.app/api/v1/plans");
-    const planData = await planRes.json();
+  nextTick(() => {
+    AOS.init({ duration: 1000, once: true });
+    AOS.refresh();
+  });
 
-    // Assign standard fields
-   CommentsData.value = data.acf.comments;
-Last.value = data.acf.last_section;
-question.value = data.acf.faqs;
-    
-    // 3. Transform CRM Plans into your Tabs structure
-    if (planData.success) {
-      const plans = planData.data;
-
-      // Map Monthly
-      const monthlyMapped = plans.map(plan => ({
-        box_title: plan.name,
-        box_descri: plan.description,
-        box_price: `$${plan.monthly_price}`,
-        montly: '/ month',
-        box_button_text: 'Get Started',
-        slug: plan.slug, // <--- Add this line
-        text_include: 'Included features:',
-        team       : plan.team_limit,
-        trial_days : plan.trial_days,
-        include_points: plan.features.map(f => ({ points: f }))
-      }));
-
-      // Map Yearly
-      const yearlyMapped = plans.map(plan => ({
-        box_title: plan.name,
-        box_descri: plan.description,
-        box_price: `$${plan.yearly_price}`,
-        montly: '/ year',
-        box_button_text: 'Get Started',
-        slug: plan.slug, // <--- Add this line
-        text_include: 'Included features:',
-        team       : plan.team_limit,
-        trial_days : plan.trial_days,
-        include_points: plan.features.map(f => ({ points: f }))
-      }));
-
-      // 4. Combine WordPress static text with API dynamic plans
-     Tabs.value = {
-  ...data.acf.pricing,
-  price_boxes: monthlyMapped,
-  price_boxes_yearly: yearlyMapped
-};
-    } else {
-      Tabs.value = data.acf.pricing;
-    }
-
-    nextTick(() => {
-      AOS.init({ duration: 1000, once: true });
-      AOS.refresh();
-    });
-  } catch (err) {
-    console.error("API Fetch Error:", err);
-  } finally {
-    loading.value = false;
-    emit("page-loaded");
-  }
+  emit("page-loaded");
 });
 
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+
+// 🔹 activeTab change hone par localStorage update karo
+watch(activeTab, (val) => {
+  if (import.meta.client) {
+    localStorage.setItem('cycle', val);
+  }
+});
 </script>
 <style >
 .mySwiper {
