@@ -645,3 +645,17 @@ header li::marker{
   transform: scale(1.1);
   transition: transform 0.2s ease;
 }
+/*Chat-window*/
+.chat-window-toggle {
+    background-color: #00296b !important;
+}
+
+main.chat-layout.chat-wrapper {
+    font-family: Inter,sans-serif;
+}
+
+.chat-header {
+    background-color: #00296b !important;
+    gap: 0 !important;
+    padding: 1rem 20px !important;
+}
