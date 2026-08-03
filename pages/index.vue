@@ -127,12 +127,74 @@ const organizedSections = computed(() => {
     },
   ];
 });
-const dynamicHtml = computed(() => data.value?.html_section?.display ? data.value.html_section.section : null);
-const insertAfterIndex = computed(() => {
-  const pos = data.value?.html_section?.postion;
-  if (pos === "last") return organizedSections.value.length;
-  return Number(pos) || 1;
+
+const rawHtml = data.value?.acf?.html_section
+console.log('type:', typeof rawHtml)
+console.log('value:', rawHtml)
+
+const raw = typeof rawHtml === 'string' ? rawHtml : (rawHtml?.section ?? rawHtml?.value ?? '')
+
+const titleMatch = raw.match(/<title>(.*?)<\/title>/is)
+const title = titleMatch ? titleMatch[1].trim() : null
+
+// Case 1: proper format -> name="description" content="..."
+let metaMatch = raw.match(/<meta\s+name=["']description["']\s+content=["'](.*?)["']\s*\/?>/is)
+let metaText = metaMatch ? metaMatch[1].trim() : null
+
+// Case 2: content=... before name=description
+if (!metaText) {
+  metaMatch = raw.match(/<meta\s+content=["'](.*?)["']\s+name=["']description["']\s*\/?>/is)
+  metaText = metaMatch ? metaMatch[1].trim() : null
+}
+
+// Case 3 (fallback for malformed tag): description text dumped directly in name=
+if (!metaText) {
+  metaMatch = raw.match(/<meta\s+name=["']((?:(?!description["']).)+)["']\s*\/?>/is)
+  metaText = metaMatch ? metaMatch[1].trim() : null
+}
+
+useHead({
+  title,
+})
+useSeoMeta({
+  description: () => metaText || "",
+  ogTitle: () => title || "",
+  ogDescription: () => metaText || "",
 });
+// const dynamicHtml = computed(() => data.value?.html_section?.display ? data.value.html_section.section : null);
+// const insertAfterIndex = computed(() => {
+//   const pos = data.value?.html_section?.postion;
+//   if (pos === "last") return organizedSections.value.length;
+//   return Number(pos) || 1;
+// });
+
+// // --- SEO: extract title & description from dynamicHtml ---
+//   console.log(dynamicHtml.value);
+// const parsedSeo = computed(() => {
+//   const html = dynamicHtml.value;
+//   if (!html) return { title: null, description: null };
+
+//   const titleMatch = html.match(/<title>(.*?)<\/title>/is);
+
+//   // Standard format: <meta name="description" content="...">
+//   const descMatch = html.match(/<meta\s+name=["']description["']\s+content=["'](.*?)["']/is);
+
+//   // Fallback for malformed tag: <meta name="the description text">
+//   const altDescMatch = html.match(/<meta\s+name=["'](.*?)["']\s*\/?>/is);
+
+//   return {
+//     title: titleMatch ? titleMatch[1].trim() : null,
+//     description: descMatch
+//       ? descMatch[1].trim()
+//       : (altDescMatch ? altDescMatch[1].trim() : null),
+//   };
+// });
+
+// useHead(() => ({
+//   title: parsedSeo.value.title || "DSP CRM",
+// }));
+
+
 
 // --- SCROLL & LIFECYCLE ---
 const showTopBtn = ref(false);
