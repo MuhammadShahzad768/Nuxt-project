@@ -333,7 +333,7 @@
         </div>
 </template>
 <script setup>
-import { ref, computed, nextTick, onMounted, onUnmounted } from "vue";
+import { ref, computed, nextTick, onMounted, onUnmounted,watch  } from "vue";
 import { useHead, useAsyncData } from '#imports'
 import Price_box from "@/components/Sections/Price_box.vue";
 import Comments from "@/components/Sections/Comment_Slides.vue";
