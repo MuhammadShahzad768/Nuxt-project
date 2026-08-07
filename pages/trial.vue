@@ -98,7 +98,7 @@
   @media (min-width: 1024px) { .brand { margin-bottom: 3.5rem; } }
 
   .brand-mark {
-    width: 200px;
+    width: 330px;
     border-radius: 8px;
     background: var(--accent);
     display: flex;
@@ -138,7 +138,9 @@
     color: rgba(255,255,255,0.6);
     margin-left: 0.25rem;
   }
-
+label{
+font-family:Poppins, Inter, ui-sans-serif, system-ui, sans-serif
+}
   .hero-title {
     color: #fff;
     font-size: 2rem;
@@ -265,7 +267,13 @@
   @media (min-width: 640px) { .right { padding: 4rem 4rem; } }
 
   .right-inner { width: 100%; }
-
+.right-inner {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    padding: 30px 45px;
+    border-radius: 20px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 12px 32px -12px rgba(15, 23, 42, 0.10);
+}
   .card {
     background: #fff;
     border: 1px solid #E2E8F0;
@@ -635,7 +643,7 @@
   }
 </style>
 <template>
-  <div class="page">
+  <div class="page custom_family">
 
     <!-- ================= LEFT PANEL ================= -->
     <div class="left">
@@ -720,10 +728,10 @@
 
        <div class="w-full max-w-[560px]">
 
-        <h1 class="mb-[14px]  text-[clamp(34px,4vw,45px)]
+        <!-- <h1 class="mb-[14px]  text-[clamp(34px,4vw,45px)]
                    font-extrabold leading-[1.12] tracking-[-0.02em] text-[#00296B]">
           Create your<br>workspace
-        </h1>
+        </h1> -->
 
         <!-- Success Alert -->
         <div v-if="successMsg"
@@ -1180,7 +1188,7 @@ function goToSlide(index) {
   currentSlide.value = (index + testimonials.length) % testimonials.length
 }
 function startSlider() {
-  sliderTimer = setInterval(() => goToSlide(currentSlide.value + 1), 5000)
+  sliderTimer = setInterval(() => goToSlide(currentSlide.value + 1), 2000)
 }
 function pauseSlider() {
   clearInterval(sliderTimer)
