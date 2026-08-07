@@ -643,11 +643,13 @@
       <div class="left-inner">
 
         <div class="brand">
+          <nuxt-link to="/" class="brand-name">
           <img
             class="brand-mark"
             src="http://admin.dspcrm.com/wp-content/uploads/2026/08/dsp-logo-white-webp.webp"
             alt="DSP CRM Logo"
           />
+          </nuxt-link>
         </div>
         <h1 class="hero-title">Create your DSP CRM workspace</h1>
         <p class="hero-sub">Set up your workspace and start managing clients, projects, billing, and team collaboration in minutes.</p>
@@ -722,9 +724,6 @@
                    font-extrabold leading-[1.12] tracking-[-0.02em] text-[#00296B]">
           Create your<br>workspace
         </h1>
-        <p class="mb-7 text-[14px] leading-[1.5] text-[#494949]">
-          Try the Dspcrm platform for 14 days, no card required.
-        </p>
 
         <!-- Success Alert -->
         <div v-if="successMsg"
