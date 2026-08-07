@@ -548,7 +548,7 @@ font-family:Poppins, Inter, ui-sans-serif, system-ui, sans-serif
 
   .testimonial {
     position: relative;
-    margin-top: 1.75rem;
+    margin-top: 0rem;
     padding: 1.25rem 1.4rem;
     border-radius: 16px;
     background: rgba(255,255,255,0.06);
