@@ -36,5 +36,7 @@ jobs:
           # Because your FTP home is /public_html/, we use ./
           server-dir: /public_html/ 
           local-dir: .output/public/
+          protocol: ftp
+          port: 21
           # This removes old files from the server that aren't in your new build
           delete-destination-extras: true
