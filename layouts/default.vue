@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import Testing from '~/pages/testing.vue';
+import DemoBanner from "~/components/Sections/DemoBanner.vue";
+import Header from "~/components/header.vue";
 
 </script>
 
@@ -7,9 +9,11 @@ import Testing from '~/pages/testing.vue';
 
 <template>
   <div class="layout-wrapper overflow-x-hidden">
-    <Testing/>
+    <!-- <Testing/> -->
+    <Header/>
 
     <main class="content">
+      <DemoBanner/>
       <slot /> 
     </main>
 
