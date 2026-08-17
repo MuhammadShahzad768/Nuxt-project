@@ -1,3 +1,243 @@
+<script setup lang="ts">
+import { ref, onMounted, nextTick, computed, watch } from 'vue'
+import { useHead, useAsyncData, useRouter, useRoute } from '#imports'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+
+import Loader from "@/components/Sections/Loader.vue"
+
+// Swiper
+import Swiper from 'swiper'
+import { Autoplay, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+
+const router = useRouter()
+const route = useRoute()
+const pageId = 'Header'
+const showLoader = ref(true)
+
+/* =========================
+   1. FETCH DATA
+========================= */
+const { data: pageData, error, refresh } = await useAsyncData(
+  `wp-page-${pageId}`,
+  () => $fetch('/api/header'),
+  {
+    server: true,
+    lazy: false
+  }
+)
+
+/* =========================
+   2. PARSE API HTML
+========================= */
+const apiSections = computed(() => {
+  if (!pageData.value) return {}
+
+  const excludeKeys = ['seo_data', 'Author_page_custom_css', 'id', 'title', 'link']
+  const adminUrlPattern = /href="https:\/\/admin\.dspcrm\.com/g
+
+  return Object.keys(pageData.value).reduce((acc, key) => {
+    const value = (pageData.value as Record<string, any>)[key]
+
+    if (typeof value === 'string' && !excludeKeys.includes(key)) {
+      acc[key] = value.replace(adminUrlPattern, 'href="')
+    }
+    return acc
+  }, {} as Record<string, string>)
+})
+
+/* =========================
+   3. MENU TOGGLE
+========================= */
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu')
+  if (!menu) return
+
+  const isHidden = menu.classList.contains('menu-hidden')
+
+  if (isHidden) {
+    menu.classList.remove(
+      'menu-hidden',
+      'opacity-0',
+      '-translate-x-full',
+      'pointer-events-none'
+    )
+    menu.classList.add('opacity-100', 'translate-x-0')
+    document.body.style.overflow = 'hidden'
+  } else {
+    menu.classList.add(
+      'menu-hidden',
+      'opacity-0',
+      '-translate-x-full',
+      'pointer-events-none'
+    )
+    menu.classList.remove('opacity-100', 'translate-x-0')
+    document.body.style.overflow = ''
+  }
+}
+
+/* =========================
+   4. CLOSE MENU
+========================= */
+function closeMegaMenu() {
+  document.body.classList.add('menu-closed')
+
+  const mobileMenu = document.querySelector('#mobileMenu') as HTMLElement
+  if (mobileMenu) {
+    mobileMenu.classList.remove(
+      'is-active',
+      'mega-menu-open',
+      'mega-toggle-on',
+      'mega-menu-visible'
+    )
+    mobileMenu.setAttribute('aria-expanded', 'false')
+    mobileMenu.classList.add('menu-hidden')
+  }
+
+  document.body.style.overflow = ''
+  document.documentElement.style.overflow = ''
+
+  setTimeout(() => {
+    document.body.classList.remove('menu-closed')
+  }, 500)
+}
+
+/* =========================
+   5. CLEAN LINKS
+========================= */
+function cleanAllLinks() {
+  const container = document.querySelector('.wp-content')
+  if (!container) return
+
+  const adminBase = 'https://admin.dspcrm.com'
+  const localBase = 'http://localhost/dsplocal'
+
+  container.querySelectorAll('a').forEach((anchor: any) => {
+    let href = anchor.getAttribute('href')
+    if (href) {
+      href = href.replace(localBase, '')
+      href = href.replace(adminBase, '')
+      anchor.setAttribute('href', href === '' ? '/' : href)
+    }
+  })
+}
+
+/* =========================
+   6. INIT SCRIPTS
+========================= */
+function initializeScripts() {
+  cleanAllLinks()
+
+  document.querySelectorAll('.testimonialSwiper').forEach((slider: any) => {
+    if (slider.swiper) return
+
+    new Swiper(slider, {
+      modules: [Autoplay, Pagination],
+      loop: slider.dataset.loop === 'true',
+      autoplay: slider.dataset.delay
+        ? { delay: Number(slider.dataset.delay) }
+        : false,
+      pagination: {
+        el: slider.querySelector('.swiper-pagination'),
+        clickable: true
+      }
+    })
+  })
+
+  AOS.init({ duration: 1000, once: true })
+}
+
+/* =========================
+   7. CLICK HANDLER (MAIN FIX)
+========================= */
+const handleWpClick = (event: MouseEvent) => {
+  const target = event.target as HTMLElement
+
+  // ✅ MENU BUTTON (from API)
+  const toggleBtn = target.closest('.mobile-menu-btn')
+  if (toggleBtn) {
+    event.preventDefault()
+    toggleMenu()
+    return
+  }
+
+  // ✅ LINKS (SPA)
+  const anchor = target.closest('a')
+  if (!anchor || anchor.target === '_blank' || event.ctrlKey || event.metaKey) return
+
+  const href = anchor.getAttribute('href')
+  if (!href || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('#')) return
+
+  try {
+    const url = new URL(href, window.location.origin)
+    if (url.origin === window.location.origin) {
+      event.preventDefault()
+      closeMegaMenu()
+      router.push(url.pathname + url.search + url.hash)
+    }
+  } catch (e) {
+    if (href.startsWith('/')) {
+      event.preventDefault()
+      closeMegaMenu()
+      router.push(href)
+    }
+  }
+}
+
+/* =========================
+   8. LIFECYCLE
+========================= */
+const runSetup = async () => {
+  await nextTick()
+
+  setTimeout(() => {
+    showLoader.value = false
+    nextTick(() => initializeScripts())
+  }, 400)
+}
+
+onMounted(() => runSetup())
+
+watch(() => route.fullPath, () => {
+  closeMegaMenu()
+  if (!pageData.value) refresh()
+  runSetup()
+})
+
+/* =========================
+   9. HEAD
+========================= */
+useHead({
+  link: [
+    {
+      rel: 'stylesheet',
+      href: 'https://admin.dspcrm.com/wp-content/plugins/mega-main-menu/css/mega-main-menu.css'
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://admin.dspcrm.com/wp-includes/css/dashicons.min.css',
+      media: 'print',
+      onload: "this.media='all'"
+    }
+  ],
+  style: [
+    {
+      id: 'dynamic-header-css',
+      innerHTML: computed(() => {
+        const css = (pageData.value as any)?.Author_page_custom_css || ''
+        return css
+          .replace(/<\/?style[^>]*>/gi, '')
+          .replace(/&gt;/g, '>')
+          .replace(/&lt;/g, '<')
+          .trim()
+      })
+    }
+  ]
+})
+</script>
+
 <template>
 <header class="w-full py-5 pt-11 bg-[#dfdfdf] header">
         <div class="max-w-screen-xl mx-auto flex items-center justify-between px-4 md:px-8">
@@ -309,11 +549,11 @@
 </li><li class="mega-menu-item mega-menu-item-type-post_type mega-menu-item-object-page mega-menu-item-752" id="mega-menu-item-752"><NuxtLink class="mega-menu-link" to="/pricing/">Pricing</NuxtLink></li></ul><button aria-controls="mega-menu-menu-1" aria-label="Close" class="mega-close"></button></div>            </nav>
 
             <!-- Mobile Menu Overlay -->
-            <div id="mobileMenu" class="fixed top-0 left-0 w-full h-full bg-[#00296B] text-white z-50 px-8 py-10 transition-all duration-300 ease-in-out transform opacity-0 -translate-x-full pointer-events-none lg:hidden">
+            <div id="mobileMenu" class="fixed top-0 left-0 w-full h-full bg-[#00296B] text-white z-50 px-8 py-10 transition-all duration-300 ease-in-out transform lg:hidden" :class="isMenuOpen ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 -translate-x-full pointer-events-none'">
                 <div class="flex items-start flex-col space-y-8 overflow-auto h-full text-left">
 
                     <!-- Close Button -->
-                    <button onclick="toggleMenu()" class="absolute right-[6%] md:right-[3%] focus:outline-none mb-4">
+                    <button @click="toggleMenu" class="absolute right-[6%] md:right-[3%] focus:outline-none mb-4">
                         <svg class="h-6 w-6" fill="white" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -632,7 +872,7 @@
 
             <!-- Hamburger Button (Mobile) -->
             <div class="lg:hidden flex items-center">
-                <button @click="toggleMenu()" class="mobile-menu-btn focus:outline-none">
+                <button @click="toggleMenu" class="mobile-menu-btn focus:outline-none">
                     <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -651,27 +891,3 @@
         </div>
     </header>
 </template>
-
-<script setup>
-import { ref, onMounted } from 'vue'
-
-const isMenuOpen = ref(false)
-
-/* 1. Fetch SEO Data (SSR Friendly) */
-
-  
-
-/* 3. Handle Dynamic Assets (Styles/Links from API) */
-onMounted(async () => {
-  try {
-    const data = await $fetch(
-      `https://admin.dspcrm.com/wp-json/myapi/v1/page/491?timestamp=${Date.now()}`
-    );
-
-    console.log(data);
-
-  } catch(error) {
-    console.log(error);
-  }
-});
-</script>
