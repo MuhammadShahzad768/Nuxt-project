@@ -239,7 +239,7 @@ useHead({
 </script>
 
 <template>
-<header class="w-full py-5 pt-11 bg-[#dfdfdf] header">
+<header class="w-full py-5 pt-11 header">
         <div class="max-w-screen-xl mx-auto flex items-center justify-between px-4 md:px-8">
 
             <!-- Logo -->
