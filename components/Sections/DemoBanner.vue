@@ -86,11 +86,10 @@ onUnmounted(() => {
 }
 
 .demo-banner__subtitle {
-  margin: 4px 0 0;
-  font-size: 13px;
-  color: #a3a3a8;
+     margin: 4px 0 0;
+    font-size: 15px;
+    color: #ffff;
 }
-
 .demo-banner__actions {
   display: flex;
   align-items: center;

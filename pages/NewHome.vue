@@ -1,0 +1,277 @@
+<template>
+  <div>
+    <transition name="fade-out">
+      <div v-if="showLoader" class="loader-container">
+        <img 
+          src="https://admin.dspcrm.com/wp-content/uploads/2025/09/DSP-final-logo-4-cropped.svg" 
+          alt="Logo" 
+          class="loader-logo" 
+        />
+      </div>
+    </transition>
+
+    <div v-show="!showLoader" id="page-root">
+      
+      <template v-for="(section, index) in organizedSections" :key="index">
+        <component :is="section.comp" v-bind="section.props" />
+
+        <div
+          v-if="dynamicHtml && index === insertAfterIndex - 1"
+          v-html="dynamicHtml"
+        ></div>
+      </template>
+    
+      <div v-if="data?.css_" v-html="`<style>${data.css_}</style>`"></div>
+      
+      <transition name="fade">
+        <button
+          v-if="showTopBtn"
+          @click="scrollToTop"
+          class="back-to-top"
+          aria-label="Back to top" >
+<i class="fa-solid fa-arrow-up"></i>
+        </button>
+      </transition>
+    </div>
+
+    <div v-if="error" class="error-msg">
+      <p>Unable to load content. Please check your connection.</p>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onBeforeUnmount, computed, nextTick } from "vue";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+// Import All Section Components
+import NewBanner from '@/components/Sections/NewBanner.vue'
+
+// import ReadyToGive from "@/components/Sections/Ready_to_give.vue";
+import CommentSlides from "@/components/Sections/Comment_Slides.vue";
+import ClientsBoxes from "@/components/Sections/Clients_boxes.vue";
+import Agencies from "@/components/Sections/Agencies.vue";
+import PageSection from "@/components/Sections/PageSection.vue";
+import Works from "@/components/Sections/Works.vue";
+import Limitlessly from "@/components/Sections/Limitlessly.vue";
+import Integration from "@/components/Sections/Integration.vue";
+import CTA from "@/components/CTA.vue";
+import Faqs from "@/components/Sections/Faqs.vue"
+const emit = defineEmits(["page-loaded"]);
+
+// --- DATA FETCHING (SSR) ---
+const { data, pending, error } = await useAsyncData('wpPageData', () => 
+  $fetch("https://admin.dspcrm.com/wp-json/myapi/v1/page/7", {
+    params: { timestamp: Date.now() }
+  })
+);
+
+// --- LOADER LOGIC ---
+const forceTimer = ref(true);
+const showLoader = computed(() => pending.value || forceTimer.value);
+
+/// SECTIONS
+const organizedSections = computed(() => {
+ 
+  if (!data.value?.acf) return [];
+
+  const page = data.value.acf;
+
+  return [
+     {
+      comp: NewBanner,
+      props: {
+        banner: page.banner,
+      },
+    },
+    // {
+    //   comp: NewBanner,
+    //   props: {
+    //     banner: page.banner,
+    //   },
+    // },
+    {
+      comp: ClientsBoxes,
+      props: {
+        clients: page.clients,
+      },
+    },
+    {
+      comp: Works,
+      props: {},
+    },
+    {
+      comp: Agencies,
+      props: {
+        Services: page.service_agencies,
+      },
+    },
+    {
+      comp: PageSection,
+      props: {
+        project_management: page.project_management,
+      },
+    },
+    {
+      comp: Limitlessly,
+      props: {
+        Limitless: page.limitlessly_flexible,
+      },
+    },
+    {
+      comp: Integration,
+      props: {
+        Integrate: page.integrate,
+      },
+    },
+    {
+      comp: CommentSlides,
+      props: {
+        slides_show: "1",
+        CommentsData: page.comments,
+      },
+    },
+    {
+      comp: Faqs,
+      props: {
+       
+      },
+    },
+     {
+      comp: CTA,
+      props: {
+      
+      },
+    },
+    // {
+    //   comp: ReadyToGive,
+    //   props: {
+    //     Last: page.last_section,
+    //   },
+    // },
+  ];
+});
+
+const rawHtml = data.value?.acf?.html_section
+console.log('type:', typeof rawHtml)
+console.log('value:', rawHtml)
+
+const raw = typeof rawHtml === 'string' ? rawHtml : (rawHtml?.section ?? rawHtml?.value ?? '')
+
+const titleMatch = raw.match(/<title>(.*?)<\/title>/is)
+const title = titleMatch ? titleMatch[1].trim() : null
+
+// Case 1: proper format -> name="description" content="..."
+let metaMatch = raw.match(/<meta\s+name=["']description["']\s+content=["'](.*?)["']\s*\/?>/is)
+let metaText = metaMatch ? metaMatch[1].trim() : null
+
+// Case 2: content=... before name=description
+if (!metaText) {
+  metaMatch = raw.match(/<meta\s+content=["'](.*?)["']\s+name=["']description["']\s*\/?>/is)
+  metaText = metaMatch ? metaMatch[1].trim() : null
+}
+
+// Case 3 (fallback for malformed tag): description text dumped directly in name=
+if (!metaText) {
+  metaMatch = raw.match(/<meta\s+name=["']((?:(?!description["']).)+)["']\s*\/?>/is)
+  metaText = metaMatch ? metaMatch[1].trim() : null
+}
+
+useHead({
+  title,
+})
+useSeoMeta({
+  description: () => metaText || "",
+  ogTitle: () => title || "",
+  ogDescription: () => metaText || "",
+});
+// const dynamicHtml = computed(() => data.value?.html_section?.display ? data.value.html_section.section : null);
+// const insertAfterIndex = computed(() => {
+//   const pos = data.value?.html_section?.postion;
+//   if (pos === "last") return organizedSections.value.length;
+//   return Number(pos) || 1;
+// });
+
+// // --- SEO: extract title & description from dynamicHtml ---
+//   console.log(dynamicHtml.value);
+// const parsedSeo = computed(() => {
+//   const html = dynamicHtml.value;
+//   if (!html) return { title: null, description: null };
+
+//   const titleMatch = html.match(/<title>(.*?)<\/title>/is);
+
+//   // Standard format: <meta name="description" content="...">
+//   const descMatch = html.match(/<meta\s+name=["']description["']\s+content=["'](.*?)["']/is);
+
+//   // Fallback for malformed tag: <meta name="the description text">
+//   const altDescMatch = html.match(/<meta\s+name=["'](.*?)["']\s*\/?>/is);
+
+//   return {
+//     title: titleMatch ? titleMatch[1].trim() : null,
+//     description: descMatch
+//       ? descMatch[1].trim()
+//       : (altDescMatch ? altDescMatch[1].trim() : null),
+//   };
+// });
+
+// useHead(() => ({
+//   title: parsedSeo.value.title || "DSP CRM",
+// }));
+
+
+
+// --- SCROLL & LIFECYCLE ---
+const showTopBtn = ref(false);
+const handleScroll = () => { showTopBtn.value = window.scrollY > 300; };
+const scrollToTop = () => { window.scrollTo({ top: 0, behavior: "smooth" }); };
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+
+  // Ensure loader stays for 1.5s so animation is visible
+  setTimeout(() => {
+    forceTimer.value = false;
+    
+    // Initialize animations after loader starts fading
+    nextTick(() => {
+      AOS.init({ duration: 1000, once: true });
+      emit("page-loaded");
+    });
+  }, 1500); 
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+</script>
+
+<style scoped>
+/* LOADER OVERLAY */
+.loader-container {
+  position: fixed;
+  inset: 0;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999999;
+}
+
+.loader-logo {
+  width: 300px;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* ANIMATIONS */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+
+.error-msg {
+  text-align: center;
+  padding: 100px;
+}
+</style>
