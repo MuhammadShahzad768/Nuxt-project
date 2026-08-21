@@ -1,6 +1,6 @@
 <template>
   <section
-    id="Checkout-to-Delivery,-Without-a-Single-Spreadsheet"
+    id="checkout-to-delivery"
     aria-labelledby="how-heading"
     class="relative  bg-[#DFDFDF]/40 xl:py-20 sm:py-28 custom_family"
   >
@@ -29,14 +29,14 @@
             class="  absolute left-full top-8 hidden h-px w-8 -translate-x-4 bg-gradient-to-r from-[#00296B]/40 to-transparent md:block"
           ></div>
 
-          <div class="group h-full rounded-2xl border border-[#00296B]/10 bg-white p-6 shadow-sm hover:bg-[#00296b]">
-            <span class="group:hover:text-white text-4xl font-extrabold tracking-tight text-[#00296B]/25">
+          <div class="group h-full rounded-2xl border border-[#00296B]/10 bg-white p-6 shadow-sm transition-colors duration-300 hover:bg-[#00296b]">
+            <span class="text-4xl font-extrabold tracking-tight text-[#00296B]/25 transition-colors duration-300 group-hover:text-white/40">
               {{ step.number }}
             </span>
-            <h3 class="mt-4 text-lg font-semibold text-[var(--bg-custom-color)]">
+            <h3 class="mt-4 text-lg font-semibold text-[var(--bg-custom-color)] transition-colors duration-300 group-hover:text-white">
               {{ step.title }}
             </h3>
-            <p class="mt-2 text-sm leading-relaxed font-[500] text-[#999999]">
+            <p class="mt-2 text-sm leading-relaxed font-[500] text-[#999999] transition-colors duration-300 group-hover:text-white/80">
               {{ step.description }}
             </p>
           </div>
