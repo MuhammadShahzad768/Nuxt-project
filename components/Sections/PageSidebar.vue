@@ -4,7 +4,7 @@
       v-show="isButtonVisible"
       type="button"
       @click="handleToggle"
-      class="dsp-toggle-btn fixed top-12 left-4 z-40 hidden xl:flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300"
+      class="dsp-toggle-btn fixed top-12 right-4 z-40 hidden xl:flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300"
       :class="isDarkBackground ? 'dsp-toggle-on-dark' : 'dsp-toggle-on-light'"
       :aria-expanded="isNavOpen"
       aria-label="Toggle section navigation"
@@ -28,7 +28,7 @@
 
     <div
       v-show="isButtonVisible"
-      class="3xl:left-auto 3xl:right-[calc(50vw+40rem+1.5rem)] fixed top-12 left-16 z-30 hidden xl:block transition-all duration-300 bg-white"
+      class="3xl:right-auto 3xl:right-[calc(50vw+40rem+1.5rem)] fixed top-12 right-16 z-30 hidden xl:block transition-all duration-300 bg-white"
       :class="isNavOpen ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 -translate-x-3 pointer-events-none'"
     >
       <nav
@@ -45,15 +45,15 @@
               :key="section.id"
               class="relative"
             >
-              <div class="dsp-track absolute top-0 bottom-0 left-0 w-px"></div>
+              <div class="dsp-track absolute top-0 bottom-0 right-0 w-px"></div>
 
               <div
-                class="dsp-progress absolute top-0 bottom-0 left-0 w-px origin-top transition-transform duration-100"
+                class="dsp-progress absolute top-0 bottom-0 right-0 w-px origin-top transition-transform duration-100"
                 :style="{ transform: `scaleY(${(sectionProgress[section.id] || 0) / 100})` }"
               ></div>
 
               <div
-                class="absolute top-1/2 left-0 h-px w-2 -translate-y-1/2 transition-colors duration-200"
+                class="absolute top-1/2 right-0 h-px w-2 -translate-y-1/2 transition-colors duration-200"
                 :class="activeSection === section.id ? 'dsp-dot-active' : 'dsp-dot'"
               ></div>
 
@@ -364,7 +364,7 @@ onUnmounted(() => {
   border-color: rgba(255, 255, 255, 0.2);
 }
 .dsp-toggle-on-dark:hover {
-  background-color: #2f6fed;
+  background-color: #00296b;
   color: #ffffff;
 }
 
@@ -372,13 +372,13 @@ onUnmounted(() => {
   background-color: var(--dsp-primary-dim);
 }
 .dsp-progress {
-  background-color: var(--dsp-primary);
+  background-color: #00296b;
 }
 .dsp-dot {
-  background-color: var(--dsp-primary-faint);
+  background-color: #00296b;
 }
 .dsp-dot-active {
-  background-color: var(--dsp-primary);
+  background-color:#00296b
 }
 .dsp-index {
   color: var(--dsp-primary-faint);
