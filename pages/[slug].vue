@@ -8,7 +8,7 @@ import {
   createError,
   navigateTo
 } from '#imports'
-
+import PageSidebar from "~/components/Sections/PageSidebar.vue";
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 // import Loader from "@/components/Sections/Loader.vue"
@@ -437,6 +437,7 @@ document.querySelectorAll('.success a').forEach((link) => {
     <!-- <Loader v-if="showLoader" /> -->
     <div class="wp-content" :class="[{ 'content-hidden': showLoader }, wpClass]">
       <div v-if="pageData">
+        <PageSidebar/>
          <transition name="fade">
         <button
           v-if="showTopBtn"

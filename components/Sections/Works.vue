@@ -1,6 +1,6 @@
 <template>
   <section
-    id="how-it-works"
+    id="Checkout-to-Delivery,-Without-a-Single-Spreadsheet"
     aria-labelledby="how-heading"
     class="relative  bg-[#DFDFDF]/40 xl:py-20 sm:py-28 custom_family"
   >
@@ -21,15 +21,15 @@
         <li
           v-for="(step, index) in steps"
           :key="step.number"
-          class="relative"
+          class="relative "
         >
           <div
             v-if="index !== steps.length - 1"
             aria-hidden="true"
-            class="absolute left-full top-8 hidden h-px w-8 -translate-x-4 bg-gradient-to-r from-[#00296B]/40 to-transparent md:block"
+            class="  absolute left-full top-8 hidden h-px w-8 -translate-x-4 bg-gradient-to-r from-[#00296B]/40 to-transparent md:block"
           ></div>
 
-          <div class="h-full rounded-2xl border border-[#00296B]/10 bg-white p-6 shadow-sm">
+          <div class="h-full rounded-2xl border border-[#00296B]/10 bg-white p-6 shadow-sm hover:bg-[red]">
             <span class="text-4xl font-extrabold tracking-tight text-[#00296B]/25">
               {{ step.number }}
             </span>

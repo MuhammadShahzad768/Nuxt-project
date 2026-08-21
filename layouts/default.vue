@@ -2,7 +2,8 @@
 import Testing from '~/pages/testing.vue';
 import DemoBanner from "~/components/Sections/DemoBanner.vue";
 import Header from "~/components/header.vue";
-
+import PageSidebar from "~/components/Sections/PageSidebar.vue";
+ 
 </script>
 
 
@@ -13,6 +14,7 @@ import Header from "~/components/header.vue";
     <Header/>
 
     <main class="content">
+      <PageSidebar/>
       <DemoBanner/>
       <slot /> 
     </main>

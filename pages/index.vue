@@ -11,6 +11,7 @@
     </transition>
 
     <div v-show="!showLoader" id="page-root">
+      
       <template v-for="(section, index) in organizedSections" :key="index">
         <component :is="section.comp" v-bind="section.props" />
 
@@ -19,7 +20,7 @@
           v-html="dynamicHtml"
         ></div>
       </template>
-
+    
       <div v-if="data?.css_" v-html="`<style>${data.css_}</style>`"></div>
       
       <transition name="fade">
@@ -46,15 +47,17 @@ import "aos/dist/aos.css";
 
 // Import All Section Components
 import NewBanner from '@/components/Sections/NewBanner.vue'
-import ReadyToGive from "@/components/Sections/Ready_to_give.vue";
+
+// import ReadyToGive from "@/components/Sections/Ready_to_give.vue";
 import CommentSlides from "@/components/Sections/Comment_Slides.vue";
 import ClientsBoxes from "@/components/Sections/Clients_boxes.vue";
 import Agencies from "@/components/Sections/Agencies.vue";
 import PageSection from "@/components/Sections/PageSection.vue";
-
+import Works from "@/components/Sections/Works.vue";
 import Limitlessly from "@/components/Sections/Limitlessly.vue";
 import Integration from "@/components/Sections/Integration.vue";
-
+import CTA from "@/components/CTA.vue";
+import Faqs from "@/components/Sections/Faqs.vue"
 const emit = defineEmits(["page-loaded"]);
 
 // --- DATA FETCHING (SSR) ---
@@ -76,17 +79,27 @@ const organizedSections = computed(() => {
   const page = data.value.acf;
 
   return [
-    {
+     {
       comp: NewBanner,
       props: {
         banner: page.banner,
       },
     },
+    // {
+    //   comp: NewBanner,
+    //   props: {
+    //     banner: page.banner,
+    //   },
+    // },
     {
       comp: ClientsBoxes,
       props: {
         clients: page.clients,
       },
+    },
+    {
+      comp: Works,
+      props: {},
     },
     {
       comp: Agencies,
@@ -120,11 +133,23 @@ const organizedSections = computed(() => {
       },
     },
     {
-      comp: ReadyToGive,
+      comp: Faqs,
       props: {
-        Last: page.last_section,
+       
       },
     },
+     {
+      comp: CTA,
+      props: {
+      
+      },
+    },
+    // {
+    //   comp: ReadyToGive,
+    //   props: {
+    //     Last: page.last_section,
+    //   },
+    // },
   ];
 });
 

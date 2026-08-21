@@ -20,6 +20,7 @@ import 'swiper/css/pagination'
 const router = useRouter()
 const route = useRoute()
 const showLoader = ref(true)
+import PageSidebar from "~/components/Sections/PageSidebar.vue";
 
 /* ============================================
    Fetch Data (reactive for slug changes)
@@ -224,6 +225,7 @@ onMounted(() => {
       class="wp-content"
       :class="[{ 'content-hidden': showLoader }, wpClass]"
     >
+    <PageSidebar/>
       <template v-if="pageData">
          <transition name="fade">
         <button
